@@ -23,7 +23,7 @@ namespace WebApplication1
                 string pw = myUser.Password;
                 string email = myUser.Email;
 
-                GetUserTextBox.Text = "Type: " + type + "Password: " + pw + "Email: " + email;
+                GetUserTextBox.Text = "Type: " + type + "\nPassword: " + pw + "\nEmail: " + email;
             
             }
             
