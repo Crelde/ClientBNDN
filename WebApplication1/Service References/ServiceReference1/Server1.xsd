@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:tns="http://schemas.datacontract.org/2004/07/Server" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/Server" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:simpleType name="UserType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="admin" />
+      <xs:enumeration value="standard" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="UserType" nillable="true" type="tns:UserType" />
+  <xs:simpleType name="FileType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="other" />
+      <xs:enumeration value="text" />
+      <xs:enumeration value="image" />
+      <xs:enumeration value="audio" />
+      <xs:enumeration value="video" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="FileType" nillable="true" type="tns:FileType" />
+  <xs:simpleType name="RightType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="view" />
+      <xs:enumeration value="edit" />
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="RightType" nillable="true" type="tns:RightType" />
+</xs:schema>

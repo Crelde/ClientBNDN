@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://rentit/RentIt22/Server.Service.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://rentit/RentIt22/Server.Service.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://rentit/RentIt22/Server.Service.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Server.DataContracts" />
+      <xsd:import schemaLocation="http://rentit/RentIt22/Server.Service.svc?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/Server" />
+      <xsd:import schemaLocation="http://rentit/RentIt22/Server.Service.svc?xsd=xsd4" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IService_CreateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateUser" />
+  </wsdl:message>
+  <wsdl:message name="IService_CreateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetUserByEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByEmail" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetUserByEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetUserByEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_UpdateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUser" />
+  </wsdl:message>
+  <wsdl:message name="IService_UpdateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_DeleteUserByEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserByEmail" />
+  </wsdl:message>
+  <wsdl:message name="IService_DeleteUserByEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteUserByEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_UploadFile_InputMessage">
+    <wsdl:part name="parameters" element="tns:UploadFile" />
+  </wsdl:message>
+  <wsdl:message name="IService_UploadFile_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UploadFileResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_DownloadFileById_InputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadFileById" />
+  </wsdl:message>
+  <wsdl:message name="IService_DownloadFileById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DownloadFileByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetFileInfoById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileInfoById" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetFileInfoById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileInfoByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_UpdateFileInfo_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFileInfo" />
+  </wsdl:message>
+  <wsdl:message name="IService_UpdateFileInfo_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFileInfoResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_UpdateFileData_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFileData" />
+  </wsdl:message>
+  <wsdl:message name="IService_UpdateFileData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateFileDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_DeleteFileById_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFileById" />
+  </wsdl:message>
+  <wsdl:message name="IService_DeleteFileById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteFileByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetOwnedFileInfosByEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOwnedFileInfosByEmail" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetOwnedFileInfosByEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOwnedFileInfosByEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_AddTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddTag" />
+  </wsdl:message>
+  <wsdl:message name="IService_AddTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_DropTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:DropTag" />
+  </wsdl:message>
+  <wsdl:message name="IService_DropTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DropTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetTagsByItemId_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagsByItemId" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetTagsByItemId_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetTagsByItemIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetFileInfosByTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileInfosByTag" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetFileInfosByTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetFileInfosByTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_CreatePackage_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreatePackage" />
+  </wsdl:message>
+  <wsdl:message name="IService_CreatePackage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreatePackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetPackageById_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPackageById" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetPackageById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPackageByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_AddToPackage_InputMessage">
+    <wsdl:part name="parameters" element="tns:AddToPackage" />
+  </wsdl:message>
+  <wsdl:message name="IService_AddToPackage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:AddToPackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_RemoveFromPackage_InputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveFromPackage" />
+  </wsdl:message>
+  <wsdl:message name="IService_RemoveFromPackage_OutputMessage">
+    <wsdl:part name="parameters" element="tns:RemoveFromPackageResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_DeletePackageById_InputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePackageById" />
+  </wsdl:message>
+  <wsdl:message name="IService_DeletePackageById_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeletePackageByIdResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetOwnedPackagesByEmail_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetOwnedPackagesByEmail" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetOwnedPackagesByEmail_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetOwnedPackagesByEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetPackagesByTag_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPackagesByTag" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetPackagesByTag_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPackagesByTagResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GrantRight_InputMessage">
+    <wsdl:part name="parameters" element="tns:GrantRight" />
+  </wsdl:message>
+  <wsdl:message name="IService_GrantRight_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GrantRightResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetRight_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetRight" />
+  </wsdl:message>
+  <wsdl:message name="IService_GetRight_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetRightResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_UpdateRight_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateRight" />
+  </wsdl:message>
+  <wsdl:message name="IService_UpdateRight_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateRightResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_DropRight_InputMessage">
+    <wsdl:part name="parameters" element="tns:DropRight" />
+  </wsdl:message>
+  <wsdl:message name="IService_DropRight_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DropRightResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_SearchFileInfos_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchFileInfos" />
+  </wsdl:message>
+  <wsdl:message name="IService_SearchFileInfos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchFileInfosResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService_SearchPackages_InputMessage">
+    <wsdl:part name="parameters" element="tns:SearchPackages" />
+  </wsdl:message>
+  <wsdl:message name="IService_SearchPackages_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SearchPackagesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IService">
+    <wsdl:operation name="CreateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/CreateUser" message="tns:IService_CreateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/CreateUserResponse" message="tns:IService_CreateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetUserByEmail" message="tns:IService_GetUserByEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetUserByEmailResponse" message="tns:IService_GetUserByEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/UpdateUser" message="tns:IService_UpdateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/UpdateUserResponse" message="tns:IService_UpdateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUserByEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/DeleteUserByEmail" message="tns:IService_DeleteUserByEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/DeleteUserByEmailResponse" message="tns:IService_DeleteUserByEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/UploadFile" message="tns:IService_UploadFile_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/UploadFileResponse" message="tns:IService_UploadFile_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DownloadFileById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/DownloadFileById" message="tns:IService_DownloadFileById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/DownloadFileByIdResponse" message="tns:IService_DownloadFileById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFileInfoById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetFileInfoById" message="tns:IService_GetFileInfoById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetFileInfoByIdResponse" message="tns:IService_GetFileInfoById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFileInfo">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/UpdateFileInfo" message="tns:IService_UpdateFileInfo_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/UpdateFileInfoResponse" message="tns:IService_UpdateFileInfo_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFileData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/UpdateFileData" message="tns:IService_UpdateFileData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/UpdateFileDataResponse" message="tns:IService_UpdateFileData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFileById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/DeleteFileById" message="tns:IService_DeleteFileById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/DeleteFileByIdResponse" message="tns:IService_DeleteFileById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnedFileInfosByEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetOwnedFileInfosByEmail" message="tns:IService_GetOwnedFileInfosByEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetOwnedFileInfosByEmailResponse" message="tns:IService_GetOwnedFileInfosByEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/AddTag" message="tns:IService_AddTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/AddTagResponse" message="tns:IService_AddTag_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DropTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/DropTag" message="tns:IService_DropTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/DropTagResponse" message="tns:IService_DropTag_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetTagsByItemId">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetTagsByItemId" message="tns:IService_GetTagsByItemId_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetTagsByItemIdResponse" message="tns:IService_GetTagsByItemId_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetFileInfosByTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetFileInfosByTag" message="tns:IService_GetFileInfosByTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetFileInfosByTagResponse" message="tns:IService_GetFileInfosByTag_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="CreatePackage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/CreatePackage" message="tns:IService_CreatePackage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/CreatePackageResponse" message="tns:IService_CreatePackage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPackageById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetPackageById" message="tns:IService_GetPackageById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetPackageByIdResponse" message="tns:IService_GetPackageById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="AddToPackage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/AddToPackage" message="tns:IService_AddToPackage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/AddToPackageResponse" message="tns:IService_AddToPackage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromPackage">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/RemoveFromPackage" message="tns:IService_RemoveFromPackage_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/RemoveFromPackageResponse" message="tns:IService_RemoveFromPackage_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DeletePackageById">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/DeletePackageById" message="tns:IService_DeletePackageById_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/DeletePackageByIdResponse" message="tns:IService_DeletePackageById_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnedPackagesByEmail">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetOwnedPackagesByEmail" message="tns:IService_GetOwnedPackagesByEmail_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetOwnedPackagesByEmailResponse" message="tns:IService_GetOwnedPackagesByEmail_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPackagesByTag">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetPackagesByTag" message="tns:IService_GetPackagesByTag_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetPackagesByTagResponse" message="tns:IService_GetPackagesByTag_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GrantRight">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GrantRight" message="tns:IService_GrantRight_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GrantRightResponse" message="tns:IService_GrantRight_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetRight">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/GetRight" message="tns:IService_GetRight_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/GetRightResponse" message="tns:IService_GetRight_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRight">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/UpdateRight" message="tns:IService_UpdateRight_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/UpdateRightResponse" message="tns:IService_UpdateRight_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="DropRight">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/DropRight" message="tns:IService_DropRight_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/DropRightResponse" message="tns:IService_DropRight_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchFileInfos">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/SearchFileInfos" message="tns:IService_SearchFileInfos_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/SearchFileInfosResponse" message="tns:IService_SearchFileInfos_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SearchPackages">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService/SearchPackages" message="tns:IService_SearchPackages_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService/SearchPackagesResponse" message="tns:IService_SearchPackages_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IService" type="tns:IService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CreateUser">
+      <soap:operation soapAction="http://tempuri.org/IService/CreateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetUserByEmail">
+      <soap:operation soapAction="http://tempuri.org/IService/GetUserByEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateUser">
+      <soap:operation soapAction="http://tempuri.org/IService/UpdateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteUserByEmail">
+      <soap:operation soapAction="http://tempuri.org/IService/DeleteUserByEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UploadFile">
+      <soap:operation soapAction="http://tempuri.org/IService/UploadFile" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DownloadFileById">
+      <soap:operation soapAction="http://tempuri.org/IService/DownloadFileById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFileInfoById">
+      <soap:operation soapAction="http://tempuri.org/IService/GetFileInfoById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFileInfo">
+      <soap:operation soapAction="http://tempuri.org/IService/UpdateFileInfo" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateFileData">
+      <soap:operation soapAction="http://tempuri.org/IService/UpdateFileData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteFileById">
+      <soap:operation soapAction="http://tempuri.org/IService/DeleteFileById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnedFileInfosByEmail">
+      <soap:operation soapAction="http://tempuri.org/IService/GetOwnedFileInfosByEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddTag">
+      <soap:operation soapAction="http://tempuri.org/IService/AddTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DropTag">
+      <soap:operation soapAction="http://tempuri.org/IService/DropTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetTagsByItemId">
+      <soap:operation soapAction="http://tempuri.org/IService/GetTagsByItemId" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetFileInfosByTag">
+      <soap:operation soapAction="http://tempuri.org/IService/GetFileInfosByTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreatePackage">
+      <soap:operation soapAction="http://tempuri.org/IService/CreatePackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPackageById">
+      <soap:operation soapAction="http://tempuri.org/IService/GetPackageById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="AddToPackage">
+      <soap:operation soapAction="http://tempuri.org/IService/AddToPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveFromPackage">
+      <soap:operation soapAction="http://tempuri.org/IService/RemoveFromPackage" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeletePackageById">
+      <soap:operation soapAction="http://tempuri.org/IService/DeletePackageById" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetOwnedPackagesByEmail">
+      <soap:operation soapAction="http://tempuri.org/IService/GetOwnedPackagesByEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPackagesByTag">
+      <soap:operation soapAction="http://tempuri.org/IService/GetPackagesByTag" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrantRight">
+      <soap:operation soapAction="http://tempuri.org/IService/GrantRight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetRight">
+      <soap:operation soapAction="http://tempuri.org/IService/GetRight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateRight">
+      <soap:operation soapAction="http://tempuri.org/IService/UpdateRight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DropRight">
+      <soap:operation soapAction="http://tempuri.org/IService/DropRight" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchFileInfos">
+      <soap:operation soapAction="http://tempuri.org/IService/SearchFileInfos" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SearchPackages">
+      <soap:operation soapAction="http://tempuri.org/IService/SearchPackages" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service">
+    <wsdl:port name="BasicHttpBinding_IService" binding="tns:BasicHttpBinding_IService">
+      <soap:address location="http://rentit/RentIt22/Server.Service.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
