@@ -67,6 +67,7 @@
       <LastGenOutput>Reference.cs</LastGenOutput>
     </Content>
     <Content Include="Web.config" />
+    <Content Include="LogInForm.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
@@ -82,6 +83,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="LogInForm.aspx.cs">
+      <DependentUpon>LogInForm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogInForm.aspx.designer.cs">
+      <DependentUpon>LogInForm.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

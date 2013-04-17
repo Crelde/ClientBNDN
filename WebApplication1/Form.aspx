@@ -24,7 +24,9 @@
             <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="margin-left: 32px" Text="Execute" Width="87px" />
         </p>
         <p>
-            <asp:TextBox ID="GetUserTextBox" runat="server" Height="82px" OnTextChanged="TextBox1_TextChanged" Width="405px" TextMode="MultiLine"></asp:TextBox>
+            <asp:TextBox ID="GetUserTextBox" runat="server" Height="82px" Width="405px" TextMode="MultiLine"></asp:TextBox>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="ChangeUserButton" runat="server" Text="Change User" OnClick="ChangeUserButton_Click" />
         </p>
     </form>
 </body>
