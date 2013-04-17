@@ -13,21 +13,23 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div style="width: 613px; margin-left: 480px">
-            <asp:Label ID="Label1" runat="server" EnableTheming="True" Font-Bold="True" Font-Overline="True" Font-Size="X-Large" Font-Underline="True" Text="Hello and welcome to our asp.net client thingy HIHI"></asp:Label>
-        </div>
         <p>
-            <asp:Label ID="Label2" runat="server" Text="Enter an Email and see info about the user."></asp:Label>
-        </p>
-        <p>
-            <asp:TextBox ID="TextBox1" runat="server" Width="207px"></asp:TextBox>
-            <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="margin-left: 32px" Text="Execute" Width="87px" />
-        </p>
-        <p>
-            <asp:TextBox ID="GetUserTextBox" runat="server" Height="82px" Width="405px" TextMode="MultiLine"></asp:TextBox>
-        &nbsp;&nbsp;&nbsp;&nbsp;
             <asp:Button ID="ChangeUserButton" runat="server" Text="Change User" OnClick="ChangeUserButton_Click" />
-        </p>
+        </p
+        <p>
+        <asp:Panel ID="Panel1" runat="server" BorderColor="#006600" BorderStyle="Solid" style="margin-left: 242px" Width="503px">
+            &nbsp;
+            <asp:Label ID="Label2" runat="server" Text="Enter an Email and see info about the user."></asp:Label>
+            <br />
+            <p>
+                <asp:TextBox ID="TextBox1" runat="server" Width="207px"></asp:TextBox>
+                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="margin-left: 32px" Text="Execute" Width="87px" />
+            </p>
+            <p>
+                <asp:TextBox ID="GetUserTextBox" runat="server" EnableTheming="True" Height="82px" ReadOnly="True" style="margin-right: 82px" TextMode="MultiLine" Width="488px"></asp:TextBox>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+            </p>
+        </asp:Panel>
     </form>
 </body>
 </html>
