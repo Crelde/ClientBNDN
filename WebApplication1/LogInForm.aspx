@@ -16,7 +16,7 @@
         <br />
         <br />
         <asp:Label ID="PasswordLabel" runat="server" Text="Password:"></asp:Label>
-        <asp:TextBox ID="PasswordTextBox" runat="server" style="margin-left: 49px"></asp:TextBox>
+        <asp:TextBox ID="PasswordTextBox" runat="server" type="password" style="margin-left: 49px"> </asp:TextBox>
         <br />
         <br />
         <asp:Button ID="LogInButton" runat="server" style="margin-left: 81px" Text="Log in" OnClick="LogInButton_Click" />

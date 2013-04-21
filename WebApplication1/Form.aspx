@@ -4,32 +4,38 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+    <link rel="stylesheet" type="text/css" href="Style.css" />
     <title></title>
     <style type="text/css">
         #form1 {
-            width: 591px;
+            width: 1207px;
+            height: 731px;
         }
     </style>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <p>
-            <asp:Button ID="ChangeUserButton" runat="server" Text="Change User" OnClick="ChangeUserButton_Click" />
-        </p
-        <p>
-        <asp:Panel ID="Panel1" runat="server" BorderColor="#006600" BorderStyle="Solid" style="margin-left: 242px" Width="503px">
-            &nbsp;
-            <asp:Label ID="Label2" runat="server" Text="Enter an Email and see info about the user."></asp:Label>
+    <form id="form1" runat="server" aria-dropeffect="none">
+            <div class="topCol">
+            <asp:Button ID="ChangeUserButton" runat="server" Text="Log Out" OnClick="ChangeUserButton_Click" Height="32px" style="margin-left: 240px" Width="116px" />
+        </div>
+        <div class="leftCol">
+            <asp:Button ID="CreatePackageButton" runat="server" Text="Create New Package" Height="36px"  Width="173px" OnClick="CreatePackageButton_Click" style="margin-left: 102px; margin-top: 36px" />
             <br />
-            <p>
-                <asp:TextBox ID="TextBox1" runat="server" Width="207px"></asp:TextBox>
-                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" style="margin-left: 32px" Text="Execute" Width="87px" />
-            </p>
-            <p>
-                <asp:TextBox ID="GetUserTextBox" runat="server" EnableTheming="True" Height="82px" ReadOnly="True" style="margin-right: 82px" TextMode="MultiLine" Width="488px"></asp:TextBox>
-                &nbsp;&nbsp;&nbsp;&nbsp;
-            </p>
-        </asp:Panel>
+            <br />
+            <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Large" Text="These are the packages you have the rights to"></asp:Label>
+            <br />
+            <asp:DropDownList ID="DropDownList1" runat="server" Height="27px" style="margin-left: 101px; margin-top: 22px" Width="141px">
+            </asp:DropDownList>
+        </div>
+    <div class="rightCol">
+            <asp:Label ID="UploadFileLabel" runat="server" Text="Upload a new file into the current package"></asp:Label>
+            <br />
+            <asp:FileUpload ID="FileUpload1" runat="server" Height="27px" Width="397px" />
+            <asp:Button ID="UploadFileButton" runat="server" Text="Upload File!"  Height="25px" Width="141px" style="margin-left: 75px" OnClick="UploadFileButton_Click" />
+            <asp:BulletedList ID="BulletedList1" runat="server" Height="105px" >
+            </asp:BulletedList>
+    </div>
+
     </form>
-</body>
+    </body>
 </html>

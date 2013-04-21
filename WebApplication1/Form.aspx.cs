@@ -12,29 +12,48 @@ namespace WebApplication1
         protected void Page_Load(object sender, EventArgs e)
         {
 
-        }
 
-        protected void Button1_Click(object sender, EventArgs e)
-        {
-            using (var derp = new ServiceReference1.ServiceClient())
-            {
-                ServiceReference1.User myUser = derp.GetUserByEmail(TextBox1.Text);
-                string type = myUser.Type.ToString();
-                string pw = myUser.Password;
-                string email = myUser.Email;
+            // Here is a good place to add which packages should be able to be seen to the dropdown.
+            DropDownList1.Items.Add("Crelde");
+            DropDownList1.Items.Add("Er");
+            DropDownList1.Items.Add("Sej");
 
-                GetUserTextBox.Text = "Type: " + type + "\nPassword: " + pw + "\nEmail: " + email;
-            
-            }
-            
+            ListViewDataItem item = new ListViewDataItem(1,1);
 
+            BulletedList1.Items.Add("Crelde");
+            BulletedList1.Items.Add("Er");
+            BulletedList1.Items.Add("Stadig");
+            BulletedList1.Items.Add("Sej");
 
         }
+
+        
 
         protected void ChangeUserButton_Click(object sender, EventArgs e)
         {
             Response.Redirect("LogInForm.aspx"); 
         }
+
+        protected void CreatePackageButton_Click(object sender, EventArgs e)
+        {
+            using (var serv = new ServiceReference1.ServiceClient())
+            {
+                ServiceReference1.Package pack = new ServiceReference1.Package();
+                // Add stuff needed to package and create it
+                //serv.CreatePackage(pack);
+            }
+        }
+
+        protected void UploadFileButton_Click(object sender, EventArgs e)
+        {
+            using (var serv = new ServiceReference1.ServiceClient())
+            {
+                //make new file from the file coming from this bytearray!
+                byte[] filebytes = FileUpload1.FileBytes ;
+            }
+
+        }
+
 
     }
 }
