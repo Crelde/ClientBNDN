@@ -5,13 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <link rel="stylesheet" type="text/css" href="Style.css" />
-    <title></title>
-    <style type="text/css">
-        #form1 {
-            width: 1207px;
-            height: 731px;
-        }
-    </style>
+    <title>Common Knowledge</title>
 </head>
 <body>
     <form id="form1" runat="server" aria-dropeffect="none">
@@ -32,7 +26,7 @@
             <br />
             <asp:FileUpload ID="FileUpload1" runat="server" Height="27px" Width="397px" />
             <asp:Button ID="UploadFileButton" runat="server" Text="Upload File!"  Height="25px" Width="141px" style="margin-left: 75px" OnClick="UploadFileButton_Click" />
-            <asp:BulletedList ID="BulletedList1" runat="server" Height="105px" >
+            <asp:BulletedList ID="BulletedList1" runat="server" Height="105px"  >
             </asp:BulletedList>
     </div>
 
