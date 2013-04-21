@@ -14,16 +14,13 @@ namespace WebApplication1
 
 
             // Here is a good place to add which packages should be able to be seen to the dropdown.
-            DropDownList1.Items.Add("Crelde");
-            DropDownList1.Items.Add("Er");
-            DropDownList1.Items.Add("Sej");
+            if (!IsPostBack)
+            {
+                DropDownList1.Items.Add("Crelde");
+                DropDownList1.Items.Add("Er");
+                DropDownList1.Items.Add("Sej");
 
-            ListViewDataItem item = new ListViewDataItem(1,1);
-
-            BulletedList1.Items.Add("Crelde");
-            BulletedList1.Items.Add("Er");
-            BulletedList1.Items.Add("Stadig");
-            BulletedList1.Items.Add("Sej");
+            }
 
         }
 
@@ -50,6 +47,10 @@ namespace WebApplication1
             {
                 //make new file from the file coming from this bytearray!
                 byte[] filebytes = FileUpload1.FileBytes ;
+                if (FileUpload1.FileName != "")
+                {
+                    BulletedList1.Items.Add(FileUpload1.FileName);
+                }
             }
 
         }
