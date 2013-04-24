@@ -1,9 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using WebApplication1.ServiceReference1;
 
 namespace WebApplication1
 {
+    /// <exception cref="NotLoggedOutException">Thrown if you are already logged in.</exception>
+    /// <exception cref="NotLoggedInException">Thrown if you are already logged out.</exception>
+    /// <exception cref="NoSuchUserException">Thrown if there is no user with the given email.</exception>
+    /// <exception cref="IncorrectPasswordException">Thrown if there exists a user with the given email, but the password doesn't match.</exception>
+    /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
+    /// <exception cref="InadequateObjectException">Throw if the given object is not properly initialized.</exception>
+    /// <exception cref="KeyOccupiedException">Thrown if there already exists an object with the same key values.</exception>
+    /// <exception cref="ObjectNotFoundException">Thrown if the requested object could not be retrieved.</exception>
+    /// <exception cref="OriginalNotFoundException">Thrown if the given object is used to update another object which does not exist.</exception>
+
+
     public class Controller
     {
         /// <summary>
@@ -20,9 +32,6 @@ namespace WebApplication1
         /// <summary>Attempts to log in as the User that identifies itself with the given email and password.</summary>
         /// <param name="email">The email that identifies the user.</param>
         /// <param name="password">The password that authorizes the user.</param>
-        /// <exception cref="NotLoggedOutException">Thrown if you are already logged in.</exception>
-        /// <exception cref="NoSuchUserException">Thrown if there is no user with the given email.</exception>
-        /// <exception cref="IncorrectPasswordException">Thrown if there exists a user with the given email, but the password doesn't match.</exception>
         public static void LogIn(string email, string password)
         {
             if (_sessionUser != null)
@@ -37,13 +46,12 @@ namespace WebApplication1
 
                 if (!temp.Password.Equals(password))
                     throw new IncorrectPasswordException();
-                
+
                 _sessionUser = temp;
             }
         }
 
         /// <summary>Logs out the active user.</summary>
-        /// <exception cref="NotLoggedInException">Thrown if you are already logged out.</exception>
         public static void LogOut()
         {
             if (_sessionUser == null)
@@ -54,9 +62,6 @@ namespace WebApplication1
 
         /// <summary>Create a new User on the service.</summary>
         /// <param name="newUser">The User object that should be created on the service.</param>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
-        /// <exception cref="InadequateObjectException">Throw if the given object is not properly initialized.</exception>
         public static void CreateUser(User newUser)
         {
             if (_sessionUser == null)
@@ -70,19 +75,18 @@ namespace WebApplication1
                 || newUser.Password == null)
                 throw new InadequateObjectException();
 
+            if (UserExists(newUser.Email))
+                throw new KeyOccupiedException();
+
             using (var client = new ServiceClient())
             {
                 client.CreateUser(newUser);
             }
-            
         }
 
         /// <summary>Look up a User by its email address.</summary>
         /// <param name="email">The email of the User to be returned.</param>
         /// <returns>The User whose Email property matches the given email.</returns>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
-        /// <exception cref="ObjectNotFoundException">Thrown if the requested object could not be retrieved.</exception>
         public static User GetUserByEmail(string email)
         {
             if (_sessionUser == null)
@@ -91,37 +95,23 @@ namespace WebApplication1
             if (_sessionUser.Type != UserType.admin && !_sessionUser.Email.Equals(email))
                 throw new InsufficientRightsException();
 
+            if(!UserExists(email))
+                throw new ObjectNotFoundException();
+
             using (var client = new ServiceClient())
             {
-                try
-                {
-                    var user = client.GetUserByEmail(email);
-
-                    if (user == null)
-                        throw new ObjectNotFoundException();
-
-                    return user;
-                }
-                catch (Exception)
-                {
-                    throw new ObjectNotFoundException();
-                }
+                return client.GetUserByEmail(email);
             }
         }
 
         /// <summary>Updates the details of an existing User whose Email property matches the Email property of the one given.</summary>
         /// <param name="updatedUser">The User object which contains the updated details.</param>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
-        /// <exception cref="InadequateObjectException">Throw if the given object is not properly initialized.</exception>
         public static void UpdateUser(User updatedUser)
         {
-            // TODO - What should we do if there is no existing User with the same email as updatedUser?
-
             if (_sessionUser == null)
                 throw new NotLoggedInException();
 
-            if (_sessionUser.Type != UserType.admin 
+            if (_sessionUser.Type != UserType.admin
                 && !(_sessionUser.Email.Equals(updatedUser.Email) && _sessionUser.Type == updatedUser.Type))
                 throw new InsufficientRightsException();
 
@@ -129,6 +119,9 @@ namespace WebApplication1
                 || updatedUser.Email == null
                 || updatedUser.Password == null)
                 throw new InadequateObjectException();
+
+            if (!UserExists(updatedUser.Email))
+                throw new OriginalNotFoundException();
 
             using (var client = new ServiceClient())
             {
@@ -138,17 +131,16 @@ namespace WebApplication1
 
         /// <summary>Deletes the User whose Email property matches the given email.</summary>
         /// <param name="email">The email address of the User which should be deleted.</param>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
         public static void DeleteUserByEmail(string email)
         {
-            // TODO - Should we do anything if there exists no user with the given email?
-
             if (_sessionUser == null)
                 throw new NotLoggedInException();
 
             if (_sessionUser.Type != UserType.admin && !_sessionUser.Email.Equals(email))
                 throw new InsufficientRightsException();
+
+            if(!UserExists(email))
+                throw new ObjectNotFoundException();
 
             using (var client = new ServiceClient())
             {
@@ -162,8 +154,6 @@ namespace WebApplication1
         /// <summary>Uploads the binary data and FileInfo contained within the given transfer object.</summary>
         /// <param name="transfer">The object containing the info and data of the file which should be uploaded.</param>
         /// <returns>The Id that has been assigned to the uploaded file.</returns>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InadequateObjectException">Thrown if the given object is not properly initialized.</exception>
         public static int UploadFile(FileTransfer transfer)
         {
             if (_sessionUser == null)
@@ -178,6 +168,7 @@ namespace WebApplication1
 
             using (var client = new ServiceClient())
             {
+                // NOTE - OwnerEmail field is force-set to the _sessionUser's Email.
                 transfer.Info.OwnerEmail = _sessionUser.Email;
                 return client.UploadFile(transfer);
             }
@@ -186,15 +177,13 @@ namespace WebApplication1
         /// <summary>Downloads the binary data of the file whose Id property matches the given fileId.</summary>
         /// <param name="fileId">The Id of the file whose data should be downloaded.</param>
         /// <returns>The binary data of the matching file.</returns>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
-        /// <exception cref="ObjectNotFoundException">Thrown if the requested object could not be retrieved.</exception>
         public static byte[] DownloadFileById(int fileId)
         {
-            // TODO - What if the Item with the matching id is a package?
-
             if (_sessionUser == null)
                 throw new NotLoggedInException();
+
+            if(!FileExists(fileId))
+                throw new ObjectNotFoundException();
 
             using (var client = new ServiceClient())
             {
@@ -203,20 +192,7 @@ namespace WebApplication1
                     && !HasViewRights(fileId))
                     throw new InsufficientRightsException();
 
-                try
-                {
-                    var file = client.DownloadFileById(fileId);
-
-                    if (file == null)
-                        throw new ObjectNotFoundException();
-
-                    return file;
-                }
-                catch (Exception)
-                {
-                    throw new ObjectNotFoundException();
-                }
-                
+                return client.DownloadFileById(fileId);
             }
         }
 
@@ -228,40 +204,27 @@ namespace WebApplication1
         /// <exception cref="ObjectNotFoundException">Thrown if the requested object could not be retrieved.</exception>
         public static FileInfo GetFileInfoById(int fileId)
         {
-            // TODO - What if the Item with the matching id is a package?
-
             if (_sessionUser == null)
                 throw new NotLoggedInException();
 
+            if (!FileExists(fileId))
+                throw new ObjectNotFoundException();
+
             using (var client = new ServiceClient())
             {
+                var info = client.GetFileInfoById(fileId);
+
                 if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
+                    && !_sessionUser.Email.Equals(info.OwnerEmail)
                     && !HasViewRights(fileId))
                     throw new InsufficientRightsException();
 
-                try
-                {
-                    var info = client.GetFileInfoById(fileId);
-
-                    if (info == null)
-                        throw new ObjectNotFoundException();
-
-                    return info;
-                }
-                catch (Exception)
-                {
-                    throw new ObjectNotFoundException();
-                }
-                
-            }            
+                return info;
+            }
         }
 
         /// <summary>Updates the file that matches updatedInfo's Id with the details contained within it.</summary>
-        /// <param name="updatedInfo">The FileInfo object that contains the new info.</param>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
-        /// <exception cref="InadequateObjectException">Throw if the given object is not properly initialized.</exception>
+        /// <param name="updatedInfo">The FileInfo object that contains the new info.</param>      
         public static void UpdateFileInfo(FileInfo updatedInfo)
         {
             if (_sessionUser == null)
@@ -271,6 +234,9 @@ namespace WebApplication1
                 || updatedInfo.Name.Length < 3
                 || !updatedInfo.OwnerEmail.Equals(_sessionUser.Email))
                 throw new InadequateObjectException();
+
+            if(!FileExists(updatedInfo.Id))
+                throw new OriginalNotFoundException();
 
             using (var client = new ServiceClient())
             {
@@ -286,9 +252,6 @@ namespace WebApplication1
         /// <summary>Updates the File with the matching fileId with the givne updatedData.</summary>
         /// <param name="updatedData">The updated data.</param>
         /// <param name="fileId">The Id of the file which data should be updated.</param>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InadequateObjectException">Throw if the given object is not properly initialized.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>        
         public static void UpdateFileData(byte[] updatedData, int fileId)
         {
             if (_sessionUser == null)
@@ -296,6 +259,9 @@ namespace WebApplication1
 
             if (updatedData == null)
                 throw new InadequateObjectException();
+
+            if (!FileExists(fileId))
+                throw new OriginalNotFoundException();
 
             using (var client = new ServiceClient())
             {
@@ -310,14 +276,13 @@ namespace WebApplication1
 
         /// <summary>Deletes the File with the matching fileId.</summary>
         /// <param name="fileId">The Id of the file which should be deleted.</param>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>        
         public static void DeleteFileById(int fileId)
         {
-            // TODO - What if there does not exist a file with the given id?
-            // TODO - What if the item with the given id is in fact a package?
             if (_sessionUser == null)
                 throw new NotLoggedInException();
+
+            if (!FileExists(fileId))
+                throw new ObjectNotFoundException();
 
             using (var client = new ServiceClient())
             {
@@ -333,9 +298,6 @@ namespace WebApplication1
         /// <summary>Returns the FileInfos of the Files owned by the User with the given email.</summary>
         /// <param name="email">The email of the User in question.</param>
         /// <returns>The FileInfos of the files owned by the User.</returns>
-        /// <exception cref="NotLoggedInException">Thrown if you are not logged in.</exception>
-        /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
-        /// <exception cref="ObjectNotFoundException">Thrown if the requested object could not be retrieved.</exception>
         public FileInfo[] GetOwnedFileInfosByEmail(string email)
         {
             if (_sessionUser == null)
@@ -360,9 +322,8 @@ namespace WebApplication1
                 {
                     throw new ObjectNotFoundException();
                 }
-            }                
+            }
         }
-
 
         /// <summary>Adds the given tag to the Item with the given Id.</summary>
         /// <param name="tag">The tag text.</param>
@@ -401,7 +362,23 @@ namespace WebApplication1
         /// <returns>The Id that the created Package has been given.</returns>
         public int CreatePackage(Package newPackage)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (newPackage == null
+                || newPackage.Name == null
+                || newPackage.Name.Length < 3
+                || newPackage.FileIds == null
+                || newPackage.FileIds.All(FileExists)
+                )
+                throw new InadequateObjectException();
+
+            using (var client = new ServiceClient())
+            {
+                // NOTE - OwnerEmail field is force-set to the _sessionUser's Email.
+                newPackage.OwnerEmail = _sessionUser.Email;
+                return client.CreatePackage(newPackage);
+            }
         }
 
         /// <summary>Look up a Package by its Id.</summary>
@@ -409,7 +386,23 @@ namespace WebApplication1
         /// <returns>The Package with the matching packageId.</returns>
         public Package GetPackageById(int packageId)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (!PackageExists(packageId))
+                throw new ObjectNotFoundException();
+
+            using (var client = new ServiceClient())
+            {
+                var package = client.GetPackageById(packageId);
+
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(package.OwnerEmail)
+                    && !HasViewRights(packageId))
+                    throw new InsufficientRightsException();
+
+                return package;
+            }
         }
 
         /// <summary>Adds some Files to a Package.</summary>
@@ -432,15 +425,51 @@ namespace WebApplication1
         /// <param name="packageId">The Id of the Package which should be deleted.</param>
         public void DeletePackageById(int packageId)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (!PackageExists(packageId))
+                throw new ObjectNotFoundException();
+
+            using (var client = new ServiceClient())
+            {
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(client.GetPackageById(packageId).OwnerEmail)
+                    && !HasEditRights(packageId))
+                    throw new InsufficientRightsException();
+
+                client.DeletePackageById(packageId);
+            }
         }
 
         /// <summary>Returns the Packages owned by the User with the given email.</summary>
         /// <param name="email">The email of the User in question.</param>
         /// <returns>The Packages owned by the User.</returns>
-        public HashSet<Package> GetOwnedPackagesByEmail(string email)
+        public Package[] GetOwnedPackagesByEmail(string email)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (_sessionUser.Type != UserType.admin
+                && !_sessionUser.Email.Equals(email))
+                throw new InsufficientRightsException();
+
+            using (var client = new ServiceClient())
+            {
+                try
+                {
+                    var packages = client.GetOwnedPackagesByEmail(email);
+
+                    if (packages == null)
+                        throw new ObjectNotFoundException();
+
+                    return packages;
+                }
+                catch (Exception)
+                {
+                    throw new ObjectNotFoundException();
+                }
+            }
         }
 
         /// <summary>Looks up Packages with a matching tag.</summary>
@@ -449,7 +478,7 @@ namespace WebApplication1
         public List<Package> GetPackagesByTag(string tag)
         {
             throw new NotImplementedException();
-        }        
+        }
 
         /// <summary>Adds the given Right to the service.</summary>
         /// <param name="newRight">The Right that should be created on the service.</param>
@@ -485,18 +514,55 @@ namespace WebApplication1
         /// <summary>Looks up Files by matching their details with a string of text.</summary>
         /// <param name="text">The text which should be contained in the Files.</param>
         /// <returns>The Files that contain the given text somewhere in their details.</returns>
-        public List<FileInfo> SearchFileInfos(string text)
+        public FileInfo[] SearchFileInfos(string text)
         {
-            throw new NotImplementedException();
+            if (text == null)
+                throw new InadequateObjectException();
+
+            using (var client = new ServiceClient())
+            {
+                try
+                {
+                    var infos = client.SearchFileInfos(text);
+
+                    if (infos == null)
+                        throw new ObjectNotFoundException();
+
+                    return infos;
+                }
+                catch (Exception)
+                {
+                    throw new ObjectNotFoundException();
+                }
+            }
         }
 
         /// <summary>Looks up Packages by matching their details with a string of text.</summary>
         /// <param name="text">The text which should be contained in the Files.</param>
         /// <returns>The Packages that contain the given text somewhere in their details.</returns>
-        public List<Package> SearchPackages(string text)
+        public Package[] SearchPackages(string text)
         {
-            throw new NotImplementedException();
+            if (text == null)
+                throw new InadequateObjectException();
+
+            using (var client = new ServiceClient())
+            {
+                try
+                {
+                    var packages = client.SearchPackages(text);
+
+                    if (packages == null)
+                        throw new ObjectNotFoundException();
+
+                    return packages;
+                }
+                catch (Exception)
+                {
+                    throw new ObjectNotFoundException();
+                }
+            }
         }
+
 
 
         /// <summary>
@@ -536,6 +602,61 @@ namespace WebApplication1
                 // NOTE - We're using the current systems datetime.
                 // Users can thus regain rights that have run out, by changing their clocks.
                 return right != null && right.Type == RightType.edit && (right.Until == null || DateTime.Compare(right.Until.Value, DateTime.Now) > 0);
+            }
+        }
+
+        /// <summary>Used to check if there exists a User with a certain email.</summary>
+        /// <param name="email">The email of the User in question.</param>
+        /// <returns>True if there exists such a User, false if not.</returns>
+        private static bool UserExists(string email)
+        {
+            using (var client = new ServiceClient())
+            {
+                try
+                {
+                    return client.GetUserByEmail(email).Email.Equals(email);
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>Used to check if there exists a File with a certain id.</summary>
+        /// <param name="fileId">The id of the File in question.</param>
+        /// <returns>True if there exists such a File, false if not.</returns>
+        private static bool FileExists(int fileId)
+        {
+            using (var client = new ServiceClient())
+            {
+                try
+                {
+                    return client.GetFileInfoById(fileId).Id == fileId;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+                
+            }
+        }
+
+        /// <summary>Used to check if there exists a Package with a certain id.</summary>
+        /// <param name="packageId">The id of the Package in question.</param>
+        /// <returns>True if there exists such a Package, false if not.</returns>
+        private static bool PackageExists(int packageId)
+        {
+            using (var client = new ServiceClient())
+            {
+                try
+                {
+                    return client.GetPackageById(packageId).Id == packageId;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
         }
     }

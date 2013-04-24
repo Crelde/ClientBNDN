@@ -43,4 +43,21 @@ namespace WebApplication1
     /// object from the service failed.
     /// </summary>
     public class ObjectNotFoundException : Exception { }
+
+    /// <summary>
+    /// Thrown in situations where one attempts to add an
+    /// object that has the some key values as one that
+    /// already exists.
+    /// E.g: Creating a User with an email which is already
+    /// in use.
+    /// </summary>
+    public class KeyOccupiedException : Exception { }
+
+    /// <summary>
+    /// Thrown in situations where one attempts to update
+    /// a non-existant object.
+    /// E.g: Calling UpdateUser with a User object
+    /// whose Email property does not match an existing user.
+    /// </summary>
+    public class OriginalNotFoundException : Exception { }
 }
