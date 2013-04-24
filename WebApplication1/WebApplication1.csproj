@@ -60,6 +60,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Form.aspx" />
+    <None Include="Scripts\jquery-2.0.0-vsdoc.js" />
+    <Content Include="Scripts\jquery-2.0.0.min.js" />
     <Content Include="Service References\ServiceReference1\configuration91.svcinfo" />
     <Content Include="Service References\ServiceReference1\configuration.svcinfo" />
     <Content Include="Service References\ServiceReference1\Reference.svcmap">

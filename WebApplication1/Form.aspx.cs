@@ -30,16 +30,19 @@ namespace WebApplication1
         {
             Response.Redirect("LogInForm.aspx"); 
         }
-
+      
         protected void CreatePackageButton_Click(object sender, EventArgs e)
         {
+            /*
             using (var serv = new ServiceReference1.ServiceClient())
             {
                 ServiceReference1.Package pack = new ServiceReference1.Package();
                 // Add stuff needed to package and create it
                 //serv.CreatePackage(pack);
             }
+             * */
         }
+
 
         protected void UploadFileButton_Click(object sender, EventArgs e)
         {
