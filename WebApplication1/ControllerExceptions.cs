@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace WebApplication1
 {
@@ -40,4 +37,10 @@ namespace WebApplication1
     /// not a string of at least 3 characters.
     /// </summary>
     public class InadequateObjectException : Exception { }
+
+    /// <summary>
+    /// Thrown in situations where an attempt to receive an
+    /// object from the service failed.
+    /// </summary>
+    public class ObjectNotFoundException : Exception { }
 }
