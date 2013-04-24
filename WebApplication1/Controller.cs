@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System;   
 using WebApplication1.ServiceReference1;
 
 namespace WebApplication1
@@ -10,47 +10,37 @@ namespace WebApplication1
         public static void LogIn(string email, string password)
         {
             if (_sessionUser != null)
-            {
-                // NOTE - Should we ask for an explicit logout, before logging in as another user?
-                return;
-            }
+                throw new NotLoggedOutException();
 
             using (var client = new ServiceClient())
             {
                 var temp = client.GetUserByEmail(email);
-                if (temp == null)
-                {
-                    // NOTE - Should we throw an exception if the user does not exist?
-                    return;
-                }
 
-                if (temp.Password.Equals(password))
-                {
-                    _sessionUser = temp;
-                }
-                // NOTE - Should we throw an exception if the password is a mismatch?
+                if (temp == null)
+                    throw new NoSuchUserException();
+
+                if (!temp.Password.Equals(password))
+                    throw new IncorrectPasswordException();
+                
+                _sessionUser = temp;
             }
         }
 
         public static void LogOut()
         {
-            // NOTE - Should we throw an exception if the user is already logged out.
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             _sessionUser = null;
         }
 
         public static void CreateUser(User newUser)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What to do if you aren't log in?
-                return;
-            }
+                throw new NotLoggedInException();
 
             if (_sessionUser.Type != UserType.admin)
-            {
-                // NOTE - What to do if you aren't admin?
-                return;
-            }
+                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
@@ -62,16 +52,10 @@ namespace WebApplication1
         public static User GetUserByEmail(string email)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return null;
-            }
+                throw new NotLoggedInException();
 
             if (_sessionUser.Type != UserType.admin && !_sessionUser.Email.Equals(email))
-            {
-                // NOTE - What if you aren't admin, and don't have the matching email?
-                return null;
-            }
+                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
@@ -82,16 +66,11 @@ namespace WebApplication1
         public static void UpdateUser(User updatedUser)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return;
-            }
+                throw new NotLoggedInException();
 
-            if (_sessionUser.Type != UserType.admin && !(_sessionUser.Email.Equals(updatedUser.Email) && _sessionUser.Type != updatedUser.Type))
-            {
-                // NOTE - What if you aren't admin, and don't have the matching email and type? (non-admin's shouldn't be able to promote themselves.)
-                return;
-            }
+            if (_sessionUser.Type != UserType.admin 
+                && !(_sessionUser.Email.Equals(updatedUser.Email) && _sessionUser.Type == updatedUser.Type))
+                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
@@ -102,45 +81,31 @@ namespace WebApplication1
         public static void DeleteUserByEmail(string email)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return;
-            }
+                throw new NotLoggedInException();
 
             if (_sessionUser.Type != UserType.admin && !_sessionUser.Email.Equals(email))
-            {
-                // NOTE - What if you aren't admin, and don't have the matching email?
-                return;
-            }
+                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
                 client.DeleteUserByEmail(email);
+
                 if (_sessionUser.Email.Equals(email))
-                {
-                    // If you're deleting the account you're currently logged in as, you will be logged out.
                     LogOut();
-                }
             }
         }
 
         public static void UploadFile(FileTransfer transfer)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return; 
-            }
+                throw new NotLoggedInException();
 
-            if (transfer == null 
-                || transfer.Data == null 
-                || transfer.Info == null 
+            if (transfer == null
+                || transfer.Data == null
+                || transfer.Info == null
                 || transfer.Info.Name == null
                 || transfer.Info.Name.Length < 3)
-            {
-                // NOTE - What if the transfer is not formatted correctly?
-                return;
-            }
+                throw new InadequateObjectException();
 
             using (var client = new ServiceClient())
             {
@@ -152,20 +117,14 @@ namespace WebApplication1
         public static byte[] DownloadFileById(int id)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return null;
-            }
+                throw new NotLoggedInException();
 
             using (var client = new ServiceClient())
             {
-                if (_sessionUser.Type != UserType.admin 
-                    && !_sessionUser.Email.Equals(client.GetFileInfoById(id).OwnerEmail) 
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(client.GetFileInfoById(id).OwnerEmail)
                     && !HasViewRights(id))
-                {
-                    // NOTE - Throw some exceptions?
-                    return null;
-                }
+                    throw new InsufficientRightsException();
 
                 var file = client.DownloadFileById(id);
                 // NOTE - What if file is null?
@@ -177,20 +136,14 @@ namespace WebApplication1
         public static FileInfo GetFileInfoById(int id)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return null;
-            }
+                throw new NotLoggedInException();
 
             using (var client = new ServiceClient())
             {
                 if (_sessionUser.Type != UserType.admin
                     && !_sessionUser.Email.Equals(client.GetFileInfoById(id).OwnerEmail)
                     && !HasViewRights(id))
-                {
-                    // NOTE - Throw some exceptions?
-                    return null;
-                }
+                    throw new InsufficientRightsException();
 
                 var info = client.GetFileInfoById(id);
                 // NOTE - What if info is null?
@@ -202,28 +155,19 @@ namespace WebApplication1
         public static void UpdateFileInfo(FileInfo updatedInfo)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return;   
-            }
+                throw new NotLoggedInException();
 
             if (updatedInfo.Name == null
                 || updatedInfo.Name.Length < 3
                 || !updatedInfo.OwnerEmail.Equals(_sessionUser.Email))
-            {
-                // NOTE - Info not properly formatted. Throw an exception?
-                return;
-            }
+                throw new InadequateObjectException();
 
             using (var client = new ServiceClient())
             {
                 if (_sessionUser.Type != UserType.admin
                     && !_sessionUser.Email.Equals(client.GetFileInfoById(updatedInfo.Id).OwnerEmail)
                     && !HasEditRights(updatedInfo.Id))
-                {
-                    // NOTE - Throw some exceptions?
-                    return;
-                }
+                    throw new InsufficientRightsException();
 
                 client.UpdateFileInfo(updatedInfo);
             }
@@ -232,26 +176,17 @@ namespace WebApplication1
         public static void UpdateFileData(byte[] updatedData, int fileId)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return;
-            }
+                throw new NotLoggedInException();
 
             if (updatedData == null)
-            {
-                // NOTE - No data, throw exception?
-                return;
-            }
+                throw new InadequateObjectException();
 
             using (var client = new ServiceClient())
             {
                 if (_sessionUser.Type != UserType.admin
                     && !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
                     && !HasEditRights(fileId))
-                {
-                    // NOTE - Throw some exceptions?
-                    return;
-                }
+                    throw new InsufficientRightsException();
 
                 client.UpdateFileData(updatedData, fileId);
             }
@@ -260,20 +195,14 @@ namespace WebApplication1
         public static void DeleteFileById(int fileId)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return;
-            }
+                throw new NotLoggedInException();
 
             using (var client = new ServiceClient())
             {
                 if (_sessionUser.Type != UserType.admin
                     && !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
                     && !HasEditRights(fileId))
-                {
-                    // NOTE - Throw some exceptions?
-                    return;
-                }
+                    throw new InsufficientRightsException();
 
                 client.DeleteFileById(fileId);
             }
@@ -282,17 +211,11 @@ namespace WebApplication1
         public FileInfo[] GetOwnedFileInfosByEmail(string email)
         {
             if (_sessionUser == null)
-            {
-                // NOTE - What if you aren't logged in?
-                return null;
-            }
+                throw new NotLoggedInException();
 
             if (_sessionUser.Type != UserType.admin
                 && !_sessionUser.Email.Equals(email))
-            {
-                // NOTE - Throw some exceptions?
-                return null;
-            }
+                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
