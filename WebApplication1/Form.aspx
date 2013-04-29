@@ -5,16 +5,35 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <link rel="stylesheet" type="text/css" href="Style.css" />
+    <link rel="stylesheet" type="text/css" href="Scripts/jquery-ui-1.10.2.custom.min.css" />
+
     <title>Common Knowledge</title>
+
     <script src="Scripts/jquery-2.0.0.min.js"></script>
+    <script src="Scripts/jquery-ui-1.10.2.custom.min.js"></script>
+    <style type="text/css">
+        #UploadFileForm {
+            width: 748px;
+            height: 25px;
+            margin-top: 9px;
+        }
+        #form1 {
+            height: 899px;
+            width: 1849px;
+        }
+    </style>
 </head>
 <body>
-    <form id="form1" runat="server" aria-dropeffect="none">
+    
+    <form id="form1" runat="server" target="UploadPage">
             <div class="topCol">
             <asp:Button ID="ChangeUserButton" runat="server" Text="Log Out" OnClick="ChangeUserButton_Click" Height="32px" style="margin-left: 240px" Width="116px" />
         </div>
         <div class="leftCol">
-            <asp:Button ID="CreatePackageButton" runat="server" Text="Create New Package" Height="36px"  Width="173px" OnClick="CreatePackageButton_Click" style="margin-left: 102px; margin-top: 36px" />
+            <asp:Button ID="CreatePackageModal1" runat="server" Text="testmodalserver"  Height="32px" style="margin-left: 240px" Width="116px" />
+            <input id="CreatePackageModal" type="button" value="Create Package" />
+            <br />
+            <input id="UploadFileModal" type="button" value="Upload File" />
             <br />
             <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Large" Text="These are the packages you have the rights to"></asp:Label>
             <br />
@@ -26,38 +45,50 @@
             <br />
              &nbsp;<asp:FileUpload ID="FileUpload1" runat="server" Height="27px" Width="397px" />
             <asp:Button ID="UploadFileButton" runat="server" Text="Upload File!"  Height="25px" Width="141px" style="margin-left: 75px" OnClick="UploadFileButton_Click" />
-        <asp:BulletedList ID="BulletedList1" runat="server" Height="105px"  > 
-             </asp:BulletedList>           
-        <asp:Panel ID="Panel1" runat="server" Height="209px">
-                        Hi, im panel i have some very interesting text, i think you should try to press the button underneath me, it might enhance the reading experience, or maybe it won't :OooLOoOOOOoOO
-                        <br />
-                        <br />
-                        <br />
-            </asp:Panel>
-             <input id="DareButton" type="button" value="Press it if u dare" /><script type="text/javascript">
-            $(document).ready(function()
-            {
-                $("#UploadFileButton").click(function()
-                {
-                    alert("SHIT DOESN'T WORK YET, CHILL GOD DAMNIT");
-                });
-            });
-        </script><script type="text/javascript">
-            $(document).ready(function () {
-                $("#DareButton").click(function () {
-                    var p = $("#Panel1");
-                    startAnimation();
-                    function startAnimation() {
-                        p.animate({ height: 500 }, "slow");
-                        p.animate({ width: 500 }, "slow");
-                        p.css("background-color", "green");
-                        p.animate({ height: 200 }, "slow");
-                        p.animate({ width: 200 }, "slow",startAnimation);
-                    }
-                });
-            });
-        </script></div>
+     </div>
+
+     <script>
+         $(document).ready(function() {
+             $('#CreatePackageModal').click(function() {
+                 $('#dialog-form').dialog({
+                     modal: true,
+                     buttons: {
+                         "Submit": function() { $(this).dialog("close"); },
+                         "Cancel": function() { $(this).dialog("close"); }
+                     },
+                      
+                 }).parent().appendTo("form1");;
+             })});
+
+    </script>
+
+<div id="dialog-form" style="display:none"; title="Upload a new File">
+    Please fill in all the fields!
+    <table>
+        <tr>
+            <td>
+                Name
+            <td>
+                <asp:TextBox ID="txtName" runat="server" />
+            </td>
+            </td>
+        </tr>
+
+                <tr>
+            <td>
+                Email
+                <td>
+                <asp:TextBox ID="TextBox1" runat="server" />
+                    </td>
+            </td>
+        </tr>           
+    </table>
+            </form>
+    <form>
 
     </form>
+    
+     <br /><br />
+    </div> 
     </body>
 </html>

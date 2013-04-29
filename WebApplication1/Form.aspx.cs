@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Web.Services;
 
 namespace WebApplication1
 {
@@ -52,13 +53,13 @@ namespace WebApplication1
                 byte[] filebytes = FileUpload1.FileBytes ;
                 if (FileUpload1.FileName != "")
                 {
-                    BulletedList1.Items.Add(FileUpload1.FileName);
+                    
                 }
             }
 
         }
-
-        
+       
 
     }
+
 }

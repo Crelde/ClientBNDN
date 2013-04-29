@@ -31,13 +31,13 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.Button ChangeUserButton;
         
         /// <summary>
-        /// CreatePackageButton control.
+        /// CreatePackageModal1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button CreatePackageButton;
+        protected global::System.Web.UI.WebControls.Button CreatePackageModal1;
         
         /// <summary>
         /// ChooseAPackageLabel control.
@@ -85,21 +85,21 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.Button UploadFileButton;
         
         /// <summary>
-        /// BulletedList1 control.
+        /// txtName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.BulletedList BulletedList1;
+        protected global::System.Web.UI.WebControls.TextBox txtName;
         
         /// <summary>
-        /// Panel1 control.
+        /// TextBox1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel Panel1;
+        protected global::System.Web.UI.WebControls.TextBox TextBox1;
     }
 }

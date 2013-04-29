@@ -1,21 +1,21 @@
 ﻿body {
 }
 .topCol {
-    background-color:orange;
+    background-color: #DDDDDD;
     width: 100%;
     float: initial;
     height: 100px;
 }
     
 .rightCol {
-    background-color: yellow;
+    background-color: #BBBBBB;
     width: 70%;
     float: right;
     height: 800px;
 }
 
 .leftCol {
-    background-color: red;
+    background-color: #999999;
     width: 30%;
     float: left;
     height: 800px;
