@@ -1,21 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using WebApplication1.ServiceReference1;
 
 namespace WebApplication1
 {
-    /// <exception cref="NotLoggedOutException">Thrown if you are already logged in.</exception>
-    /// <exception cref="NotLoggedInException">Thrown if you are already logged out.</exception>
-    /// <exception cref="NoSuchUserException">Thrown if there is no user with the given email.</exception>
-    /// <exception cref="IncorrectPasswordException">Thrown if there exists a user with the given email, but the password doesn't match.</exception>
-    /// <exception cref="InsufficientRightsException">Thrown if you are logged in, but don't have the required rights.</exception>
-    /// <exception cref="InadequateObjectException">Throw if the given object is not properly initialized.</exception>
-    /// <exception cref="KeyOccupiedException">Thrown if there already exists an object with the same key values.</exception>
-    /// <exception cref="ObjectNotFoundException">Thrown if the requested object could not be retrieved.</exception>
-    /// <exception cref="OriginalNotFoundException">Thrown if the given object is used to update another object which does not exist.</exception>
-
-
     public class Controller
     {
         /// <summary>
@@ -298,7 +286,7 @@ namespace WebApplication1
         /// <summary>Returns the FileInfos of the Files owned by the User with the given email.</summary>
         /// <param name="email">The email of the User in question.</param>
         /// <returns>The FileInfos of the files owned by the User.</returns>
-        public FileInfo[] GetOwnedFileInfosByEmail(string email)
+        public static FileInfo[] GetOwnedFileInfosByEmail(string email)
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
@@ -328,39 +316,119 @@ namespace WebApplication1
         /// <summary>Adds the given tag to the Item with the given Id.</summary>
         /// <param name="tag">The tag text.</param>
         /// <param name="itemId">The Id of the Item which should be tagged.</param>
-        public void AddTag(string tag, int itemId)
+        public static void AddTag(string tag, int itemId)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (tag == null || tag.Length < 3)
+                throw new InadequateObjectException();
+
+            using (var client = new ServiceClient())
+            {
+                Item item = null;
+
+                if (FileExists(itemId))
+                    item = client.GetFileInfoById(itemId);
+
+                if (PackageExists(itemId))
+                    item = client.GetPackageById(itemId);
+
+                if (item == null)
+                    throw new ObjectNotFoundException();
+
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                    && !HasEditRights(itemId))
+                    throw new InsufficientRightsException();
+
+                client.AddTag(tag, itemId);
+            }
         }
 
         /// <summary>Removes the given tag from the Item with the given Id.</summary>
         /// <param name="tag">The tag text.</param>
         /// <param name="itemId">The Id of the Item which should be untagged.</param>
-        public void DropTag(string tag, int itemId)
+        public static void DropTag(string tag, int itemId)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (tag == null || tag.Length < 3)
+                throw new InadequateObjectException();
+
+            using (var client = new ServiceClient())
+            {
+                Item item = null;
+
+                if (FileExists(itemId))
+                    item = client.GetFileInfoById(itemId);
+
+                if (PackageExists(itemId))
+                    item = client.GetPackageById(itemId);
+
+                if (item == null)
+                    throw new ObjectNotFoundException();
+
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                    && !HasEditRights(itemId))
+                    throw new InsufficientRightsException();
+
+                client.DropTag(tag, itemId);
+            }
         }
 
         /// <summary>Returns the tags that the Item with the given Id has.</summary>
         /// <param name="itemId">The Id of the Item whose tags should be returned.</param>
         /// <returns>The tags of the matching Item.</returns>
-        public List<string> GetTagsByItemId(int itemId)
+        public static string[] GetTagsByItemId(int itemId)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            using (var client = new ServiceClient())
+            {
+                Item item = null;
+
+                if (FileExists(itemId))
+                    item = client.GetFileInfoById(itemId);
+
+                if (PackageExists(itemId))
+                    item = client.GetFileInfoById(itemId);
+
+                if (item == null)
+                    throw new ObjectNotFoundException();
+
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                    && !HasViewRights(itemId))
+                    throw new InsufficientRightsException();
+
+                return client.GetTagsByItemId(itemId);
+            }
         }
 
         /// <summary>Looks up FileInfos with a matching tag.</summary>
         /// <param name="tag">The tag that should be used to look up FileInfos.</param>
         /// <returns>The FileInfos that contain the given tag.</returns>
-        public List<FileInfo> GetFileInfosByTag(string tag)
+        public static FileInfo[] GetFileInfosByTag(string tag)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            using (var client = new ServiceClient())
+            {
+                var infos = client.GetFileInfosByTag(tag);
+
+                return _sessionUser.Type == UserType.admin ? infos : infos.Where(info => info.OwnerEmail.Equals(_sessionUser.Email) || HasViewRights(info.Id)).ToArray();
+            }
         }
 
         /// <summary>Creates the given Package on the service.</summary>
         /// <param name="newPackage">The Package that should be created.</param>
         /// <returns>The Id that the created Package has been given.</returns>
-        public int CreatePackage(Package newPackage)
+        public static int CreatePackage(Package newPackage)
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
@@ -384,7 +452,7 @@ namespace WebApplication1
         /// <summary>Look up a Package by its Id.</summary>
         /// <param name="packageId">The Id of the Package that should be returned.</param>
         /// <returns>The Package with the matching packageId.</returns>
-        public Package GetPackageById(int packageId)
+        public static Package GetPackageById(int packageId)
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
@@ -408,22 +476,63 @@ namespace WebApplication1
         /// <summary>Adds some Files to a Package.</summary>
         /// <param name="fileIds">The Ids of the Files that should be added to the Pacakge.</param>
         /// <param name="packageId">The Id of the Package to which the Files should be added.</param>
-        public void AddToPackage(List<int> fileIds, int packageId)
+        public static void AddToPackage(int[] fileIds, int packageId)
         {
-            throw new NotImplementedException();
+            // TODO - What about rights to the Files that are added?
+            // Should I be allowed to add a File to which I don't have editing rights?
+
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (fileIds == null || fileIds.Length == 0 || fileIds.Any(fileId => !FileExists(fileId)))
+                throw new InadequateObjectException();
+
+            if (!PackageExists(packageId))
+                throw new ObjectNotFoundException();
+            
+            using (var client = new ServiceClient())
+            {
+                var package = client.GetPackageById(packageId);
+
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(package.OwnerEmail)
+                    && !HasEditRights(packageId))
+                    throw new InsufficientRightsException();
+
+                client.AddToPackage(fileIds, packageId);
+            }
         }
 
         /// <summary>Removes some Files from a Package.</summary>
         /// <param name="fileIds">The Ids of the Files that should be removed from the Package.</param>
         /// <param name="packageId">The Id of the Package from which the Files should be removed.</param>
-        public void RemoveFromPackage(List<int> fileIds, int packageId)
+        public static void RemoveFromPackage(int[] fileIds, int packageId)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (fileIds == null || fileIds.Length == 0 || fileIds.Any(fileId => !FileExists(fileId)))
+                throw new InadequateObjectException();
+
+            if (!PackageExists(packageId))
+                throw new ObjectNotFoundException();
+
+            using (var client = new ServiceClient())
+            {
+                var package = client.GetPackageById(packageId);
+
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(package.OwnerEmail)
+                    && !HasEditRights(packageId))
+                    throw new InsufficientRightsException();
+
+                client.RemoveFromPackage(fileIds, packageId);
+            }
         }
 
         /// <summary>Deletes a Package by its Id.</summary>
         /// <param name="packageId">The Id of the Package which should be deleted.</param>
-        public void DeletePackageById(int packageId)
+        public static void DeletePackageById(int packageId)
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
@@ -445,7 +554,7 @@ namespace WebApplication1
         /// <summary>Returns the Packages owned by the User with the given email.</summary>
         /// <param name="email">The email of the User in question.</param>
         /// <returns>The Packages owned by the User.</returns>
-        public Package[] GetOwnedPackagesByEmail(string email)
+        public static Package[] GetOwnedPackagesByEmail(string email)
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
@@ -475,46 +584,168 @@ namespace WebApplication1
         /// <summary>Looks up Packages with a matching tag.</summary>
         /// <param name="tag">The tag that should be used to look up Packages.</param>
         /// <returns>The Packages that contain the given tag.</returns>
-        public List<Package> GetPackagesByTag(string tag)
+        public static Package[] GetPackagesByTag(string tag)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            using (var client = new ServiceClient())
+            {
+                var packages = client.GetPackagesByTag(tag);
+
+                return _sessionUser.Type == UserType.admin ? packages : packages.Where(package => package.OwnerEmail.Equals(_sessionUser.Email) || HasViewRights(package.Id)).ToArray();
+            }
         }
 
         /// <summary>Adds the given Right to the service.</summary>
         /// <param name="newRight">The Right that should be created on the service.</param>
-        public void GrantRight(Right newRight)
+        public static void GrantRight(Right newRight)
         {
-            throw new NotImplementedException();
+            if(_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if(newRight == null 
+                || newRight.UserEmail == null 
+                || !(FileExists(newRight.ItemId) 
+                || PackageExists(newRight.ItemId)) 
+                || !UserExists(newRight.UserEmail))
+                throw new InadequateObjectException();
+
+            using (var client = new ServiceClient())
+            {
+                Item item = null;
+
+                if (FileExists(newRight.ItemId))
+                    item = client.GetFileInfoById(newRight.ItemId);
+
+                if (PackageExists(newRight.ItemId))
+                    item = client.GetPackageById(newRight.ItemId);
+
+                if(item == null)
+                    throw new ObjectNotFoundException();
+
+                if(_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                    && !HasEditRights(newRight.ItemId))
+                    throw new InsufficientRightsException();
+
+                client.GrantRight(newRight);
+            }
         }
 
+        /* TODO - It is noted that it should never be called by other than the controller.
+         * Do we even need a public method then?
+         * If it should only be used by the controller, it can just use client.GetRight(...) as it already does.
+         * 
         /// <summary>Looks up a Right by the email of the User and the Id of the Item involved.</summary>
         /// <param name="email">The Email of the User whom the Right concerns.</param>
         /// <param name="itemId">The Id of the Item which the Right concerns.</param>
         /// <returns>The Right with the matching email and itemId.</returns>
-        public Right GetRight(string email, int itemId)
+        private static Right GetRight(string email, int itemId)
         {
             throw new NotImplementedException();
         }
+         */
 
         /// <summary>Updates the exising right that has matching UserEmail and ItemId fields, with the rest of the fields from the given updatedRight.</summary>
         /// <param name="updatedRight">The updated Right object.</param>
-        public void UpdateRight(Right updatedRight)
+        public static void UpdateRight(Right updatedRight)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (updatedRight == null || updatedRight.UserEmail == null)
+                throw new InadequateObjectException();
+
+            using (var client = new ServiceClient())
+            {
+                Right right;
+
+                try
+                {
+                    right = client.GetRight(updatedRight.UserEmail, updatedRight.ItemId);
+                }
+                catch (Exception)
+                {
+                    throw new OriginalNotFoundException();
+                }
+
+                if(right == null)
+                    throw new OriginalNotFoundException();
+
+
+                Item item = null;
+
+                if (FileExists(updatedRight.ItemId))
+                    item = client.GetFileInfoById(updatedRight.ItemId);
+
+                if (PackageExists(updatedRight.ItemId))
+                    item = client.GetPackageById(updatedRight.ItemId);
+
+                if(item == null)
+                    throw new ObjectNotFoundException();
+
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                    && !HasEditRights(updatedRight.ItemId))
+                    throw new InsufficientRightsException();
+
+                client.UpdateRight(updatedRight);
+            }
         }
 
         /// <summary>Removes the right associated with the User with the given email address, and the Item with the given Id.</summary>
         /// <param name="email">The Email of the User whom the Right concerns.</param>
         /// <param name="itemId">The Id of the Item which the Right concerns.</param>
-        public void DropRight(string email, int itemId)
+        public static void DropRight(string email, int itemId)
         {
-            throw new NotImplementedException();
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            if (email == null)
+                throw new InadequateObjectException();
+
+            using (var client = new ServiceClient())
+            {
+                Right right;
+
+                try
+                {
+                    right = client.GetRight(email, itemId);
+                }
+                catch (Exception)
+                {
+                    throw new OriginalNotFoundException();
+                }
+
+                if (right == null)
+                    throw new OriginalNotFoundException();
+
+
+                Item item = null;
+
+                if (FileExists(itemId))
+                    item = client.GetFileInfoById(itemId);
+
+                if (PackageExists(itemId))
+                    item = client.GetPackageById(itemId);
+
+                if (item == null)
+                    throw new ObjectNotFoundException();
+
+                if (_sessionUser.Type != UserType.admin
+                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                    && !HasEditRights(itemId))
+                    throw new InsufficientRightsException();
+
+                client.DropRight(email,itemId);
+            }
         }
 
         /// <summary>Looks up Files by matching their details with a string of text.</summary>
         /// <param name="text">The text which should be contained in the Files.</param>
         /// <returns>The Files that contain the given text somewhere in their details.</returns>
-        public FileInfo[] SearchFileInfos(string text)
+        public static FileInfo[] SearchFileInfos(string text)
         {
             if (text == null)
                 throw new InadequateObjectException();
@@ -540,7 +771,7 @@ namespace WebApplication1
         /// <summary>Looks up Packages by matching their details with a string of text.</summary>
         /// <param name="text">The text which should be contained in the Files.</param>
         /// <returns>The Packages that contain the given text somewhere in their details.</returns>
-        public Package[] SearchPackages(string text)
+        public static Package[] SearchPackages(string text)
         {
             if (text == null)
                 throw new InadequateObjectException();
