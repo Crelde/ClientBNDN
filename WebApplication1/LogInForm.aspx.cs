@@ -21,12 +21,27 @@ namespace WebApplication1
                 
                 string email = EmailTextBox.Text;
                 string password = PasswordTextBox.Text;
+
+                try { 
+                    Controller.LogIn(email, password);
+                    Response.Redirect("Form.aspx"); 
+                }
+                catch (NotLoggedOutException)
+                {
+                    Controller.LogOut();
+                    //Shouldnt happen, but if it does, do something like reload page after this #Crelde
+                }
+                catch (NoSuchUserException)
+                {
+                    // Tell the user that the username doesnt exist. #Crelde
+                }
+                catch (IncorrectPasswordException)
+                {
+                    // Tell the user that the username and the password doesnt match. #Crelde
+                }
+
                 
-               
-                // Make this ---v
-                // Controller.login(email, password);
                 
-                Response.Redirect("Form.aspx"); // If accepted user
             }
         }
 
