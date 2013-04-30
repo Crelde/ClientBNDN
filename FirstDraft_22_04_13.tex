@@ -302,17 +302,18 @@ Many of these calls will involve what we refer to as our ‘entity classes/objec
 
 \subsection{Entity-Framework}
 Because of some incompatibilities between WCF (Windows Communication Foundation) and the classes we wrote for use with EF (the Entity Framework), we have introduced two sets of classes.\\
-The Data Contract classes are intended to be used when interacting with the service, while the  Entity classes will only be used during interaction between the service and the underlying database. In order to translate between e.g. an Entity user and a Data Contract user, we have introduced explicit conversion operators in our Entity classes, which then allow us to easily convert an entity class to its corresponding datacontract class, and vice versa. We have decided to put the conversion operators in the Entity classes, and not the Data Contract classes, in order to prevent exposing them to clients, since they won’t have any use outside the service. \\
+The Data Contract classes are intended to be used when interacting with the service, while the  Entity classes will only be used during interaction between the service and the underlying database. In order to translate between e.g. an Entity user and a Data Contract user, we have introduced explicit conversion operators in our Entity classes, which then allow us to easily convert an entity class to its corresponding datacontract class, and vice versa. We have decided to put the conversion operators in the Entity classes, and not the Data Contract classes, in order to prevent exposing them to clients, since they won't have any use outside the service. \\
 By using this structure, it allow us to utilize the features of EF in our Entity classes, without any compromises, and also reduce bandwidth usage by keeping our Data Contract classes more lightweight.
 
 \subsection{Test Strategy}
-TO BE WRITTEN
-
+Before coding our program, we made a strategy for testing the system. We decided to use Code Contracts and Pex - a tool to generate unit tests from contracts. As we made the server, we wrote contracts to each method. Unfortunately, when we wanted to test the code, we discovered that Pex was only available to Visual Studio 2010 and not 2012, which we were using.  We thought we could install Visual Studio 2010 and use it to run Pex on our code, but our program file wasn't compatible, since it was written in 2012, and could therefor not be opened. \\
+Our server was instead tested by our Singaporean team. s
+ 
 \newpage
 
 \section{Client}
 this will be about client etc
-\subsection{Platform cinsiderations}
+\subsection{Platform considerations}
 After the SMU-ITU collaboration ended, we had to decide on what technology our client implementation would make use of. Our requirements for the client, our previous experience in development in different platforms, and the state of the web service were the most influential factors in our choice of platform for our client implementation.\\
 We had a discussion about details of the client, and agreed on the service’ current state not being as complete as we wanted it to be. Some functionalities were missing, and we decided to make up for it in the client. This decision increased the amount of work to do in the client, and we therefore chose to limit our choice of platform to the ones we had previous experience with. If we had chosen a platform none of the group members had previous experience with, it would grant the benefit of learning a new one altogether, but we felt it was more important to ensure the quality of the client.\\
 Another decision we had to make was between having a client as an application that ran locally on the users computer, or keeping it as a web application. A local client would require a download before use, and keeping it updated would be harder. If some users were running old versions, we would have to decide on legacy support as well. In relation to the requirements of the client, there were no significant advantages on having the client run locally on the user machine.\\
