@@ -40,6 +40,33 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.Button CreatePackageModal1;
         
         /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
+        
+        /// <summary>
+        /// FancyNameShow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox FancyNameShow;
+        
+        /// <summary>
+        /// FancyEmailShow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox FancyEmailShow;
+        
+        /// <summary>
         /// ChooseAPackageLabel control.
         /// </summary>
         /// <remarks>
@@ -85,21 +112,21 @@ namespace WebApplication1 {
         protected global::System.Web.UI.WebControls.Button UploadFileButton;
         
         /// <summary>
-        /// txtName control.
+        /// FancyName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtName;
+        protected global::System.Web.UI.WebControls.HiddenField FancyName;
         
         /// <summary>
-        /// TextBox1 control.
+        /// FancyEmail control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.HiddenField FancyEmail;
     }
 }

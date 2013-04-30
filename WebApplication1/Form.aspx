@@ -11,17 +11,6 @@
 
     <script src="Scripts/jquery-2.0.0.min.js"></script>
     <script src="Scripts/jquery-ui-1.10.2.custom.min.js"></script>
-    <style type="text/css">
-        #UploadFileForm {
-            width: 748px;
-            height: 25px;
-            margin-top: 9px;
-        }
-        #form1 {
-            height: 899px;
-            width: 1849px;
-        }
-    </style>
 </head>
 <body>
     
@@ -30,11 +19,17 @@
             <asp:Button ID="ChangeUserButton" runat="server" Text="Log Out" OnClick="ChangeUserButton_Click" Height="32px" style="margin-left: 240px" Width="116px" />
         </div>
         <div class="leftCol">
-            <asp:Button ID="CreatePackageModal1" runat="server" Text="testmodalserver"  Height="32px" style="margin-left: 240px" Width="116px" />
+            <asp:Button ID="CreatePackageModal1" runat="server" Text="Fancy PopUp"  Height="32px" style="margin-left: 72px" Width="112px" />
+                        <asp:Button ID="Button1" runat="server" Text="update!" onclick="SubmitASP_Click" Height="32px" style="margin-left: 72px" Width="112px"/>
+            <br />
+            <br />
+            <asp:TextBox ID="FancyNameShow" runat="server" style="margin-left: 52px"></asp:TextBox>
+            <asp:TextBox ID="FancyEmailShow" runat="server" style="margin-left: 52px"></asp:TextBox>
+            <br />
+             <br />
             <input id="CreatePackageModal" type="button" value="Create Package" />
             <br />
-            <input id="UploadFileModal" type="button" value="Upload File" />
-            <br />
+            &nbsp;<br />
             <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Large" Text="These are the packages you have the rights to"></asp:Label>
             <br />
             <asp:DropDownList ID="DropDownList1" runat="server" Height="27px" style="margin-left: 101px; margin-top: 22px" Width="141px">
@@ -46,40 +41,54 @@
              &nbsp;<asp:FileUpload ID="FileUpload1" runat="server" Height="27px" Width="397px" />
             <asp:Button ID="UploadFileButton" runat="server" Text="Upload File!"  Height="25px" Width="141px" style="margin-left: 75px" OnClick="UploadFileButton_Click" />
      </div>
-
+        <asp:HiddenField ID="FancyName" runat="server" />
+        <asp:HiddenField ID="FancyEmail" runat="server" />
      <script>
-         $(document).ready(function() {
-             $('#CreatePackageModal').click(function() {
-                 $('#dialog-form').dialog({
-                     modal: true,
-                     buttons: {
-                         "Submit": function() { $(this).dialog("close"); },
-                         "Cancel": function() { $(this).dialog("close"); }
-                     },
-                      
-                 }).parent().appendTo("form1");;
-             })});
 
+         jQuery(document).ready(function () {
+             $('#<%=CreatePackageModal1.ClientID%>').click(function () {
+                 var dlg = $('#dialog-form').dialog({
+                     modal: true,
+                     height: 500,
+                     width: 600,
+                     resizable: false,
+                     show: 'fold',
+                     hide: 'fold',
+                     open: function (type, data) {
+                         $(this).parent().appendTo("form1");
+                     }
+                 });
+                 dlg.parent().appendTo("form1");
+                 return false;
+             });
+         });
+         function dialogclose() {
+                 $('#dialog-form').dialog('close');
+             }
+
+         function saveVariables(){
+             var name =  $("#txtName").val();
+             document.getElementById('FancyName').value = name;
+             var email = $("#txtEmail").val();
+             document.getElementById('FancyEmail').value = email;
+             dialogclose();
+             };
     </script>
 
 <div id="dialog-form" style="display:none"; title="Upload a new File">
     Please fill in all the fields!
     <table>
         <tr>
-            <td>
-                Name
-            <td>
-                <asp:TextBox ID="txtName" runat="server" />
-            </td>
-            </td>
+            <td> Name
+                <input id="txtName" type="text" />
+                </td>
+         
         </tr>
 
                 <tr>
-            <td>
-                Email
-                <td>
-                <asp:TextBox ID="TextBox1" runat="server" />
-                    </td>
+            <td> Email
+             <input id="txtEmail" type="text" />
+             <input id="Submit" type="submit" value="Submit" onclick="saveVariables()"/>
             </td>
         </tr>           
     </table>

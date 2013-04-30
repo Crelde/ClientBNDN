@@ -58,6 +58,12 @@ namespace WebApplication1
             }
 
         }
+
+        protected void SubmitASP_Click(object sender, EventArgs e)
+        {
+            FancyNameShow.Text = FancyName.Value;
+            FancyEmailShow.Text = FancyEmail.Value;
+        }
        
 
     }
