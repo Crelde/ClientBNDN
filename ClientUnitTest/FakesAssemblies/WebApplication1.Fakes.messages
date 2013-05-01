@@ -1,0 +1,8 @@
+C:\git\ClientBNDN\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate stub for WebApplication1.ServiceReference1.UserType: type is a value type.
+C:\git\ClientBNDN\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate stub for WebApplication1.ServiceReference1.FileType: type is a value type.
+C:\git\ClientBNDN\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate stub for WebApplication1.ServiceReference1.RightType: type is a value type.
+C:\git\ClientBNDN\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.UserType: type is an enum.
+C:\git\ClientBNDN\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.FileType: type is an enum.
+C:\git\ClientBNDN\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.RightType: type is an enum.
+C:\git\ClientBNDN\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.IService: type is an interface.
+C:\git\ClientBNDN\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.IServiceChannel: type is an interface.
