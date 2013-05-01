@@ -1,0 +1,9 @@
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\b\WebApplication1.Fakes.xml
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\b\WebApplication1.Fakes.dll
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\b\WebApplication1.Fakes.pdb
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\b\Microsoft.QualityTools.Testing.Fakes.dll
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\b\WebApplication1.dll
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\b\WebApplication1.pdb
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\o\f.csprojResolveAssemblyReference.cache
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\o\WebApplication1.Fakes.dll
+C:\git\ClientBNDN\ClientUnitTest\obj\Debug\Fakes\wa1\o\WebApplication1.Fakes.pdb

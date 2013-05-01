@@ -8,3 +8,8 @@ C:\ClientBNDN\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyRef
 C:\ClientBNDN\WebApplication1\obj\Debug\WebApplication1.dll
 C:\ClientBNDN\WebApplication1\obj\Debug\WebApplication1.pdb
 C:\Users\Christian\documents\visual studio 2012\Projects\Client\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyReference.cache
+C:\git\ClientBNDN\WebApplication1\bin\WebApplication1.dll
+C:\git\ClientBNDN\WebApplication1\bin\WebApplication1.pdb
+C:\git\ClientBNDN\WebApplication1\obj\Debug\WebApplication1.csprojResolveAssemblyReference.cache
+C:\git\ClientBNDN\WebApplication1\obj\Debug\WebApplication1.dll
+C:\git\ClientBNDN\WebApplication1\obj\Debug\WebApplication1.pdb
