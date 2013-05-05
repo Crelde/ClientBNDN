@@ -1,5 +1,0 @@
-C:\Users\Christian\Documents\Visual Studio 2012\Projects\Client\WebApplication1\bin\WebApplication1.dll
-C:\Users\Christian\Documents\Visual Studio 2012\Projects\Client\WebApplication1\bin\WebApplication1.pdb
-C:\Users\Christian\Documents\Visual Studio 2012\Projects\Client\WebApplication1\obj\Release\WebApplication1.dll
-C:\Users\Christian\Documents\Visual Studio 2012\Projects\Client\WebApplication1\obj\Release\WebApplication1.pdb
-C:\Users\Christian\Documents\Visual Studio 2012\Projects\Client\WebApplication1\obj\Release\WebApplication1.csprojResolveAssemblyReference.cache

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2013.4.23)  23 APR 2013 11:55
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (MiKTeX 2.9) (preloaded format=pdflatex 2013.4.23)  30 APR 2013 14:34
 entering extended mode
 **FirstDraft_22_04_13.tex
 
@@ -549,7 +549,8 @@ Package: amsthm 2004/08/06 v2.20
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\amssymb.sty"
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
 )
-No file FirstDraft_22_04_13.aux.
+(C:\Users\Helena\Documents\GitHub\ITU_SMU_Collaboration\ClientBNDN\FirstDraft_2
+2_04_13.aux)
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 45.
 LaTeX Font Info:    ... okay on input line 45.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 45.
@@ -565,7 +566,7 @@ LaTeX Font Info:    ... okay on input line 45.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 45.
 LaTeX Font Info:    ... okay on input line 45.
 \AtBeginShipoutBox=\box28
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\color.sty"
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\graphics\color.sty"
 Package: color 2005/11/14 v1.0j Standard LaTeX Color (DPC)
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\00miktex\color.cfg"
@@ -586,9 +587,13 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 LaTeX Info: Redefining \ref on input line 45.
 LaTeX Info: Redefining \pageref on input line 45.
 LaTeX Info: Redefining \nameref on input line 45.
-\@outlinefile=\write3
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
+(C:\Users\Helena\Documents\GitHub\ITU_SMU_Collaboration\ClientBNDN\FirstDraft_2
+2_04_13.out)
+(C:\Users\Helena\Documents\GitHub\ITU_SMU_Collaboration\ClientBNDN\FirstDraft_2
+2_04_13.out)
+\@outlinefile=\write3
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count118
 \scratchdimen=\dimen135
@@ -656,6 +661,23 @@ Package microtype Info: Loading generic settings for font family
  [1
 
 {C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
+(C:\Users\Helena\Documents\GitHub\ITU_SMU_Collaboration\ClientBNDN\FirstDraft_2
+2_04_13.toc
+LaTeX Font Info:    Try loading font information for U+msa on input line 6.
+ ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\microtype\mt-msa.cfg"
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 6.
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\microtype\mt-msb.cfg"
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+))
 \tf@toc=\write4
  [3]
 Underfull \hbox (badness 10000) in paragraph at lines 77--87
@@ -682,10 +704,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 77--87
 
  []
 
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd")
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\microtype\mt-msa.cfg")
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd")
-("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\microtype\mt-msb.cfg")
+
 Overfull \hbox (66.50131pt too wide) in paragraph at lines 104--105
 [][] 
  []
@@ -765,33 +784,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 255--272
  []
 
 [9] [10] [11] [12] [13]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 338.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 339.
  [14] [15]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 338.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 339.
 
 (C:\Users\Helena\Documents\GitHub\ITU_SMU_Collaboration\ClientBNDN\FirstDraft_2
 2_04_13.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 338.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 338.
-
-
-Package rerunfilecheck Warning: File `FirstDraft_22_04_13.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `FirstDraft_22_04_13.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  1A51EFCD7C766CC5DD10129F0E44987C;1685.
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 338.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 339.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 339.
+Package rerunfilecheck Info: File `FirstDraft_22_04_13.out' has not changed.
+(rerunfilecheck)             Checksum: 341A94779C69634094C783E2C73D29EE;1685.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 339.
  ) 
 Here is how much of TeX's memory you used:
- 8511 strings out of 493921
- 124873 string characters out of 3144873
- 262565 words of memory out of 3000000
- 11583 multiletter control sequences out of 15000+200000
+ 8547 strings out of 493921
+ 125973 string characters out of 3144873
+ 262722 words of memory out of 3000000
+ 11611 multiletter control sequences out of 15000+200000
  9917 words of font info for 70 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  30i,8n,35p,2430b,407s stack positions out of 5000i,500n,10000p,200000b,50000s
@@ -802,9 +811,9 @@ Here is how much of TeX's memory you used:
 ogram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Progr
 am Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program
  Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on FirstDraft_22_04_13.pdf (15 pages, 139779 bytes).
+Output written on FirstDraft_22_04_13.pdf (15 pages, 155674 bytes).
 PDF statistics:
- 137 PDF objects out of 1000 (max. 8388607)
+ 246 PDF objects out of 1000 (max. 8388607)
  45 named destinations out of 1000 (max. 500000)
- 9217 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 9433 words of extra memory for PDF output out of 10000 (max. 10000000)
 
