@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Form.aspx.cs" Inherits="WebApplication1.Form" %>
 
-<!DOCTYPE html>
+<!DOCTYPE XHTML5>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -40,6 +40,27 @@
             <br />
              &nbsp;<asp:FileUpload ID="FileUpload1" runat="server" Height="27px" Width="397px" />
             <asp:Button ID="UploadFileButton" runat="server" Text="Upload File!"  Height="25px" Width="141px" style="margin-left: 75px" OnClick="UploadFileButton_Click" />
+
+            <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="953px">
+                <AlternatingItemStyle BackColor="#CCCCCC" />
+                <FooterStyle BackColor="#CCCCCC" />
+                <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+            <ItemTemplate>
+                <h2>
+                    <%# DataBinder.Eval(Container.DataItem, "Name") %> <br />
+                    <%# DataBinder.Eval(Container.DataItem, "Description") %> <br />
+                    <%# DataBinder.Eval(Container.DataItem, "OwnerEmail") %><br />
+                    <%# DataBinder.Eval(Container.DataItem, "Date") %><br />
+                    <asp:Button ID="downloadItem" runat="server" Text="Download" Height="32px" Width="112px" CommandName="Download" OnCommand="download" /><br />
+                    <asp:Button ID="deleteItem" runat="server" Text="Delete" Height="32px" Width="112px" CommandName="Delete" OnCommand="delete" />
+                </h2>
+                
+            </ItemTemplate>
+                <SelectedItemStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
+            </asp:DataList>
+
+            
+
      </div>
         <asp:HiddenField ID="FancyName" runat="server" />
         <asp:HiddenField ID="FancyEmail" runat="server" />
@@ -77,6 +98,7 @@
 
 <div id="dialog-form" style="display:none"; title="Upload a new File">
     Please fill in all the fields!
+     
     <table>
         <tr>
             <td> Name
@@ -92,12 +114,13 @@
             </td>
         </tr>           
     </table>
+    </div>
             </form>
     <form>
 
     </form>
     
      <br /><br />
-    </div> 
+    
     </body>
 </html>
