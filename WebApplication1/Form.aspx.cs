@@ -20,12 +20,48 @@ namespace WebApplication1
                 DropDownList1.Items.Add("Crelde");
                 DropDownList1.Items.Add("Er");
                 DropDownList1.Items.Add("Sej");
+                fixSource();
 
             }
 
         }
+        protected void fixSource()
+        {
 
-        
+            List<ServiceReference1.FileInfo> myList = new List<ServiceReference1.FileInfo>();
+            ServiceReference1.FileInfo f = new ServiceReference1.FileInfo();
+            f.Description = "test fileinfo";
+            f.Name = "Name of f";
+            f.OwnerEmail = "crelde@crelde.crelde";
+            f.Type = ServiceReference1.FileType.text;
+            f.Date = DateTime.Now;
+            myList.Add(f);
+
+            ServiceReference1.FileInfo f1 = new ServiceReference1.FileInfo();
+            f1.Description = "test fileinfo222";
+            f1.Name = "Name of f222";
+            f1.OwnerEmail = "crelde@crelde.crelde222";
+            f1.Type = ServiceReference1.FileType.text;
+            f1.Date = DateTime.Now;
+            myList.Add(f1);
+
+                DataList1.DataSource = myList;
+                DataList1.DataBind();
+        }
+
+        protected void download(object sender, EventArgs e)
+        {
+            
+
+        }
+
+        protected void delete(object sender, EventArgs e)
+        {
+
+        }
+
+
+
 
         protected void ChangeUserButton_Click(object sender, EventArgs e)
         {

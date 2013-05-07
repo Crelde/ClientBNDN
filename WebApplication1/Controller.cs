@@ -192,12 +192,13 @@ namespace WebApplication1
         /// <exception cref="ObjectNotFoundException">Thrown if the requested object could not be retrieved.</exception>
         public static FileInfo GetFileInfoById(int fileId)
         {
+            
             if (_sessionUser == null)
                 throw new NotLoggedInException();
 
             if (!FileExists(fileId))
                 throw new ObjectNotFoundException();
-
+            
             using (var client = new ServiceClient())
             {
                 var info = client.GetFileInfoById(fileId);
