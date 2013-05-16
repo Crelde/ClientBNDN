@@ -79,8 +79,68 @@ namespace ClientUnitTest
 
             Controller.LogOut();
         }
-        
 
-        
-    }
+
+        [TestMethod]
+        public void CreateUserTest()
+        {
+            User testuserA = new User();
+            testuserA.Email = "c@b.com";
+            testuserA.Password = "101";
+            testuserA.Type = UserType.admin;
+
+            User testuserS = new User();
+            testuserS.Email = "x@s.com";
+            testuserS.Password = "ps1";
+            testuserS.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuserA;
+                
+                Controller.LogIn("c@b.com","101");
+                Controller.CreateUser(testuserS);
+            }
+
+            Controller.LogOut();
+        }
+
+
+        [TestMethod]
+        public void StandardCreateUser()
+        {
+            User testuserS1 = new User();
+            User testuser = new User();
+
+            testuserS1.Email = "k@b.com";
+            testuserS1.Password = "201";
+            testuserS1.Type = UserType.standard;
+
+            testuser.Email = "p@s.com";
+            testuser.Password = "199";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuserS1;
+
+                Controller.LogIn("k@b.com", "201");
+
+                try
+                {
+                    Controller.CreateUser(testuser); //this should fail
+                
+                } catch(Exception e)
+                {
+                    //User not created. All is good.
+                }
+            }
+
+            Controller.LogOut();
+        }
+
+
+
+
+     }
 }
