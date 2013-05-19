@@ -28,6 +28,20 @@ namespace ClientUnitTest
                 ShimClientBase<WebApplication1.ServiceReference1.IService>.
                 AllInstances.Close = (a) => { };
         }
+
+        [TestCleanup]
+        public void afterEach()
+        {
+            // Making sure that the controller is reset after each test
+            try
+            {
+                Controller.LogOut();
+            }
+            catch (Exception)
+            {
+                // oh well, no user wasn't logged in
+            }
+        }
         
         [TestMethod]
         public void LoginTest()
@@ -97,12 +111,13 @@ namespace ClientUnitTest
             using (ShimsContext.Create())
             {
                 ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuserA;
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
                 
                 Controller.LogIn("c@b.com","101");
                 Controller.CreateUser(testuserS);
             }
 
-            Controller.LogOut();
+            //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
         }
 
 
@@ -136,7 +151,7 @@ namespace ClientUnitTest
                 }
             }
 
-            Controller.LogOut();
+          //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
         }
 
 
