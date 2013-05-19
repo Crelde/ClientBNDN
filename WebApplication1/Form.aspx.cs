@@ -31,8 +31,13 @@ namespace WebApplication1
                     DropDownList1.Items.Add("Crelde");
                     DropDownList1.Items.Add("Er");
                     DropDownList1.Items.Add("Sej");
+                
                     fixSource();
-                }
+
+                    InteractivePanelFiles.CssClass = "rightCol";
+                    InteractivePanelOther.CssClass ="rightCol";
+                    
+                }     
 
            //}
 
@@ -90,14 +95,6 @@ namespace WebApplication1
             }
         }
 
-        protected void delete(object sender, EventArgs e)
-        {
-
-        }
-
-
-
-
         protected void ChangeUserButton_Click(object sender, EventArgs e)
         {
             try { Controller.LogOut(); }
@@ -136,6 +133,23 @@ namespace WebApplication1
         {
            
         }
+        
+        protected void test_click(object sender, EventArgs e)
+        {
+            if (InteractivePanelFiles.Visible == true)
+            {
+                InteractivePanelFiles.Visible = false;
+                InteractivePanelOther.Visible = true;
+            }
+            else
+            {
+                InteractivePanelFiles.Visible = true;
+                InteractivePanelOther.Visible = false;
+                
+            }
+            //Response.Write(@"<script language='javascript'>alert('error');</script>");
+            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('Some text here - maybe ex.Message');", true);
+        }
 
         protected void finalUpload_Click(object sender, EventArgs e)
         {
@@ -147,13 +161,19 @@ namespace WebApplication1
                 {
                     byte[] filebytes = FileUpload1.FileBytes;
                     string desc = Description.Value;
-                    string filename = FileName.Value;
-                    string email = Email.Value;
+                    string origin = Origin.Value;                  
 
                     //Check if everything is fine, and upload the file.
                 }
             }
 
+        }
+
+        protected void adminButton_Click(object sender, EventArgs e)
+        {
+            InteractivePanelFiles.Visible = false;
+            InteractivePanelOther.Visible = false;
+            InteractivePanelAdmin.Visible = true;
         }
        
 
