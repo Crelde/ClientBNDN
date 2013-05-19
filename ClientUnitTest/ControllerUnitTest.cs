@@ -94,6 +94,19 @@ namespace ClientUnitTest
             Controller.LogOut();
         }
 
+        [TestMethod]
+        public void TestCreateUser()
+        {
+
+            using (ShimsContext.Create())
+            {
+         //       ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
+
+                Controller.CreateUser(new User());
+            }
+
+        }
+        
 
         [TestMethod]
         public void CreateUserTest()
