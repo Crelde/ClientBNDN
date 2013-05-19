@@ -16,7 +16,7 @@ namespace WebApplication1
         /// This object is stored in the following private field until
         /// LogOut is called.
         /// </summary>
-        private static User _sessionUser;
+        public static User _sessionUser;
 
         /// <summary>Attempts to log in as the User that identifies itself with the given email and password.</summary>
         /// <param name="email">The email that identifies the user.</param>
@@ -439,7 +439,7 @@ namespace WebApplication1
                 || newPackage.Name == null
                 || newPackage.Name.Length < 3
                 || newPackage.FileIds == null
-                || newPackage.FileIds.All(FileExists)
+                || !newPackage.FileIds.All(FileExists)
                 )
                 throw new InadequateObjectException();
 
@@ -582,6 +582,12 @@ namespace WebApplication1
                     throw new ObjectNotFoundException();
                 }
             }
+        }
+
+        //KEWIN HJÆLPE FUNKTION
+        public static Package[] kewinhalp()
+        {
+            return GetOwnedPackagesByEmail(_sessionUser.Email);
         }
 
         /// <summary>Looks up Packages with a matching tag.</summary>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.IO;
 
 namespace WebApplication1
 {
@@ -11,7 +12,10 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            try { Controller.LogOut(); }
+            catch (NotLoggedInException) { } // Expected.
 
+        
         }
 
         protected void LogInButton_Click(object sender, EventArgs e)
@@ -28,16 +32,17 @@ namespace WebApplication1
                 }
                 catch (NotLoggedOutException)
                 {
-                    Controller.LogOut();
-                    //Shouldnt happen, but if it does, do something like reload page after this #Crelde
+                    Response.Redirect("LogInForm.aspx");
+                    // Shouldn't happen, as the page logs the user out when it loads, but if it does, reload page.
+                     
                 }
                 catch (NoSuchUserException)
                 {
-                    // Tell the user that the username doesnt exist. #Crelde
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('No user exists with that email.');", true);
                 }
                 catch (IncorrectPasswordException)
                 {
-                    // Tell the user that the username and the password doesnt match. #Crelde
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('The password does not match the email.');", true);
                 }
 
                 
