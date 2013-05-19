@@ -226,14 +226,14 @@
         <member name="P:WebApplication1.Fakes.ShimForm.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.deleteObjectEventArgs">
-            <summary>Sets the shim of Form.delete(Object sender, EventArgs e)</summary>
-        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.fixSource">
             <summary>Sets the shim of Form.fixSource()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.test_clickObjectEventArgs">
+            <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
         </member>
         <member name="T:WebApplication1.Fakes.ShimForm.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -253,14 +253,14 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.deleteObjectEventArgs">
-            <summary>Sets the shim of Form.delete(Object sender, EventArgs e)</summary>
-        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSource">
             <summary>Sets the shim of Form.fixSource()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.test_clickObjectEventArgs">
+            <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
         </member>
         <member name="T:WebApplication1.Fakes.ShimInadequateObjectException">
             <summary>Shim type of WebApplication1.InadequateObjectException</summary>
