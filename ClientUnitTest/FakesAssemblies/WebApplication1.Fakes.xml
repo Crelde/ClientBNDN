@@ -28,6 +28,9 @@
         <member name="P:WebApplication1.Fakes.ShimController.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimController.CollectPackages">
+            <summary>Sets the shim of Controller.CollectPackages()</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimController.Constructor">
             <summary>Sets the shim of Controller.Controller()</summary>
         </member>
