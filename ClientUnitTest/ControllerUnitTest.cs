@@ -94,7 +94,7 @@ namespace ClientUnitTest
             Controller.LogOut();
         }
 
-
+        //check if admin can make new users
         [TestMethod]
         public void CreateUserTest()
         {
@@ -120,7 +120,7 @@ namespace ClientUnitTest
             //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
         }
 
-
+        //check if regular users are denied making new users
         [TestMethod]
         public void StandardCreateUser()
         {
@@ -155,6 +155,7 @@ namespace ClientUnitTest
             //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
         }
 
+        // check if admin can delete users
         [TestMethod]
         public void deletingUser()
         {
@@ -176,7 +177,6 @@ namespace ClientUnitTest
                 };
                 ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
                 ShimServiceClient.AllInstances.DeleteUserByEmailString = (a, b) => { };
-
                 Controller.LogIn("ta@ta.com", "ta123");
 
                 try
@@ -189,12 +189,10 @@ namespace ClientUnitTest
                 }
 
                 Controller.DeleteUserByEmail("p@s.com");
-
             }
-
         }
 
-
+        //check to see if authorization fails after you log out
         [TestMethod]
         public void authorizationFail()
         {
@@ -227,6 +225,7 @@ namespace ClientUnitTest
             }
         }
 
+        //check if other accounts are denied access to edit stranger accounts
         [TestMethod]
         public void authorizationFail2()
         {
@@ -256,9 +255,60 @@ namespace ClientUnitTest
             }
         }
 
+        //check to see if logging in keeps you logged in
         [TestMethod]
-        public void ()
+        public void sessioning1()
         {
+            User test = new User();
+            test.Email = "au@au.com";
+            test.Password = "test";
+            test.Type = UserType.admin;
+            Package p = new Package();
+            p.Id = 1001;
+            p.Name = "p1001";
+            p.OwnerEmail = "au@au.com";
+            p.FileIds = new int[] {092};
+            FileInfo fi = new FileInfo();
+            fi.Id = 092;
+            fi.Name = "testItem";
+            fi.OwnerEmail = "au@au.com";
+            fi.Type = FileType.text;
+            FileInfo fiu = new FileInfo();
+            fiu.Id = 092;
+            fiu.Name = "UpdatedtestItem";
+            fiu.OwnerEmail = "au@au.com";
+            fiu.Type = FileType.text;
+            Right r = new Right();
+            r.ItemId = 092;
+            r.Type = RightType.edit;
+            r.Until = DateTime.Now.AddDays(1);
+            r.UserEmail = "au@au.com";
+                 
+          
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => test;
+                ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => {return 1;};
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => {return p;}; 
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => {}; 
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => {return fi;};
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => {return r;};
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+
+                Controller.LogIn("au@au.com", "test");
+                Controller.CreatePackage(p);
+                Controller.AddToPackage(new int[]{092},1001);              
+                Controller.AddTag("tag1", 092);
+                Controller.DeleteFileById(092);
+                try
+                {
+                    Controller.UpdateFileInfo(fiu);
+                } catch(OriginalNotFoundException e){
+                    //This should be thrown
+                }
+            }
         }
     }
 }
