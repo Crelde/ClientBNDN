@@ -34,7 +34,7 @@
             &nbsp;<br />
             <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Large" Text="These are the packages you have the rights to"></asp:Label>
             <br />
-            <asp:DropDownList ID="DropDownList1" runat="server" Height="27px" style="margin-left: 1px; margin-top: 22px" Width="141px">
+            <asp:DropDownList ID="DropDownList1" runat="server" Height="27px" style="margin-left: 1px; margin-top: 22px" Width="141px" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
             </asp:DropDownList>
              <br />
              <asp:Button ID="adminButton" runat="server" style="margin-left: 31px" Text="Admin Controls" OnClick="adminButton_Click" />

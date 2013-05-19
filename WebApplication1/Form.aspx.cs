@@ -11,23 +11,31 @@ namespace WebApplication1
 {
     public partial class Form : System.Web.UI.Page
     {
+        //bool updateTime = true;
         protected void Page_Load(object sender, EventArgs e)
         {
-
+                
 
             // Here is a good place to add which packages should be able to be seen to the dropdown.
             if (!IsPostBack)
             {
                 using (var serv = new ServiceReference1.ServiceClient())
                 {
-                    
-                    ServiceReference1.Package[] l = Controller.kewinhalp();
-                    foreach (ServiceReference1.Package p in l)
-                    {
-                        DropDownList1.Items.Add(p.Id.ToString());
-                    }
+                 
+
+
+                        ServiceReference1.Package[] l = Controller.kewinhalp();
+                        foreach (ServiceReference1.Package p in l)
+                        {
+                            DropDownList1.Items.Add(p.Id.ToString());
+                        }
+                        fixSource();
+                        //DropDownList1.Items.Add("");
+                        //DropDownList1.Items.Add("");
+
                      
                 }
+
                 /*
                 
                 {
@@ -36,16 +44,13 @@ namespace WebApplication1
                     List<ServiceReference1.Package> l = new List<ServiceReference1.Package>(YOUR LIST);
                     
                     */
-                DropDownList1.Items.Add("Crelde");
-                DropDownList1.Items.Add("Er");
-                DropDownList1.Items.Add("Sej");
-                
-                fixSource();
+
 
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass ="rightCol";
                     
             }
+                
 
             //}
 
@@ -53,14 +58,15 @@ namespace WebApplication1
         protected void fixSource()
         {
            // var fi = Controller.GetOwnedFileInfosByEmail(Controller._sessionUser.Email);
-            ServiceReference1.Package p = Controller.GetPackageById(int.Parse(""+DropDownList1.Items[0]));
+            ServiceReference1.Package p = Controller.GetPackageById(int.Parse(""+DropDownList1.SelectedValue));
             List<ServiceReference1.FileInfo> myList = new List<ServiceReference1.FileInfo>();
 
             foreach (int s in p.FileIds)
             {
-
                 myList.Add(Controller.GetFileInfoById(s));
             }
+
+
 
 
             //ServiceReference1.FileInfo f = new ServiceReference1.FileInfo();
@@ -110,9 +116,11 @@ namespace WebApplication1
 
                     Response.BinaryWrite(file);
                     Response.Flush();
-                    */
+                    
+
                     File.wr
                     File.WriteAllBytes("mor.jpg", file);
+                    */
                 }
                 catch (NotLoggedInException)
                 {
@@ -122,11 +130,6 @@ namespace WebApplication1
                 {
                     Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('An error has occured, try reloading the page.');", true);
                 }
-
-               
-
-
-
 
                 // Call downloadfilebyID
                 string s = "download was pressed";
@@ -273,6 +276,11 @@ namespace WebApplication1
                 // A user does not exist with that email, communicate to user.
             }
 
+        }
+
+        protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            fixSource();
         }
 
 
