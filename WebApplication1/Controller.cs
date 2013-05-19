@@ -442,6 +442,9 @@ namespace WebApplication1
                 )
                 throw new InadequateObjectException();
 
+            if (newPackage.FileIds.Any(fileId => !HasEditRights(fileId) && !IsOwnerOf(fileId)))
+                throw new InsufficientRightsException();
+
             using (var client = new ServiceClient())
             {
                 // NOTE - OwnerEmail field is force-set to the _sessionUser's Email.
@@ -479,9 +482,6 @@ namespace WebApplication1
         /// <param name="packageId">The Id of the Package to which the Files should be added.</param>
         public static void AddToPackage(int[] fileIds, int packageId)
         {
-            // TODO - What about rights to the Files that are added?
-            // Should I be allowed to add a File to which I don't have editing rights?
-
             if (_sessionUser == null)
                 throw new NotLoggedInException();
 
@@ -497,7 +497,8 @@ namespace WebApplication1
 
                 if (_sessionUser.Type != UserType.admin
                     && !_sessionUser.Email.Equals(package.OwnerEmail)
-                    && !HasEditRights(packageId))
+                    && !HasEditRights(packageId)
+                    || fileIds.Any(fileId => !HasEditRights(fileId) && !IsOwnerOf(fileId)))
                     throw new InsufficientRightsException();
 
                 client.AddToPackage(fileIds, packageId);
@@ -760,7 +761,7 @@ namespace WebApplication1
                     if (infos == null)
                         throw new ObjectNotFoundException();
 
-                    return infos;
+                    return infos.Where<FileInfo>(info => HasViewRights(info.Id) || IsOwnerOf(info.Id)).ToArray<FileInfo>();
                 }
                 catch (Exception)
                 {
@@ -786,7 +787,7 @@ namespace WebApplication1
                     if (packages == null)
                         throw new ObjectNotFoundException();
 
-                    return packages;
+                    return packages.Where<Package>(package => HasViewRights(package.Id) || IsOwnerOf(package.Id)).ToArray<Package>();
                 }
                 catch (Exception)
                 {
@@ -806,7 +807,7 @@ namespace WebApplication1
         /// </summary>
         /// <param name="itemId">The id of the Item in question.</param>
         /// <returns>True of the current user can view the item, false if not.</returns>
-        private static bool HasViewRights(int itemId)
+        public static bool HasViewRights(int itemId)
         {
             using (var client = new ServiceClient())
             {
@@ -826,7 +827,7 @@ namespace WebApplication1
         /// </summary>
         /// <param name="itemId">The id of the Item in question.</param>
         /// <returns>True of the current user can edit the item, false if not.</returns>
-        private static bool HasEditRights(int itemId)
+        public static bool HasEditRights(int itemId)
         {
             using (var client = new ServiceClient())
             {
@@ -835,6 +836,16 @@ namespace WebApplication1
                 // Users can thus regain rights that have run out, by changing their clocks.
                 return right != null && right.Type == RightType.edit && (right.Until == null || DateTime.Compare(right.Until.Value, DateTime.Now) > 0);
             }
+        }
+
+        /// <summary>Checks whether the current user is the owner of the item with the specified Id.</summary>
+        /// <param name="itemId">The Id of the item in question.</param>
+        /// <returns>True if the user owns the item, false if not.</returns>
+        public static bool IsOwnerOf(int itemId)
+        {
+            System.Collections.Generic.List<Item> items = new System.Collections.Generic.List<Item>(GetOwnedFileInfosByEmail(_sessionUser.Email));
+            items.AddRange(GetOwnedPackagesByEmail(_sessionUser.Email));
+            return items.Any<Item>(item => item.Id == itemId);
         }
 
         /// <summary>Used to check if there exists a User with a certain email.</summary>

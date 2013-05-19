@@ -28,6 +28,20 @@ namespace ClientUnitTest
                 ShimClientBase<WebApplication1.ServiceReference1.IService>.
                 AllInstances.Close = (a) => { };
         }
+
+        [TestCleanup]
+        public void afterEach()
+        {
+            // Making sure that the controller is reset after each test
+            try
+            {
+                Controller.LogOut();
+            }
+            catch (Exception)
+            {
+                // oh well, no user wasn't logged in
+            }
+        }
         
         [TestMethod]
         public void LoginTest()
@@ -79,8 +93,69 @@ namespace ClientUnitTest
 
             Controller.LogOut();
         }
-        
 
-        
-    }
+
+        [TestMethod]
+        public void CreateUserTest()
+        {
+            User testuserA = new User();
+            testuserA.Email = "c@b.com";
+            testuserA.Password = "101";
+            testuserA.Type = UserType.admin;
+
+            User testuserS = new User();
+            testuserS.Email = "x@s.com";
+            testuserS.Password = "ps1";
+            testuserS.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuserA;
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
+                
+                Controller.LogIn("c@b.com","101");
+                Controller.CreateUser(testuserS);
+            }
+
+            //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
+        }
+
+
+        [TestMethod]
+        public void StandardCreateUser()
+        {
+            User testuserS1 = new User();
+            User testuser = new User();
+
+            testuserS1.Email = "k@b.com";
+            testuserS1.Password = "201";
+            testuserS1.Type = UserType.standard;
+
+            testuser.Email = "p@s.com";
+            testuser.Password = "199";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuserS1;
+
+                Controller.LogIn("k@b.com", "201");
+
+                try
+                {
+                    Controller.CreateUser(testuser); //this should fail
+                
+                } catch(Exception e)
+                {
+                    //User not created. All is good.
+                }
+            }
+
+          //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
+        }
+
+
+
+
+     }
 }

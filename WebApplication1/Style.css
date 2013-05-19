@@ -9,14 +9,17 @@
     
 .rightCol {
     background-color: #BBBBBB;
-    width: 70%;
-    float: right;
+    width: 800px;
+    float: left;
     height: 800px;
+    
+
+    
 }
 
 .leftCol {
     background-color: #999999;
-    width: 30%;
+    width: 200px;
     float: left;
     height: 800px;
 }
