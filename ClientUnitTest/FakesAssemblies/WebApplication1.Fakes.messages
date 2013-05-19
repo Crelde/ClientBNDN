@@ -1,9 +1,0 @@
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate stub for WebApplication1.ServiceReference1.UserType: type is a value type.
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate stub for WebApplication1.ServiceReference1.FileType: type is a value type.
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate stub for WebApplication1.ServiceReference1.RightType: type is a value type.
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.Controller+<>c__DisplayClass11: type is not supported because of internal limitations.
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.UserType: type is an enum.
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.FileType: type is an enum.
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.RightType: type is an enum.
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.IService: type is an interface.
-C:\Users\Christian\documents\visual studio 2012\Projects\Client\ClientUnitTest\Fakes\WebApplication1.fakes : warning : Cannot generate shim for WebApplication1.ServiceReference1.IServiceChannel: type is an interface.
