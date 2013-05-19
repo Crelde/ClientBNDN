@@ -28,6 +28,9 @@
         <member name="P:WebApplication1.Fakes.ShimController.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimController.CollectPackages">
+            <summary>Sets the shim of Controller.CollectPackages()</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimController.Constructor">
             <summary>Sets the shim of Controller.Controller()</summary>
         </member>
@@ -154,6 +157,9 @@
         <member name="P:WebApplication1.Fakes.ShimController._SearchPackagesb__ePackage">
             <summary>Sets the shim of Controller.&lt;SearchPackages&gt;b__e(Package package)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimController.kewinhalp">
+            <summary>Sets the shim of Controller.kewinhalp()</summary>
+        </member>
         <member name="T:WebApplication1.Fakes.ShimController.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
@@ -217,6 +223,12 @@
         <member name="P:WebApplication1.Fakes.ShimForm.CreatePackageButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreatePackageButton_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.DropDownList1_SelectedIndexChangedObjectEventArgs">
+            <summary>Sets the shim of Form.DropDownList1_SelectedIndexChanged(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.GetUserByEmail_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.GetUserByEmail_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.Page_LoadObjectEventArgs">
             <summary>Sets the shim of Form.Page_Load(Object sender, EventArgs e)</summary>
         </member>
@@ -229,11 +241,17 @@
         <member name="P:WebApplication1.Fakes.ShimForm.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.createUserSubmit_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createUserSubmit_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.fixSource">
             <summary>Sets the shim of Form.fixSource()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.logOut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.test_clickObjectEventArgs">
             <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
@@ -247,6 +265,12 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreatePackageButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreatePackageButton_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.DropDownList1_SelectedIndexChangedObjectEventArgs">
+            <summary>Sets the shim of Form.DropDownList1_SelectedIndexChanged(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.GetUserByEmail_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.GetUserByEmail_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.Page_LoadObjectEventArgs">
             <summary>Sets the shim of Form.Page_Load(Object sender, EventArgs e)</summary>
         </member>
@@ -259,11 +283,17 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createUserSubmit_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createUserSubmit_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSource">
             <summary>Sets the shim of Form.fixSource()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.logOut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.test_clickObjectEventArgs">
             <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>

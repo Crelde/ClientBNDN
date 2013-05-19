@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 using WebApplication1.ServiceReference1;
 
 namespace WebApplication1
@@ -15,7 +16,7 @@ namespace WebApplication1
         /// This object is stored in the following private field until
         /// LogOut is called.
         /// </summary>
-        private static User _sessionUser;
+        public static User _sessionUser;
 
         /// <summary>Attempts to log in as the User that identifies itself with the given email and password.</summary>
         /// <param name="email">The email that identifies the user.</param>
@@ -583,6 +584,12 @@ namespace WebApplication1
             }
         }
 
+        //KEWIN HJÆLPE FUNKTION
+        public static Package[] kewinhalp()
+        {
+            return GetOwnedPackagesByEmail(_sessionUser.Email);
+        }
+
         /// <summary>Looks up Packages with a matching tag.</summary>
         /// <param name="tag">The tag that should be used to look up Packages.</param>
         /// <returns>The Packages that contain the given tag.</returns>
@@ -843,9 +850,48 @@ namespace WebApplication1
         /// <returns>True if the user owns the item, false if not.</returns>
         public static bool IsOwnerOf(int itemId)
         {
-            System.Collections.Generic.List<Item> items = new System.Collections.Generic.List<Item>(GetOwnedFileInfosByEmail(_sessionUser.Email));
+            List<Item> items = new List<Item>(GetOwnedFileInfosByEmail(_sessionUser.Email));
             items.AddRange(GetOwnedPackagesByEmail(_sessionUser.Email));
             return items.Any<Item>(item => item.Id == itemId);
+        }
+
+        public static Package[] CollectPackages()
+        {
+            List<int> viewIds = new List<int>(), editIds = new List<int>(), ownIds = new List<int>();
+
+            // [Hack]: Empty string returns all files.
+            foreach (var info in SearchFileInfos(""))
+            {
+                var id = info.Id;
+
+                if (IsOwnerOf(id))
+                {
+                    ownIds.Add(id);
+                }
+                else if (HasEditRights(id))
+                {
+                    editIds.Add(id);
+                }
+                else if (HasViewRights(id))
+                {
+                    viewIds.Add(id);
+                }
+                else
+                {
+                    throw new Exception("Leak in SearchPackages. A FileInfo to which the current user has no rights, has been retrieved.");
+                }
+            }
+
+            var viewable = new Package() { Description = "Contains all viewable files.", Id = -1, Name = "Viewable Files", OwnerEmail = _sessionUser.Email, FileIds = viewIds.ToArray<int>() };
+            var editable = new Package() { Description = "Contains all editable files.", Id = -2, Name = "Editable Files", OwnerEmail = _sessionUser.Email, FileIds = editIds.ToArray<int>() };
+            var owned    = new Package() { Description = "Contains all owned files.",    Id = -3, Name = "Owned Files",    OwnerEmail = _sessionUser.Email, FileIds = ownIds.ToArray<int>()  };
+
+            // [Hack]: Empty string returns all packages.
+            var packs = new List<Package>(SearchPackages(""));
+
+            packs.AddRange(new Package[] {viewable,editable,owned});
+
+            return packs.ToArray<Package>();
         }
 
         /// <summary>Used to check if there exists a User with a certain email.</summary>
