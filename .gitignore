@@ -113,3 +113,4 @@ UpgradeLog*.XML
 *.orig
 *.ORIG
 *.svclog
+FakesAssemblies

@@ -39,10 +39,10 @@ namespace ClientUnitTest
             }
             catch (Exception)
             {
-                // oh well, no user wasn't logged in
+                //no user was logged in
             }
         }
-        
+
         [TestMethod]
         public void LoginTest()
         {
@@ -54,7 +54,7 @@ namespace ClientUnitTest
 
             using (ShimsContext.Create())
             {
-                ShimServiceClient.AllInstances.GetUserByEmailString = (a,b) => testuser;
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
 
                 Controller.LogIn("a@b.com", "123");
 
@@ -85,7 +85,7 @@ namespace ClientUnitTest
 
             using (ShimsContext.Create())
             {
-                ShimServiceClient.AllInstances.GetUserByEmailString = (a,b) => testuser;
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
 
                 Controller.LogIn("a@b.com", "123");
 
@@ -112,8 +112,8 @@ namespace ClientUnitTest
             {
                 ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuserA;
                 ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
-                
-                Controller.LogIn("c@b.com","101");
+
+                Controller.LogIn("c@b.com", "101");
                 Controller.CreateUser(testuserS);
             }
 
@@ -144,18 +144,121 @@ namespace ClientUnitTest
                 try
                 {
                     Controller.CreateUser(testuser); //this should fail
-                
-                } catch(Exception e)
+
+                }
+                catch (Exception e)
                 {
                     //User not created. All is good.
                 }
             }
 
-          //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
+            //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
+        }
+
+        [TestMethod]
+        public void deletingUser()
+        {
+            User testAdmin = new User();
+            testAdmin.Email = "ta@ta.com";
+            testAdmin.Password = "ta123";
+            testAdmin.Type = UserType.admin;
+
+            User testuser = new User();
+            testuser.Email = "p@s.com";
+            testuser.Password = "199";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) =>
+                {
+                    if (b.Equals(testAdmin.Email)) { return testAdmin; } else { return testuser; }
+                };
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
+                ShimServiceClient.AllInstances.DeleteUserByEmailString = (a, b) => { };
+
+                Controller.LogIn("ta@ta.com", "ta123");
+
+                try
+                {
+                    Controller.CreateUser(testuser);
+                }
+                catch (Exception e)
+                {
+                    //User not created. Something is wrong
+                }
+
+                Controller.DeleteUserByEmail("p@s.com");
+
+            }
+
         }
 
 
+        [TestMethod]
+        public void authorizationFail()
+        {
+            User testAdmin = new User();
+            testAdmin.Email = "ta@ta.com";
+            testAdmin.Password = "ta123";
+            testAdmin.Type = UserType.admin;
 
 
-     }
+            Item testItem = new Item();
+            testItem.Id = 011;
+            testItem.Name = "test";
+            testItem.OwnerEmail = "ta@ta.com";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testAdmin;
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => { return new FileInfo(); };
+                Controller.LogIn("ta@ta.com", "ta123");
+                Controller.LogOut();
+                try
+                {
+                    Controller.DownloadFileById(011);
+                }
+                catch (NotLoggedInException e)
+                {
+                    // everything is ok!
+                }
+
+            }
+        }
+
+        [TestMethod]
+        public void authorizationFail2()
+        {
+            User test1 = new User();
+            test1.Email = "st@st.com";
+            test1.Password = "test1";
+            test1.Type = UserType.standard;
+
+            User test2 = new User();
+            test2.Email = "t@t.com";
+            test2.Password = "test2";
+            test2.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => test1;
+                ShimServiceClient.AllInstances.UpdateUserUser = (a, b) => { };
+                Controller.LogIn("st@st.com", "test1");
+                try
+                {
+                    Controller.UpdateUser(test2);
+                }
+                catch (InsufficientRightsException e)
+                {
+                    //Everything is good.
+                }
+            }
+        }
+
+        [TestMethod]
+        public void ()
+        {
+        }
+    }
 }
