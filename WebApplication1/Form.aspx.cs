@@ -31,7 +31,7 @@ namespace WebApplication1
                     DropDownList1.Items.Add("Crelde");
                     DropDownList1.Items.Add("Er");
                     DropDownList1.Items.Add("Sej");
-                
+
                     fixSource();
 
                     InteractivePanelFiles.CssClass = "rightCol";
@@ -161,7 +161,29 @@ namespace WebApplication1
                 {
                     byte[] filebytes = FileUpload1.FileBytes;
                     string desc = Description.Value;
-                    string origin = Origin.Value;                  
+                    string origin = Origin.Value;  
+                
+                    ServiceReference1.FileTransfer filetrans = new ServiceReference1.FileTransfer();
+
+                    filetrans.Data = filebytes;
+                    
+                    ServiceReference1.FileInfo fileinf = new ServiceReference1.FileInfo();
+
+                    fileinf.Date = DateTime.Now;
+                    fileinf.Description = desc;
+                    fileinf.Name = FileUpload1.FileName;
+                    fileinf.Origin = origin;
+                    filetrans.Info = fileinf;
+
+                    try { Controller.UploadFile(filetrans); }
+                    catch (NotLoggedInException)
+                    {
+                        // #Kewin
+                    }
+                    catch (InadequateObjectException)
+                    {
+                        // Tell the user he has to selece a file from file system # Kewin
+                    }
 
                     //Check if everything is fine, and upload the file.
                 }
