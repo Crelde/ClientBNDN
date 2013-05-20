@@ -80,7 +80,7 @@ ul.BList li a {color: #000000; }
                 <asp:Panel ID="TagPanel" runat="server" CssClass="rightrightCol" Visible="False">
                     <asp:BulletedList ID="BulletedList1" runat="server" OnClick="BulletedList1_Click" DisplayMode="LinkButton" CssClass="Blist">
                     </asp:BulletedList>
-                    <asp:Button ID="CreateTag" runat="server" Text="Create a new Tag" Width="158px" OnClick="CreateTag_Click" />
+                    <asp:Button ID="CreateTag" runat="server" Text="Create new tag" Width="158px" OnClick="CreateTag_Click" />
                     <asp:TextBox ID="CreateBox" runat="server" style="margin-left: 25px"></asp:TextBox>
                     <br />
                     <br />
@@ -88,9 +88,13 @@ ul.BList li a {color: #000000; }
                     <asp:Label ID="deleteLabel" runat="server" Text="Click on the tag you wish to delete"></asp:Label>
                     <br />
                     <br />
-                    <asp:Button ID="DeleteTag" runat="server" Text="Delete a tag" Width="158px" OnClick="DeleteTag_Click" />
-                    <asp:TextBox ID="DeleteBox" runat="server" style="margin-left: 25px"> </asp:TextBox>
+                    <asp:Button ID="DeleteTag" runat="server" Text="Delete tag" Width="158px" OnClick="DeleteTag_Click" />
+                    <asp:TextBox ID="DeleteBox" runat="server" style="margin-left: 25px" Enabled="False"></asp:TextBox>
                     <br />
+                    <asp:HiddenField ID="fileI" runat="server" />
+                    <asp:HiddenField ID="fileN" runat="server" />
+
+
                 </asp:Panel>
    
 
