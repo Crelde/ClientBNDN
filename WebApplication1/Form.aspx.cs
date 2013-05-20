@@ -136,6 +136,8 @@ namespace WebApplication1
                         BulletedList1.Items.Add(new ListItem(tag));
                     }
                     TagPanel.Visible = true;
+                fileI.Value = id.ToString();
+                fileN.Value = filename;
                 }
                 catch (NotLoggedInException)
                 {
@@ -264,6 +266,9 @@ namespace WebApplication1
         // kewin do
         protected void CreateTag_Click(object sender, EventArgs e)
         {
+            // id and name of files stored in hiddenfields, changes everytime tag button is pressed
+            int idofchosenfile = int.Parse(fileI.Value);
+            string nameofchosenfile = fileN.Value;
             //create tag by that string ---V REMEMBER TO CHECK IF EMPTY STRING 
             string tagtext = CreateBox.Text; 
 
