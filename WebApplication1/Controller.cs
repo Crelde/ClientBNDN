@@ -101,7 +101,7 @@ namespace WebApplication1
                 throw new NotLoggedInException();
 
             if (_sessionUser.Type != UserType.admin
-                && !(_sessionUser.Email.Equals(updatedUser.Email) && _sessionUser.Type == updatedUser.Type))
+                && (!(_sessionUser.Email.Equals(updatedUser.Email) && _sessionUser.Type == updatedUser.Type)))
                 throw new InsufficientRightsException();
 
             if (updatedUser == null
@@ -225,7 +225,7 @@ namespace WebApplication1
 
             if (updatedInfo.Name == null
                 || updatedInfo.Name.Length < 3
-                || !updatedInfo.OwnerEmail.Equals(GetFileInfoById(updatedInfo.Id).OwnerEmail))// <- Reconsider this
+                || !updatedInfo.OwnerEmail.Equals(GetFileInfoById(updatedInfo.Id).OwnerEmail))
                 throw new InadequateObjectException();
 
             using (var client = new ServiceClient())
@@ -436,10 +436,10 @@ namespace WebApplication1
                 throw new NotLoggedInException();
 
             if (newPackage == null
-                || newPackage.Name == null
-                || newPackage.Name.Length < 3
-                || newPackage.FileIds == null
-                || !newPackage.FileIds.All(FileExists)
+                //|| newPackage.Name == null
+                //|| newPackage.Name.Length < 3
+                //|| newPackage.FileIds == null
+                //|| !newPackage.FileIds.All(FileExists)
                 )
                 throw new InadequateObjectException();
 
