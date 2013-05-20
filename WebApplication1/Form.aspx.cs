@@ -20,7 +20,7 @@ namespace WebApplication1
                 using (var serv = new ServiceReference1.ServiceClient())
                 {
                     fixSource(true);
-                //activeuserLabel.Text = Controller._sessionUser.Email;
+                activeuserLabel.Text = Controller._sessionUser.Email;
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass = "rightCol";
                     TagPanel.CssClass = "rightCol";
@@ -388,16 +388,6 @@ namespace WebApplication1
             hideMidPanels();
             hideRightPanels();
             InteractivePanelFiles.Visible = true;
-        }
-
-        
-         protected void logOut_Click(object sender, EventArgs e)
-        {
-            try { Controller.LogOut(); }
-            catch (NotLoggedInException) { } 
-            finally { Response.Redirect("LogInForm.aspx"); } 
-        }
-        {
         }
 
         // THIS IS NOT YET DONE FRONT END
