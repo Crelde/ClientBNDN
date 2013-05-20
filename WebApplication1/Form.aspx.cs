@@ -125,10 +125,23 @@ namespace WebApplication1
             }
             else if (e.CommandName == "tag")
             {
-                // foreach tag on file{
-                BulletedList1.Items.Add(new ListItem(""));
-                // }
-                TagPanel.Visible = true;
+                string[] tags;
+                try
+                {
+                    tags = Controller.GetTagsByItemId(id);
+
+                    foreach (string tag in tags)
+                    {
+                        BulletedList1.Items.Add(new ListItem(tag));
+                    }
+                    TagPanel.Visible = true;
+                }
+                catch (NotLoggedInException)
+                {
+
+                }
+
+
             }
         }
 
