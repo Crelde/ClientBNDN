@@ -44,7 +44,7 @@ namespace ClientUnitTest
         }
 
         [TestMethod]
-        public void LoginTest()
+        public void LogInTest()
         {
             User testuser = new User();
 
@@ -57,6 +57,81 @@ namespace ClientUnitTest
                 ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
 
                 Controller.LogIn("a@b.com", "123");
+
+            }
+        }
+
+        [TestMethod]
+        public void LogInIncorrectPassTest()
+        {
+            User testuser = new User();
+
+            testuser.Email = "a@b.com";
+            testuser.Password = "123";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
+
+                try
+                {
+                    Controller.LogIn("a@b.com", "");
+                }
+                catch (IncorrectPasswordException)
+                {
+                    // All is good
+                }
+
+            }
+        }
+
+        [TestMethod]
+        public void LogInIncorrectPassTest2()
+        {
+            User testuser = new User();
+
+            testuser.Email = "a@b.com";
+            testuser.Password = "123";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
+
+                try
+                {
+                    Controller.LogIn("a@b.com", "1234");
+                }
+                catch (IncorrectPasswordException)
+                {
+                    // All is good
+                }
+
+            }
+        }
+
+        [TestMethod]
+        public void LogInIncorrectFormatTest()
+        {
+            User testuser = new User();
+
+            testuser.Email = "a@b.com";
+            testuser.Password = "123";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
+
+                try
+                {
+                    Controller.LogIn("abcom", "123");
+                }
+                catch (NoSuchUserException)
+                {
+                    // All is good
+                }
 
             }
         }
@@ -92,9 +167,10 @@ namespace ClientUnitTest
             }
 
             Controller.LogOut();
-        }
+        }        
 
 
+        //check if admin can make new users
         [TestMethod]
         public void CreateUserTest()
         {
@@ -120,7 +196,7 @@ namespace ClientUnitTest
             //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
         }
 
-
+        //check if regular users are denied making new users
         [TestMethod]
         public void StandardCreateUser()
         {
@@ -155,6 +231,7 @@ namespace ClientUnitTest
             //  Controller.LogOut(); <- No need to log out after each test, it's done automatically :)
         }
 
+        // check if admin can delete users
         [TestMethod]
         public void deletingUser()
         {
@@ -176,7 +253,6 @@ namespace ClientUnitTest
                 };
                 ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
                 ShimServiceClient.AllInstances.DeleteUserByEmailString = (a, b) => { };
-
                 Controller.LogIn("ta@ta.com", "ta123");
 
                 try
@@ -189,12 +265,10 @@ namespace ClientUnitTest
                 }
 
                 Controller.DeleteUserByEmail("p@s.com");
-
             }
-
         }
 
-
+        //check to see if authorization fails after you log out
         [TestMethod]
         public void authorizationFail()
         {
@@ -202,8 +276,6 @@ namespace ClientUnitTest
             testAdmin.Email = "ta@ta.com";
             testAdmin.Password = "ta123";
             testAdmin.Type = UserType.admin;
-
-
             Item testItem = new Item();
             testItem.Id = 011;
             testItem.Name = "test";
@@ -227,6 +299,7 @@ namespace ClientUnitTest
             }
         }
 
+        //check if other accounts are denied access to edit stranger accounts
         [TestMethod]
         public void authorizationFail2()
         {
@@ -257,8 +330,576 @@ namespace ClientUnitTest
         }
 
         [TestMethod]
-        public void ()
+        public void AddTagNotLoggedInTest()
         {
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => new FileInfo();
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => new Package();
+                ShimServiceClient.AllInstances.GetRightStringInt32= (a, b, c) => new Right();
+
+                try
+                {
+                    Controller.AddTag("", 1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void AddToPackageNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => new FileInfo();
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => new Package();
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => new Right();
+                ShimServiceClient.AllInstances.GetOwnedPackagesByEmailString = (a, b) => new Package[1];
+
+                try
+                {
+                    Controller.AddToPackage(new int[]{1}, 1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void CreatePackageNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+               
+                try
+                {
+                    Controller.CreatePackage(new Package());
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void CreateUserNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.CreateUser(new User());
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DeleteFileByIdNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.DeleteFileById(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DeletePackageByIdNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.DeletePackageById(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DeleteUserByEmailNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.DeleteUserByEmail("");
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DownloadFileByIdNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.DownloadFileById(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DropRightNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.DropRight("", 1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DropTagNotLoggedInTest()
+        {
+            using (ShimsContext.Create())   
+            {
+                
+                try
+                {
+                    Controller.DropTag("", 1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetFileInfoByIdNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GetFileInfoById(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetFileInfosByTagNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GetFileInfosByTag("");
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetOwnedFileInfosByEmailNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GetOwnedFileInfosByEmail("");
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetOwnedPackagesByEmailNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GetOwnedPackagesByEmail("");
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetPackageByIdNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GetPackageById(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetPackagesByTagNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GetPackagesByTag("");
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetTagsByItemIdNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GetTagsByItemId(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetUserByEmailNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GetUserByEmail("");
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GrantRightNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.GrantRight(new Right());
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void HasEditRightsNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.HasEditRights(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void HasViewRightsNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.HasViewRights(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void IsOwnerOfNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.IsOwnerOf(1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void RemoveFromPackageNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.RemoveFromPackage(new int[] { 1 }, 1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void SearchFileInfosNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.SearchFileInfos("");
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void SearchPackagesNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.SearchPackages("");
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void UpdateFileDataNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.UpdateFileData(new byte[]{1}, 1);
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void UpdateFileInfoNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.UpdateFileInfo(new FileInfo());
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void UpdateRightNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.UpdateRight(new Right());
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void UpdateUserNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.UpdateUser(new User());
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        [TestMethod]
+        public void UploadFileNotLoggedInTest()
+        {
+            using (ShimsContext.Create())
+            {
+
+                try
+                {
+                    Controller.UploadFile(new FileTransfer());
+                }
+                catch (NotLoggedInException)
+                {
+                    // All good
+                }
+            }
+        }
+
+        //check to see if logging in keeps you logged in
+        [TestMethod]
+        public void sessioning1()
+        {
+            User test = new User();
+            test.Email = "au@au.com";
+            test.Password = "test";
+            test.Type = UserType.admin;
+            Package p = new Package();
+            p.Id = 1001;
+            p.Name = "p1001";
+            p.OwnerEmail = "au@au.com";
+            p.FileIds = new int[] {092};
+            FileInfo fi = new FileInfo();
+            fi.Id = 092;
+            fi.Name = "testItem";
+            fi.OwnerEmail = "au@au.com";
+            fi.Type = FileType.text;
+            FileInfo fiu = new FileInfo();
+            fiu.Id = 092;
+            fiu.Name = "UpdatedtestItem";
+            fiu.OwnerEmail = "au@au.com";
+            fiu.Type = FileType.text;
+            Right r = new Right();
+            r.ItemId = 092;
+            r.Type = RightType.edit;
+            r.Until = DateTime.Now.AddDays(1);
+            r.UserEmail = "au@au.com";
+                 
+          
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => test;
+                ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => {return 1;};
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => {return p;}; 
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => {}; 
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => {return fi;};
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => {return r;};
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+
+                Controller.LogIn("au@au.com", "test");
+                Controller.CreatePackage(p);
+                Controller.AddToPackage(new int[]{092},1001);              
+                Controller.AddTag("tag1", 092);
+                Controller.DeleteFileById(092);
+                try
+                {
+                    Controller.UpdateFileInfo(fiu);
+                } catch(OriginalNotFoundException e){
+                    //This should be thrown
+                }
+            }
         }
     }
 }
