@@ -211,6 +211,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.BulletedList1_ClickObjectBulletedListEventArgs">
             <summary>Sets the shim of Form.BulletedList1_Click(Object sender, BulletedListEventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.CancelShare_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.CancelShare_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.ChangeUserButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.ChangeUserButton_Click(Object sender, EventArgs e)</summary>
         </member>
@@ -223,14 +226,20 @@
         <member name="P:WebApplication1.Fakes.ShimForm.CreateTag_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreateTag_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.DeletePackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.DeletePackage_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.DeleteTag_ClickObjectEventArgs">
             <summary>Sets the shim of Form.DeleteTag_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.Page_LoadObjectEventArgs">
             <summary>Sets the shim of Form.Page_Load(Object sender, EventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.SubmitASP_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.SubmitASP_Click(Object sender, EventArgs e)</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.SharePackageBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.SharePackageBut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.SharePackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.SharePackage_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.adminButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.adminButton_Click(Object sender, EventArgs e)</summary>
@@ -247,11 +256,20 @@
         <member name="P:WebApplication1.Fakes.ShimForm.cancelcreatepacakge_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.canceldelete_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.canceldelete_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.cancelpw_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelpw_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.changepw_ClickObjectEventArgs">
             <summary>Sets the shim of Form.changepw_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.confirmchange_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.confirmchange_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.confirmdelete_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.confirmdelete_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
@@ -271,14 +289,14 @@
         <member name="P:WebApplication1.Fakes.ShimForm.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.test_clickObjectEventArgs">
-            <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
-        </member>
         <member name="T:WebApplication1.Fakes.ShimForm.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.BulletedList1_ClickObjectBulletedListEventArgs">
             <summary>Sets the shim of Form.BulletedList1_Click(Object sender, BulletedListEventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CancelShare_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.CancelShare_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.ChangeUserButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.ChangeUserButton_Click(Object sender, EventArgs e)</summary>
@@ -289,14 +307,20 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreateTag_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreateTag_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.DeletePackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.DeletePackage_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.DeleteTag_ClickObjectEventArgs">
             <summary>Sets the shim of Form.DeleteTag_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.Page_LoadObjectEventArgs">
             <summary>Sets the shim of Form.Page_Load(Object sender, EventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.SubmitASP_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.SubmitASP_Click(Object sender, EventArgs e)</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.SharePackageBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.SharePackageBut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.SharePackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.SharePackage_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.adminButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.adminButton_Click(Object sender, EventArgs e)</summary>
@@ -313,11 +337,20 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelcreatepacakge_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.canceldelete_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.canceldelete_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelpw_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelpw_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.changepw_ClickObjectEventArgs">
             <summary>Sets the shim of Form.changepw_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.confirmchange_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.confirmchange_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.confirmdelete_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.confirmdelete_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
@@ -336,9 +369,6 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.test_clickObjectEventArgs">
-            <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
         </member>
         <member name="T:WebApplication1.Fakes.ShimInadequateObjectException">
             <summary>Shim type of WebApplication1.InadequateObjectException</summary>
