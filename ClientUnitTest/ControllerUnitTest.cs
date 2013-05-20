@@ -229,15 +229,14 @@ namespace ClientUnitTest
             testuser.Email = "p@s.com";
             testuser.Password = "199";
             testuser.Type = UserType.standard;
+            var userDictionary = new Dictionary<string, User>();
+            userDictionary.Add("ta@ta.com", testAdmin);
 
             using (ShimsContext.Create())
             {
-                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) =>
-                {
-                    if (b.Equals(testAdmin.Email)) { return testAdmin; } else { return testuser; }
-                };
-                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
-                ShimServiceClient.AllInstances.DeleteUserByEmailString = (a, b) => { };
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => { return userDictionary[b]; };
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { userDictionary.Add(b.Email, b); };
+                ShimServiceClient.AllInstances.DeleteUserByEmailString = (a, b) => { userDictionary.Remove(b); };
                 Controller.LogIn("ta@ta.com", "ta123");
                 Controller.CreateUser(testuser);
                 Controller.DeleteUserByEmail("p@s.com");
@@ -268,6 +267,38 @@ namespace ClientUnitTest
                     Controller.DownloadFileById(011);
                 }
                 catch (NotLoggedInException)
+                {
+                    // everything is ok!
+                }
+
+            }
+        }
+
+        //tests trying to download a none existing file. 
+        [TestMethod]
+        public void fileNotExistsTest()
+        {
+            User testAdmin = new User();
+            testAdmin.Email = "ta@ta.com";
+            testAdmin.Password = "ta123";
+            testAdmin.Type = UserType.admin;
+            Item testItem = new Item();
+            testItem.Id = 011;
+            testItem.Name = "test";
+            testItem.OwnerEmail = "ta@ta.com";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testAdmin;
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => { return new FileInfo(); };
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 = (a, b) => { return new byte[] { }; };
+                
+                Controller.LogIn("ta@ta.com", "ta123");
+                try
+                {
+                    Controller.DownloadFileById(018);
+                }
+                catch (ObjectNotFoundException)
                 {
                     // everything is ok!
                 }
@@ -522,8 +553,72 @@ namespace ClientUnitTest
                 }
             }
         }
-        
-        
+
+        //Tests that a user without rights are denied downloading a file. 
+        [TestMethod]
+        public void downloadingWithoutRightsTest()
+        {
+            User user1 = new User();
+            user1.Email = "u1@mail.com";
+            user1.Password = "user1";
+            user1.Type = UserType.admin;
+
+            User user5 = new User();
+            user5.Email = "usertest@mail.com";
+            user5.Password = "mm";
+            user5.Type = UserType.standard;
+
+            Package p = new Package();
+            p.Id = 1002;
+            p.Name = "p1002";
+            p.OwnerEmail = "u1@mail.com";
+            p.FileIds = new int[] { 002 };
+
+            FileInfo fi = new FileInfo();
+            fi.Id = 002;
+            fi.Name = "testItem2";
+            fi.OwnerEmail = "u1@mail.com";
+            fi.Type = FileType.text;
+
+            Right r = new Right();
+            r.ItemId = 002;
+            r.Type = RightType.edit;
+            r.Until = DateTime.Now.AddDays(1);
+            r.UserEmail = "u1@mail.com";
+
+            var db = new Dictionary<string, User>();
+            db.Add("u1@mail.com", user1);
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => { return db[b]; };
+                ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => { return 1; };
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => { return p; };
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => { return fi; };
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => { return r; };
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { db.Add(b.Email, b); };
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 = (a, b) => { return new byte[] { }; };
+
+                Controller.LogIn("u1@mail.com", "user1");
+                Controller.CreateUser(user5);
+                Controller.CreatePackage(p);
+                Controller.AddToPackage(new int[] { 002 }, 1002);
+                Controller.LogOut();
+                Controller.LogIn("usertest@mail.com", "mm");
+                try
+                {
+                    Controller.DownloadFileById(002);
+                }
+                catch (InsufficientRightsException)
+                {
+                    //should fail 
+                }
+            }
+        }
 
         //check if editing file metadata is only allowed to correct people
         [TestMethod]
