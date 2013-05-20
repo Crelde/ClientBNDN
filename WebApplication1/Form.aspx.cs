@@ -123,6 +123,7 @@ namespace WebApplication1
             {
                 updateBulletList(id);
                 hideRightPanels();
+                TagPanel.Visible = true;
             }
             else if (e.CommandName == "addToPackage")
             {
@@ -246,7 +247,8 @@ namespace WebApplication1
             {
                 messageBox("An error has occured, try reloading the page.");
             }
-            updateBulletList(idofchosenfile); 
+            updateBulletList(idofchosenfile);
+            CreateBox.Text = "";
         }
 
         protected void DeleteTag_Click(object sender, EventArgs e)
@@ -329,7 +331,6 @@ namespace WebApplication1
         }
         protected void hideRightPanels()
         {
-
             TagPanel.Visible = false;
             passwordPanel.Visible = false;
             addFiletoPackagePanel.Visible = false;
@@ -355,7 +356,9 @@ namespace WebApplication1
             hideMidPanels();
             hideRightPanels();
             InteractivePanelFiles.Visible = true;
-
+            oldpw.Text = "";
+            newpw.Text = "";
+            confirmpw.Text = "";
         }
 
         protected void cancelTag_Click(object sender, EventArgs e)
@@ -397,10 +400,34 @@ namespace WebApplication1
         protected void SharePackageBut_Click(object sender, EventArgs e)
         {
             string s = emailToShareWith.Text;
-            // call the share with shit from controller here.
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
+            
+            ServiceReference1.Right right = new ServiceReference1.Right();
+
+            int packageId; 
+            packageDictionary.TryGetValue(DropDownList1.SelectedValue, out packageId);
+            right.ItemId = packageId;
+            right.UserEmail = Controller._sessionUser.Email;
+
+            try 
+            { 
+                Controller.GrantRight(right);
+                hideMidPanels();
+                hideRightPanels();
+                InteractivePanelFiles.Visible = true;
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, please try reloading the page.");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("An error has occured, please try reloading the page.");
+            }
         }
 
         protected void canceldelete_Click(object sender, EventArgs e)
@@ -412,12 +439,30 @@ namespace WebApplication1
 
         protected void confirmdelete_Click(object sender, EventArgs e)
         {
-            string packageToBeDeleted = DropDownList1.SelectedValue;
-
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
-            // MAYBE CALL FIXSOURCE TO FIX DROPDOWN NOT SHOWING THE ONE WE JUST KILLED
+            int packageId; 
+            packageDictionary.TryGetValue(DropDownList1.SelectedValue, out packageId);
+            try
+            {
+                Controller.DeletePackageById(packageId);
+                hideMidPanels();
+                hideRightPanels();
+                InteractivePanelFiles.Visible = true;
+                fixSource(true);
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, please try reloading the page.");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("An error has occured, please try reloading the page.");
+            }
+            
         }
 
         protected void confirmchange_Click(object sender, EventArgs e)
@@ -426,10 +471,43 @@ namespace WebApplication1
             string newpws = newpw.Text;
             string confirmpws = confirmpw.Text;
 
+            ServiceReference1.User user = Controller._sessionUser;
 
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
+            if (string.Compare(user.Password, oldpws) != 0)
+                messageBox("Your current password is not correct");
+            else if (string.Compare(newpws, confirmpws) != 0)
+                messageBox("The new passwords do not match the confirmation password box");
+            else
+            {
+                user.Password = newpws;
+                try 
+                { 
+                    Controller.UpdateUser(user);
+                    hideMidPanels();
+                    hideRightPanels();
+                    oldpw.Text = "";
+                    newpw.Text = "";
+                    confirmpw.Text = "";
+                    InteractivePanelFiles.Visible = true;
+                }
+                catch (NotLoggedInException)
+                {
+                    messageBox("An error has occured, please log in again.");
+                    Response.Redirect("LogInForm.aspx");
+                }
+                catch (InsufficientRightsException)
+                {
+                    messageBox("An error has occured, please try reloading the page.");
+                }
+                catch (InadequateObjectException)
+                {
+                    messageBox("An error has occured, please try reloading the page.");
+                }
+                catch (OriginalNotFoundException)
+                {
+                    messageBox("An error has occured, please try reloading the page.");
+                }
+            }
         }
 
         protected void canceladmin_Click(object sender, EventArgs e)
@@ -556,6 +634,7 @@ namespace WebApplication1
             {
                 messageBox("An error has occured, try reloading the page.");
             }
+            hideRightPanels();
             fixSource(true);
         }
     }
