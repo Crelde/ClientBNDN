@@ -223,6 +223,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.SubmitASP_ClickObjectEventArgs">
             <summary>Sets the shim of Form.SubmitASP_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.adminButton_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.adminButton_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
@@ -249,6 +252,9 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.SubmitASP_ClickObjectEventArgs">
             <summary>Sets the shim of Form.SubmitASP_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.adminButton_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.adminButton_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
