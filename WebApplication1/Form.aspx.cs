@@ -113,7 +113,7 @@ namespace WebApplication1
                     file = Controller.DownloadFileById(id);
                     /*
                     File.
-
+                    //test
                     Response.BinaryWrite(file);
                     Response.Flush();
                     
