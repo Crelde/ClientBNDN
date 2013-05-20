@@ -222,7 +222,7 @@ namespace WebApplication1
 
             if (updatedInfo.Name == null
                 || updatedInfo.Name.Length < 3
-                || !updatedInfo.OwnerEmail.Equals(_sessionUser.Email))
+                || !updatedInfo.OwnerEmail.Equals(_sessionUser.Email)) // <- Reconsider this
                 throw new InadequateObjectException();
 
             if(!FileExists(updatedInfo.Id))
@@ -756,6 +756,9 @@ namespace WebApplication1
         /// <returns>The Files that contain the given text somewhere in their details.</returns>
         public static FileInfo[] SearchFileInfos(string text)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             if (text == null)
                 throw new InadequateObjectException();
 
@@ -782,6 +785,9 @@ namespace WebApplication1
         /// <returns>The Packages that contain the given text somewhere in their details.</returns>
         public static Package[] SearchPackages(string text)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             if (text == null)
                 throw new InadequateObjectException();
 
@@ -816,6 +822,9 @@ namespace WebApplication1
         /// <returns>True of the current user can view the item, false if not.</returns>
         public static bool HasViewRights(int itemId)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             using (var client = new ServiceClient())
             {
                 var right = client.GetRight(_sessionUser.Email, itemId);
@@ -836,6 +845,9 @@ namespace WebApplication1
         /// <returns>True of the current user can edit the item, false if not.</returns>
         public static bool HasEditRights(int itemId)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             using (var client = new ServiceClient())
             {
                 var right = client.GetRight(_sessionUser.Email, itemId);
@@ -850,6 +862,9 @@ namespace WebApplication1
         /// <returns>True if the user owns the item, false if not.</returns>
         public static bool IsOwnerOf(int itemId)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             List<Item> items = new List<Item>(GetOwnedFileInfosByEmail(_sessionUser.Email));
             items.AddRange(GetOwnedPackagesByEmail(_sessionUser.Email));
             return items.Any<Item>(item => item.Id == itemId);
