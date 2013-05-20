@@ -220,13 +220,13 @@ namespace WebApplication1
             if (_sessionUser == null)
                 throw new NotLoggedInException();
 
-            if (updatedInfo.Name == null
-                || updatedInfo.Name.Length < 3
-                || !updatedInfo.OwnerEmail.Equals(_sessionUser.Email)) // <- Reconsider this
-                throw new InadequateObjectException();
-
             if(!FileExists(updatedInfo.Id))
                 throw new OriginalNotFoundException();
+
+            if (updatedInfo.Name == null
+                || updatedInfo.Name.Length < 3
+                || !updatedInfo.OwnerEmail.Equals(GetFileInfoById(updatedInfo.Id).OwnerEmail))// <- Reconsider this
+                throw new InadequateObjectException();
 
             using (var client = new ServiceClient())
             {
