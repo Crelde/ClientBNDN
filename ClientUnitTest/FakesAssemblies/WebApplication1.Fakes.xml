@@ -331,6 +331,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.test_clickObjectEventArgs">
             <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.updateBulletListInt32">
+            <summary>Sets the shim of Form.updateBulletList(Int32 id)</summary>
+        </member>
         <member name="T:WebApplication1.Fakes.ShimForm.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
@@ -384,6 +387,9 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.test_clickObjectEventArgs">
             <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.updateBulletListInt32">
+            <summary>Sets the shim of Form.updateBulletList(Int32 id)</summary>
         </member>
         <member name="T:WebApplication1.Fakes.ShimInadequateObjectException">
             <summary>Shim type of WebApplication1.InadequateObjectException</summary>

@@ -126,35 +126,7 @@ namespace WebApplication1
             }
             else if (e.CommandName == "tag")
             {
-                string[] tags;
-                try
-                {
-                    tags = Controller.GetTagsByItemId(id);
-
-                    foreach (string tag in tags)
-                    {
-                        BulletedList1.Items.Add(new ListItem(tag));
-                    }
-                    TagPanel.Visible = true;
-                fileI.Value = id.ToString();
-                fileN.Value = filename;
-                }
-                catch (NotLoggedInException)
-                {
-                    messageBox("An error has occured, please log in again.");
-                    Response.Redirect("LogInForm.aspx");
-                }
-                catch (ObjectNotFoundException)
-                {
-                    messageBox("An error has occured, try reloading the page.");
-                }
-                catch (InsufficientRightsException)
-                {
-                    messageBox("An error has occured, try reloading the page.");
-                }
-
-
-
+                updateBulletList(id);
             }
         }
 
@@ -266,21 +238,55 @@ namespace WebApplication1
         // kewin do
         protected void CreateTag_Click(object sender, EventArgs e)
         {
-            // id and name of files stored in hiddenfields, changes everytime tag button is pressed
             int idofchosenfile = int.Parse(fileI.Value);
-            string nameofchosenfile = fileN.Value;
-            //create tag by that string ---V REMEMBER TO CHECK IF EMPTY STRING 
-            string tagtext = CreateBox.Text; 
+            string tagtext = CreateBox.Text;
 
+            try { Controller.AddTag(tagtext, idofchosenfile); }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InadequateObjectException)
+            {
+                messageBox("The tag has to be at least 4 characters long");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            updateBulletList(idofchosenfile); 
         }
         // kewin do
         protected void DeleteTag_Click(object sender, EventArgs e)
         {
-            // pretend ---v is tagname to be deleted REMEMBER TO CHECK IF EMPTY STRING 
-            string tagtextToBeDeleted = DeleteBox.Text; 
+            int idofchosenfile = int.Parse(fileI.Value);
+            string tagtext = CreateBox.Text;
 
-
-
+            try { Controller.DropTag(tagtext, idofchosenfile); }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InadequateObjectException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            updateBulletList(idofchosenfile);
+            DeleteBox.Text = "";
         }
 
         protected void BulletedList1_Click(object sender, BulletedListEventArgs e)
@@ -351,6 +357,38 @@ namespace WebApplication1
         private void messageBox(string message)
         {
             Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('"+message+"');", true);
+        }
+
+        private void updateBulletList(int id)
+        {
+            BulletedList1.Items.Clear();
+            string[] tags;
+            try
+            {
+                tags = Controller.GetTagsByItemId(id);
+
+                foreach (string tag in tags)
+                {
+                    BulletedList1.Items.Add(new ListItem(tag));
+                }
+                
+                TagPanel.Visible = true;
+                fileI.Value = id.ToString();
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+
         }
     }
 }
