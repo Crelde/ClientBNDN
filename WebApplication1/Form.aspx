@@ -27,9 +27,9 @@
             <asp:Button ID="ChangeUserButton" runat="server" Text="Log Out" OnClick="ChangeUserButton_Click" Height="32px" style="margin-left: 240px" Width="116px" />
         </div>
         <div class="leftCol">
+             <asp:Button ID="createPackage" runat="server" Text="Create new package" OnClick="createPackage_Click" />
              <br />
-            <input id="CreatePackage" type="button" value="Create Package"/>
-            <br />
+            &nbsp;<br />
             <asp:Button ID="testVisibility" runat="server" Text="testvisibility" OnClick="test_click"/>
             &nbsp;<br />
             <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Large" Text="These are the packages you have the rights to"></asp:Label>
@@ -38,7 +38,6 @@
             </asp:DropDownList>
              <br />
              <asp:Button ID="adminButton" runat="server" style="margin-left: 31px; margin-top: 8px;" Text="Admin Controls" OnClick="adminButton_Click" />
-             <asp:Button ID="addtopackage" runat="server" Text="AddFileToPackage" />
         </div>
             <asp:Panel ID="InteractivePanelFiles" runat="server" ScrollBars="Vertical" >
                 <asp:Label ID="uploadfilelabel" Text="Upload a new file here" runat="server"/>
@@ -46,18 +45,23 @@
                 <asp:FileUpload ID="FileUpload1" runat="server" />
                 <asp:Button ID="UploadModal" runat="server" style="margin-left: 22px" Text="Create a new File" Width="123px" Height="22px" />
                 <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 19px" Text="Upload!" Width="112px" Height="22px" />
+                <asp:Button ID="Button6" runat="server" Text="Button" />
                 <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="500px" style="margin-right: 0px">
                     <AlternatingItemStyle BackColor="#CCCCCC" />
                     <FooterStyle BackColor="#CCCCCC" />
                     <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
                     <ItemTemplate>
                         <h2>
+                            <asp:Button ID="tagsB" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="tag" style="float: right" Height="32px" OnCommand="btn_command" Text="Tags" Width="150px" />
+
                             <asp:Label ID="dName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Name") %>'></asp:Label>
-                            <asp:Button ID="tagsB" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="tag" style="float: right" Height="32px" OnCommand="btn_command" Text="Tags" Width="112px" />
                             <br />
                             <asp:Label ID="dId" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Id") %>'></asp:Label>
+
                             <br />
                             <asp:Label ID="dDesc" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Description") %>'></asp:Label>
+                            <asp:Button ID="addtopackage" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="addToPackage" style="float: right" Height="32px" OnCommand="btn_command" Text="Add File to a package" Width="150px" />
+
                             <br />
                             <asp:Label ID="dEmail" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "OwnerEmail") %>'></asp:Label>
                             <br />
@@ -77,7 +81,7 @@ ul.BList a:hover{color:grey ;}
 ul.BList li a {color: #000000; } 
             </style>
 
-                <asp:Panel ID="TagPanel" runat="server" CssClass="rightrightCol" Visible="False">
+                <asp:Panel ID="TagPanel" runat="server" Visible="False">
                     <asp:BulletedList ID="BulletedList1" runat="server" OnClick="BulletedList1_Click" DisplayMode="LinkButton" CssClass="Blist">
                     </asp:BulletedList>
                     <asp:Button ID="CreateTag" runat="server" Text="Create new tag" Width="158px" OnClick="CreateTag_Click" />
@@ -93,16 +97,29 @@ ul.BList li a {color: #000000; }
                     <br />
                     <asp:HiddenField ID="fileI" runat="server" />
                     <asp:HiddenField ID="fileN" runat="server" />
-
-
                 </asp:Panel>
+
+                <asp:Panel ID="addFiletoPackagePanel" runat="server"  Visible="False">
+                    <asp:Label ID="Label3" runat="server" Text="Select the package you wish to add your file to:"></asp:Label>
+                    <br />
+                    <br />
+                    <asp:DropDownList ID="PackageDropDownF" runat="server" > </asp:DropDownList >
+                    <br />
+                    <asp:Button ID="addfiletoP" runat="server" Text="Add File" />
+                    <asp:HiddenField ID="fileI2" runat="server" />
+                </asp:Panel>
+   
    
 
         <asp:Panel ID="InteractivePanelOther" runat="server" Visible="false">
-            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-            <asp:FileUpload ID="FileUpload2" runat="server" />
-            <asp:Button ID="Button1" runat="server" Text="Button" />
+            <asp:Label ID="Label1" runat="server" Text="Enter a name for your new package:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="packageName" runat="server" Width="199px"></asp:TextBox>
+            <asp:Button ID="submitpackage" runat="server" Text="Create Package" OnClick="submitpackage_Click" style="margin-left: 41px" />
+            <asp:Button ID="cancelcreatepacakge" runat="server" Text="Cancel" style="margin-left: 46px" OnClick="cancelcreatepacakge_Click" />
+
         </asp:Panel>
+
         <asp:Panel ID="InteractivePanelAdmin" runat="server" Visible="false">
             <asp:Label ID="Label2" runat="server" Text="Here goes all that is admin related, only visible to admins" Font-Size="Larger"></asp:Label>
             <br />
@@ -157,9 +174,7 @@ ul.BList li a {color: #000000; }
 
 <div id="dialog-form" style="display:none"; title="Upload a new File">
     Please fill in all the fields!
-      <table>
-          <tr>
-          Please write where the files originates:
+           Please write where the files originates:
          <td> Origin: <input id="fOrigin" type="text" /> </td> </tr>    
           <tr>   
           Please provide a description of the file:

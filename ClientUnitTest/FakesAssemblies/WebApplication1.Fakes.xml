@@ -319,6 +319,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.createUserSubmit_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createUserSubmit_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.createPackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
@@ -373,14 +376,18 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createUserSubmit_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.createUserSubmit_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createPackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSource">
             <summary>Sets the shim of Form.fixSource()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.logOut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>

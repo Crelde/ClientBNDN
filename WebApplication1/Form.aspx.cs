@@ -31,6 +31,7 @@ namespace WebApplication1
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass = "rightCol";
                     TagPanel.CssClass = "rightCol";
+                    addFiletoPackagePanel.CssClass = "rightCol";
                     TagPanel.Style["width"] = "350px";
                     //TagPanel.Style["margin-left"] ="1001px";
                 }
@@ -113,6 +114,13 @@ namespace WebApplication1
             else if (e.CommandName == "tag")
             {
                 updateBulletList(id);
+                addFiletoPackagePanel.Visible = false;
+            }
+            else if (e.CommandName == "addToPackage")
+            {
+                TagPanel.Visible = false;
+                addFiletoPackagePanel.Visible = true;
+                fileI2.Value = id.ToString();
             }
         }
 
@@ -277,6 +285,27 @@ namespace WebApplication1
         protected void BulletedList1_Click(object sender, BulletedListEventArgs e)
         {
             DeleteBox.Text = BulletedList1.Items[e.Index].ToString();
+        }
+
+        protected void createPackage_Click(object sender, EventArgs e)
+        {
+            InteractivePanelFiles.Visible = false;
+            InteractivePanelOther.Visible = true;
+        }
+
+        protected void submitpackage_Click(object sender, EventArgs e)
+        {
+            string pName = packageName.Text;
+
+            DropDownList1.SelectedIndex = DropDownList1.Items.Count - 1;
+            InteractivePanelOther.Visible = false;
+            InteractivePanelFiles.Visible = true;
+        }
+
+        protected void cancelcreatepacakge_Click(object sender, EventArgs e)
+        {
+            InteractivePanelOther.Visible = false;
+            InteractivePanelFiles.Visible = true;
         }
 
         protected void logOut_Click(object sender, EventArgs e)
