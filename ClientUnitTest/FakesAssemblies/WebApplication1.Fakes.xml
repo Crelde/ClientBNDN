@@ -208,6 +208,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.Behavior">
             <summary>Assigns the behavior for all methods of the shimmed type</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.BulletedList1_ClickObjectBulletedListEventArgs">
+            <summary>Sets the shim of Form.BulletedList1_Click(Object sender, BulletedListEventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.ChangeUserButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.ChangeUserButton_Click(Object sender, EventArgs e)</summary>
         </member>
@@ -216,6 +219,12 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.CreatePackageButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreatePackageButton_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.CreateTag_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.CreateTag_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.DeleteTag_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.DeleteTag_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.Page_LoadObjectEventArgs">
             <summary>Sets the shim of Form.Page_Load(Object sender, EventArgs e)</summary>
@@ -241,11 +250,20 @@
         <member name="T:WebApplication1.Fakes.ShimForm.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.BulletedList1_ClickObjectBulletedListEventArgs">
+            <summary>Sets the shim of Form.BulletedList1_Click(Object sender, BulletedListEventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.ChangeUserButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.ChangeUserButton_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreatePackageButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreatePackageButton_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreateTag_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.CreateTag_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.DeleteTag_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.DeleteTag_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.Page_LoadObjectEventArgs">
             <summary>Sets the shim of Form.Page_Load(Object sender, EventArgs e)</summary>
