@@ -46,18 +46,23 @@
                 <asp:FileUpload ID="FileUpload1" runat="server" />
                 <asp:Button ID="UploadModal" runat="server" style="margin-left: 22px" Text="Create a new File" Width="124px" />
                 <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 19px" Text="Upload!" Width="116px" />
+                <asp:Button ID="Button6" runat="server" Text="Button" />
                 <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="500px" style="margin-right: 0px">
                     <AlternatingItemStyle BackColor="#CCCCCC" />
                     <FooterStyle BackColor="#CCCCCC" />
                     <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
                     <ItemTemplate>
                         <h2>
+                            <asp:Button ID="tagsB" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="tag" style="float: right" Height="32px" OnCommand="btn_command" Text="Tags" Width="150px" />
+
                             <asp:Label ID="dName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Name") %>'></asp:Label>
-                            <asp:Button ID="tagsB" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="tag" style="float: right" Height="32px" OnCommand="btn_command" Text="Tags" Width="112px" />
                             <br />
                             <asp:Label ID="dId" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Id") %>'></asp:Label>
+
                             <br />
                             <asp:Label ID="dDesc" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Description") %>'></asp:Label>
+                            <asp:Button ID="addtopackage" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="addToPackage" style="float: right" Height="32px" OnCommand="btn_command" Text="Add File to a package" Width="150px" />
+
                             <br />
                             <asp:Label ID="dEmail" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "OwnerEmail") %>'></asp:Label>
                             <br />
@@ -77,7 +82,7 @@ ul.BList a:hover{color:grey ;}
 ul.BList li a {color: #000000; } 
             </style>
 
-                <asp:Panel ID="TagPanel" runat="server" CssClass="rightrightCol" Visible="False">
+                <asp:Panel ID="TagPanel" runat="server" Visible="False">
                     <asp:BulletedList ID="BulletedList1" runat="server" OnClick="BulletedList1_Click" DisplayMode="LinkButton" CssClass="Blist">
                     </asp:BulletedList>
                     <asp:Button ID="CreateTag" runat="server" Text="Create new tag" Width="158px" OnClick="CreateTag_Click" />
@@ -93,9 +98,18 @@ ul.BList li a {color: #000000; }
                     <br />
                     <asp:HiddenField ID="fileI" runat="server" />
                     <asp:HiddenField ID="fileN" runat="server" />
-
-
                 </asp:Panel>
+
+                <asp:Panel ID="addFiletoPackagePanel" runat="server"  Visible="False">
+                    <asp:Label ID="Label3" runat="server" Text="Select the package you wish to add your file to:"></asp:Label>
+                    <br />
+                    <br />
+                    <asp:DropDownList ID="PackageDropDownF" runat="server" > </asp:DropDownList >
+                    <br />
+                    <asp:Button ID="addfiletoP" runat="server" Text="Add File" />
+                    <asp:HiddenField ID="fileI2" runat="server" />
+                </asp:Panel>
+   
    
 
         <asp:Panel ID="InteractivePanelOther" runat="server" Visible="false">

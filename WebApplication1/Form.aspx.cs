@@ -37,6 +37,7 @@ namespace WebApplication1
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass ="rightCol";
                     TagPanel.CssClass = "rightCol";
+                    addFiletoPackagePanel.CssClass = "rightCol";
                     TagPanel.Style["width"] = "350px";
                     //TagPanel.Style["margin-left"] ="1001px";
                     
@@ -106,9 +107,16 @@ namespace WebApplication1
                 // foreach tag on file{
                 //BulletedList1.Items.Add(new ListItem(""));
                 // }
+                addFiletoPackagePanel.Visible = false;
                 TagPanel.Visible = true;
                 fileI.Value = id.ToString();
                 fileN.Value = filename;
+            }
+            else if (e.CommandName == "addToPackage")
+            {
+                TagPanel.Visible = false;
+                addFiletoPackagePanel.Visible = true;
+                fileI2.Value = id.ToString();
             }
         }
 
