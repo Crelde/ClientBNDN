@@ -20,10 +20,12 @@ namespace WebApplication1
                 using (var serv = new ServiceReference1.ServiceClient())
                 {
                     fixSource(true);
+                //activeuserLabel.Text = Controller._sessionUser.Email;
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass = "rightCol";
                     TagPanel.CssClass = "rightCol";
                     addFiletoPackagePanel.CssClass = "rightCol";
+                    passwordPanel.CssClass = "rightCol";
                     TagPanel.Style["width"] = "350px";
                     //TagPanel.Style["margin-left"] ="1001px";
                 }
@@ -118,12 +120,12 @@ namespace WebApplication1
             else if (e.CommandName == "tag")
             {
                 updateBulletList(id);
-                addFiletoPackagePanel.Visible = false;
+                hideRightPanels();
             }
             else if (e.CommandName == "addToPackage")
             {
                 fileI2.Value = id.ToString();
-                TagPanel.Visible = false;
+                hideRightPanels();
                 addFiletoPackagePanel.Visible = true;
 
                 foreach(ServiceReference1.Package package in packageList)
@@ -301,9 +303,12 @@ namespace WebApplication1
 
         protected void createPackage_Click(object sender, EventArgs e)
         {
-            InteractivePanelFiles.Visible = false;
+            hideMidPanels();
+            hideRightPanels();
             InteractivePanelOther.Visible = true;
         }
+
+        
 
         protected void submitpackage_Click(object sender, EventArgs e)
         {
@@ -312,6 +317,8 @@ namespace WebApplication1
             ServiceReference1.Package package = new ServiceReference1.Package();
 
             package.Name = pName;
+            hideRightPanels();
+            hideMidPanels();
 
             try { Controller.CreatePackage(package); }
             catch (NotLoggedInException)
@@ -331,21 +338,66 @@ namespace WebApplication1
             fixSource(true);
 
             DropDownList1.SelectedIndex = DropDownList1.Items.Count - 4;
-            InteractivePanelOther.Visible = false;
             InteractivePanelFiles.Visible = true;
         }
 
         protected void cancelcreatepacakge_Click(object sender, EventArgs e)
         {
+            hideRightPanels();
+            hideMidPanels();
+            InteractivePanelFiles.Visible = true;
+        }
+        protected void hideRightPanels()
+        {
+
+            TagPanel.Visible = false;
+            passwordPanel.Visible = false;
+            addFiletoPackagePanel.Visible = false;
+        }
+        protected void hideMidPanels()
+        {
             InteractivePanelOther.Visible = false;
+            InteractivePanelFiles.Visible = false;
+            InteractivePanelAdmin.Visible = false;
+
+        }
+        protected void changepw_Click(object sender, EventArgs e)
+        {
+            hideRightPanels();
+            hideMidPanels();
+            passwordPanel.Visible = true;
+        }
+
+        protected void cancelpw_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+
+        }
+
+        protected void cancelTag_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
             InteractivePanelFiles.Visible = true;
         }
 
-        protected void logOut_Click(object sender, EventArgs e)
+         protected void canceladdpack_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+        }
+
+        
+         protected void logOut_Click(object sender, EventArgs e)
         {
             try { Controller.LogOut(); }
             catch (NotLoggedInException) { } 
             finally { Response.Redirect("LogInForm.aspx"); } 
+        }
+        {
         }
 
         // THIS IS NOT YET DONE FRONT END
