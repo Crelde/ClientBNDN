@@ -335,6 +335,7 @@ namespace ClientUnitTest
                 }
             }
         }
+
         //check if adding and removing tags does what they're supposed to
         [TestMethod]
         public void tagTest1()
@@ -622,7 +623,7 @@ namespace ClientUnitTest
 
         //check if editing file metadata is only allowed to correct people
         [TestMethod]
-        public void tagTest2()
+        public void metaDataTest1()
         {
             User user1 = new User();
             user1.Email = "u1@mail.com";
@@ -715,10 +716,173 @@ namespace ClientUnitTest
 
         //check if editing file metadata does what it's supposed to
         [TestMethod]
-        public void tagTest3()
+        public void metaDataTest2()
         {
-            
+            User user1 = new User();
+            user1.Email = "u1@mail.com";
+            user1.Password = "user1";
+            user1.Type = UserType.admin;
 
+            User user8 = new User();
+            user8.Email = "u8@mail.com";
+            user8.Password = "user8";
+            user8.Type = UserType.standard;
+
+            User testAdmin = new User();
+            testAdmin.Email = "ua@mail.com";
+            testAdmin.Password = "usera";
+            testAdmin.Type = UserType.admin;
+
+            Package p = new Package();
+            p.Id = 1003;
+            p.Name = "p1003";
+            p.OwnerEmail = "u1@mail.com";
+            p.FileIds = new int[] { 003 };
+
+            FileInfo fi = new FileInfo();
+            fi.Id = 003;
+            fi.Name = "testItem";
+            fi.OwnerEmail = "u1@mail.com";
+            fi.Type = FileType.text;
+
+            FileInfo update1 = new FileInfo();
+            update1.Id = 003;
+            update1.Name = "updatedItem1";
+            update1.OwnerEmail = "u1@mail.com";
+            update1.Type = FileType.text;
+
+            FileInfo update2 = new FileInfo();
+            update2.Id = 003;
+            update2.Name = "updatedItem2";
+            update2.OwnerEmail = "u1@mail.com";
+            update2.Type = FileType.text;
+
+            Right r = new Right();
+            r.ItemId = 003;
+            r.Type = RightType.edit;
+            r.Until = DateTime.Now.AddDays(1);
+            r.UserEmail = "u1@mail.com";
+
+            Right ru = new Right();
+            ru.ItemId = 003;
+            ru.Type = RightType.edit;
+            ru.Until = DateTime.Now.AddDays(1);
+            ru.UserEmail = "u8@mail.com";
+
+            var db = new Dictionary<string, User>();
+            db.Add("u1@mail.com", user1);
+            db.Add("ua@mail.com", testAdmin);
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => { return db[b]; };
+                ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => { return 1; };
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => { return p; };
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => { return fi; };
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => { return r; };
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { db.Add(b.Email, b); };
+                ShimServiceClient.AllInstances.GrantRightRight = (a, b) => { };
+
+                Controller.LogIn("u1@mail.com", "user1");
+                Controller.CreateUser(user8);
+                Controller.CreatePackage(p);
+                Controller.AddToPackage(new int[] { 003 }, 1003);
+                Controller.GrantRight(ru);
+                Controller.LogOut();
+
+                Controller.LogIn("u8@mail.com", "user8");
+                Controller.UpdateFileInfo(update1);
+                Assert.AreEqual("updatedItem1", Controller.GetFileInfoById(003).Name);
+                Controller.LogOut();
+
+                Controller.LogIn("u1@mail.com", "user1");
+                Controller.UpdateFileInfo(update2);
+                Assert.AreEqual("updatedItem2",Controller.GetFileInfoById(003).Name);
+                Controller.DropRight("u8@mail.com", 003);
+                Controller.LogOut();
+
+                Controller.LogIn("u8@mail.com", "user8");
+                try
+                {
+                    Controller.UpdateFileInfo(update1);
+                }
+                catch (InadequateObjectException) { }
+                
+                
+            }
+        }
+
+        //check if editing file metadata does what it's supposed to
+        [TestMethod]
+        public void metaDataTest3()
+        {
+            User user1 = new User();
+            user1.Email = "u1@mail.com";
+            user1.Password = "user1";
+            user1.Type = UserType.admin;
+
+            User user8 = new User();
+            user8.Email = "u8@mail.com";
+            user8.Password = "user8";
+            user8.Type = UserType.standard;
+
+            Package p = new Package();
+            p.Id = 1003;
+            p.Name = "p1003";
+            p.OwnerEmail = "u1@mail.com";
+            p.FileIds = new int[] { 003 };
+
+            FileInfo fi = new FileInfo();
+            fi.Id = 003;
+            fi.Name = "testItem";
+            fi.OwnerEmail = "u1@mail.com";
+            fi.Type = FileType.text;
+
+            FileInfo update1 = new FileInfo();
+            update1.Id = 003;
+            update1.Description = "This is a test description";
+            update1.OwnerEmail = "u1@mail.com";
+            update1.Type = FileType.text;
+
+            Right ru = new Right();
+            ru.ItemId = 003;
+            ru.Type = RightType.edit;
+            ru.Until = DateTime.Now.AddDays(1);
+            ru.UserEmail = "u8@mail.com";
+
+            var db = new Dictionary<string, User>();
+            db.Add("u1@mail.com", user1);
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => { return db[b]; };
+                ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => { return 1; };
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => { return p; };
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => { return fi; };
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => { return ru; };
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { db.Add(b.Email, b); };
+                ShimServiceClient.AllInstances.GrantRightRight = (a, b) => { };
+
+                Controller.LogIn("u1@mail.com", "user1");
+                Controller.CreateUser(user8);
+                Controller.CreatePackage(p);
+                Controller.AddToPackage(new int[] { 003 }, 1003);
+                Controller.GrantRight(ru);
+                Controller.LogOut();
+
+                Controller.LogIn("u8@mail.com", "user8");
+                Controller.UpdateFileInfo(update1);
+                Assert.AreEqual("This is a test description", Controller.GetFileInfoById(003).Description);
+                Controller.LogOut();
+            }
         }
     }
 }
