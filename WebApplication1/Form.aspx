@@ -27,9 +27,9 @@
             <asp:Button ID="ChangeUserButton" runat="server" Text="Log Out" OnClick="ChangeUserButton_Click" Height="32px" style="margin-left: 240px" Width="116px" />
         </div>
         <div class="leftCol">
+             <asp:Button ID="createPackage" runat="server" Text="Create new package" OnClick="createPackage_Click" />
              <br />
-            <input id="CreatePackage" type="button" value="Create Package"/>
-            <br />
+            &nbsp;<br />
             <asp:Button ID="testVisibility" runat="server" Text="testvisibility" OnClick="test_click"/>
             &nbsp;<br />
             <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Large" Text="These are the packages you have the rights to"></asp:Label>
@@ -38,7 +38,6 @@
             </asp:DropDownList>
              <br />
              <asp:Button ID="adminButton" runat="server" style="margin-left: 31px; margin-top: 8px;" Text="Admin Controls" OnClick="adminButton_Click" />
-             <asp:Button ID="addtopackage" runat="server" Text="AddFileToPackage" />
         </div>
             <asp:Panel ID="InteractivePanelFiles" runat="server" ScrollBars="Vertical" >
                 <asp:Label ID="uploadfilelabel" Text="Upload a new file here" runat="server"/>
@@ -113,10 +112,14 @@ ul.BList li a {color: #000000; }
    
 
         <asp:Panel ID="InteractivePanelOther" runat="server" Visible="false">
-            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
-            <asp:FileUpload ID="FileUpload2" runat="server" />
-            <asp:Button ID="Button1" runat="server" Text="Button" />
+            <asp:Label ID="Label1" runat="server" Text="Enter a name for your new package:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="packageName" runat="server" Width="199px"></asp:TextBox>
+            <asp:Button ID="submitpackage" runat="server" Text="Create Package" OnClick="submitpackage_Click" style="margin-left: 41px" />
+            <asp:Button ID="cancelcreatepacakge" runat="server" Text="Cancel" style="margin-left: 46px" OnClick="cancelcreatepacakge_Click" />
+
         </asp:Panel>
+
         <asp:Panel ID="InteractivePanelAdmin" runat="server" Visible="false">
             <asp:Label ID="Label2" runat="server" Text="Here goes all that is admin related, only visible to admins" Font-Size="Larger"></asp:Label>
             <br />
@@ -171,9 +174,7 @@ ul.BList li a {color: #000000; }
 
 <div id="dialog-form" style="display:none"; title="Upload a new File">
     Please fill in all the fields!
-      <table>
-          <tr>
-          Please write where the files originates:
+           Please write where the files originates:
          <td> Origin: <input id="fOrigin" type="text" /> </td> </tr>    
           <tr>   
           Please provide a description of the file:

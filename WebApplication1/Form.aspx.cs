@@ -248,6 +248,27 @@ namespace WebApplication1
         {
             DeleteBox.Text = BulletedList1.Items[e.Index].ToString();
         }
+
+        protected void createPackage_Click(object sender, EventArgs e)
+        {
+            InteractivePanelFiles.Visible = false;
+            InteractivePanelOther.Visible = true;
+        }
+
+        protected void submitpackage_Click(object sender, EventArgs e)
+        {
+            string pName = packageName.Text;
+
+            DropDownList1.SelectedIndex = DropDownList1.Items.Count - 1;
+            InteractivePanelOther.Visible = false;
+            InteractivePanelFiles.Visible = true;
+        }
+
+        protected void cancelcreatepacakge_Click(object sender, EventArgs e)
+        {
+            InteractivePanelOther.Visible = false;
+            InteractivePanelFiles.Visible = true;
+        }
        
 
     }

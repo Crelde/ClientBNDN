@@ -437,7 +437,6 @@ namespace WebApplication1
             if (newPackage == null
                 || newPackage.Name == null
                 || newPackage.Name.Length < 3
-                || newPackage.FileIds == null
                 || newPackage.FileIds.All(FileExists)
                 )
                 throw new InadequateObjectException();
