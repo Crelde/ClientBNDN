@@ -340,17 +340,14 @@
         <member name="P:WebApplication1.Fakes.ShimForm.fixSourceBoolean">
             <summary>Sets the shim of Form.fixSource(Boolean redo)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.logOut_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.messageBoxString">
-            <summary>Sets the shim of Form.messageBox(String message)</summary>
-        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.hideMidPanels">
             <summary>Sets the shim of Form.hideMidPanels()</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.hideRightPanels">
             <summary>Sets the shim of Form.hideRightPanels()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.messageBoxString">
+            <summary>Sets the shim of Form.messageBox(String message)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
@@ -427,17 +424,14 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSourceBoolean">
             <summary>Sets the shim of Form.fixSource(Boolean redo)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.logOut_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.messageBoxString">
-            <summary>Sets the shim of Form.messageBox(String message)</summary>
-        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.hideMidPanels">
             <summary>Sets the shim of Form.hideMidPanels()</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.hideRightPanels">
             <summary>Sets the shim of Form.hideRightPanels()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.messageBoxString">
+            <summary>Sets the shim of Form.messageBox(String message)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
