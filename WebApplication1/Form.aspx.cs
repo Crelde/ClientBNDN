@@ -11,19 +11,23 @@ namespace WebApplication1
 {
     public partial class Form : System.Web.UI.Page
     {
+        static Dictionary<string, int> packageDictionary = new Dictionary<string, int>();
+        static ServiceReference1.Package[] packageList;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 using (var serv = new ServiceReference1.ServiceClient())
                 {
-                    ServiceReference1.Package[] l = Controller.kewinhalp();
-                    foreach (ServiceReference1.Package p in l)
+                    packageList = Controller.CollectPackages();
+                    packageDictionary.Clear();
+                    
+                    foreach (ServiceReference1.Package p in packageList)
                     {
-                        DropDownList1.Items.Add(p.Id.ToString());
+                        packageDictionary.Add(p.Name, p.Id);
+                        DropDownList1.Items.Add(p.Name);
                     }
                     fixSource();
-                    BulletedList1.Items.Add(new ListItem("hello"));
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass = "rightCol";
                     TagPanel.CssClass = "rightCol";
@@ -35,47 +39,29 @@ namespace WebApplication1
 
         protected void fixSource()
         {
-            ServiceReference1.Package p = Controller.GetPackageById(int.Parse(""+DropDownList1.SelectedValue));
-            List<ServiceReference1.FileInfo> myList = new List<ServiceReference1.FileInfo>();
+            int packageId; 
+            packageDictionary.TryGetValue(DropDownList1.SelectedValue, out packageId);
 
-            foreach (int s in p.FileIds)
+            ServiceReference1.Package p = null;
+
+            foreach(ServiceReference1.Package package in packageList)
             {
-                myList.Add(Controller.GetFileInfoById(s));
+                if (package.Id == packageId)
+                    p = package;
             }
 
+            List<ServiceReference1.FileInfo> myList = new List<ServiceReference1.FileInfo>();
 
-            /*
-
-            //ServiceReference1.FileInfo f = new ServiceReference1.FileInfo();
-            //f.Description = "test fileinfo";
-            //f.Name = "Name of f";
-            //f.Id = 666;
-            //f.OwnerEmail = "crelde@crelde.crelde";
-            //f.Type = ServiceReference1.FileType.text;
-            //f.Date = DateTime.Now;
-            //myList.Add(f);
-
-            //ServiceReference1.FileInfo f1 = new ServiceReference1.FileInfo();
-            //f1.Description = "test fileinfo222";
-            //f1.Name = "Name of f222";
-            //f1.Id = 667;
-            //f1.OwnerEmail = "crelde@crelde.crelde222";
-            //f1.Type = ServiceReference1.FileType.text;
-            //f1.Date = DateTime.Now;
-            //myList.Add(f1);
-
-
-            //ServiceReference1.FileInfo f2 = new ServiceReference1.FileInfo();
-            //f2.Description = "Text about tequila";
-            //f2.Name = "TEQUILA";
-            //f2.Id = 668;
-            //f2.OwnerEmail = "crelde@drunk.com";
-            //f2.Type = ServiceReference1.FileType.text;
-            //f2.Date = DateTime.Now;
-            //myList.Add(f2);
-            */
+            foreach (int i in p.FileIds)
+            {
+                ServiceReference1.FileInfo fi = Controller.GetFileInfoById(i);
+                if (fi!=null)
+                    myList.Add(fi);
+            }
             DataList1.DataSource = myList;
             DataList1.DataBind();
+
+                       
         }
 
         protected void btn_command(object sender, CommandEventArgs e)
@@ -235,7 +221,6 @@ namespace WebApplication1
             InteractivePanelAdmin.Visible = true;
         }
 
-        // kewin do
         protected void CreateTag_Click(object sender, EventArgs e)
         {
             int idofchosenfile = int.Parse(fileI.Value);
@@ -261,7 +246,7 @@ namespace WebApplication1
             }
             updateBulletList(idofchosenfile); 
         }
-        // kewin do
+
         protected void DeleteTag_Click(object sender, EventArgs e)
         {
             int idofchosenfile = int.Parse(fileI.Value);

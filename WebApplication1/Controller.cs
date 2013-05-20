@@ -198,7 +198,7 @@ namespace WebApplication1
                 throw new NotLoggedInException();
 
             if (!FileExists(fileId))
-                throw new ObjectNotFoundException();
+                return null; // NOTE: ObjectNotFoundException is not thrown, as our sever is unable to remove old references from files that are deleted.
             
             using (var client = new ServiceClient())
             {
@@ -442,7 +442,6 @@ namespace WebApplication1
                 || !newPackage.FileIds.All(FileExists)
                 )
                 throw new InadequateObjectException();
-
             if (newPackage.FileIds.Any(fileId => !HasEditRights(fileId) && !IsOwnerOf(fileId)))
                 throw new InsufficientRightsException();
 

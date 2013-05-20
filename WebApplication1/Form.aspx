@@ -44,8 +44,8 @@
                 <asp:Label ID="uploadfilelabel" Text="Upload a new file here" runat="server"/>
                 <br />
                 <asp:FileUpload ID="FileUpload1" runat="server" />
-                <asp:Button ID="UploadModal" runat="server" style="margin-left: 22px" Text="Create a new File" Width="124px" />
-                <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 19px" Text="Upload!" Width="116px" />
+                <asp:Button ID="UploadModal" runat="server" style="margin-left: 22px" Text="Create a new File" Width="123px" Height="22px" />
+                <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 19px" Text="Upload!" Width="112px" Height="22px" />
                 <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="500px" style="margin-right: 0px">
                     <AlternatingItemStyle BackColor="#CCCCCC" />
                     <FooterStyle BackColor="#CCCCCC" />
