@@ -4,6 +4,69 @@
         <name>WebApplication1.Fakes</name>
     </assembly>
     <members>
+        <member name="T:WebApplication1.Fakes.ShimBinaryData">
+            <summary>Shim type of WebApplication1.BinaryData</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.#ctor">
+            <summary>Initializes a new shim instance</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.#ctor(WebApplication1.BinaryData)">
+            <summary>Initializes a new shim for the given instance</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.BehaveAsCurrent">
+            <summary>Assigns the &apos;Current&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.BehaveAsNotImplemented">
+            <summary>Assigns the &apos;NotImplemented&apos; behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.ComponentModel.IComponent)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.IHttpHandler)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.UI.IControlBuilderAccessor)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.UI.IControlDesignerAccessor)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.UI.IDataBindingsAccessor)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.UI.IExpressionsAccessor)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.UI.IFilterResolutionService)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.UI.INamingContainer)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.UI.IParserAccessor)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.Web.UI.IUrlResolutionService)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.ShimBinaryData.Bind(System.IDisposable)">
+            <summary>Binds the members of the interface to the shim.</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimBinaryData.Behavior">
+            <summary>Assigns the behavior for all methods of the shimmed type</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimBinaryData.Constructor">
+            <summary>Sets the shim of BinaryData.BinaryData()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimBinaryData.Page_LoadObjectEventArgs">
+            <summary>Sets the shim of BinaryData.Page_Load(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="T:WebApplication1.Fakes.ShimBinaryData.AllInstances">
+            <summary>Define shims for all instances members</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimBinaryData.AllInstances.Page_LoadObjectEventArgs">
+            <summary>Sets the shim of BinaryData.Page_Load(Object sender, EventArgs e)</summary>
+        </member>
         <member name="T:WebApplication1.Fakes.ShimController">
             <summary>Shim type of WebApplication1.Controller</summary>
         </member>
@@ -672,6 +735,678 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimWebForm1.AllInstances.Page_LoadObjectEventArgs">
             <summary>Sets the shim of WebForm1.Page_Load(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="T:WebApplication1.Fakes.StubBinaryData">
+            <summary>Stub type of WebApplication1.BinaryData</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.#ctor">
+            <summary>Initializes a new instance</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AddParsedSubObject(System.Object)">
+            <summary>Sets the stub of Control.AddParsedSubObject(Object obj)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.AddParsedSubObjectObject">
+            <summary>Sets the stub of Control.AddParsedSubObject(Object obj)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AddedControl(System.Web.UI.Control,System.Int32)">
+            <summary>Sets the stub of Control.AddedControl(Control control, Int32 index)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.AddedControlControlInt32">
+            <summary>Sets the stub of Control.AddedControl(Control control, Int32 index)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.ApplyStyleSheetSkin(System.Web.UI.Page)">
+            <summary>Sets the stub of Control.ApplyStyleSheetSkin(Page page)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ApplyStyleSheetSkinPage">
+            <summary>Sets the stub of Control.ApplyStyleSheetSkin(Page page)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToAutoHandlers">
+            <summary>Attaches delegates to emulate StubBinaryData.AutoHandlers as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToClientIDMode">
+            <summary>Attaches delegates to emulate StubBinaryData.ClientIDMode as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToEnableEventValidation">
+            <summary>Attaches delegates to emulate StubBinaryData.EnableEventValidation as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToEnableTheming">
+            <summary>Attaches delegates to emulate StubBinaryData.EnableTheming as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToEnableViewState">
+            <summary>Attaches delegates to emulate StubBinaryData.EnableViewState as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToID">
+            <summary>Attaches delegates to emulate StubBinaryData.ID as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToMasterPageFile">
+            <summary>Attaches delegates to emulate StubBinaryData.MasterPageFile as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToRenderingCompatibility">
+            <summary>Attaches delegates to emulate StubBinaryData.RenderingCompatibility as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToSkinID">
+            <summary>Attaches delegates to emulate StubBinaryData.SkinID as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToStyleSheetTheme">
+            <summary>Attaches delegates to emulate StubBinaryData.StyleSheetTheme as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToTheme">
+            <summary>Attaches delegates to emulate StubBinaryData.Theme as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToValidateRequestMode">
+            <summary>Attaches delegates to emulate StubBinaryData.ValidateRequestMode as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToViewStateMode">
+            <summary>Attaches delegates to emulate StubBinaryData.ViewStateMode as a property with a backing field.</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.AttachBackingFieldToVisible">
+            <summary>Attaches delegates to emulate StubBinaryData.Visible as a property with a backing field.</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.AutoHandlersGet">
+            <summary>Sets the stub of TemplateControl.get_AutoHandlers()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.AutoHandlersSetInt32">
+            <summary>Sets the stub of TemplateControl.set_AutoHandlers(Int32 value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ClientIDGet">
+            <summary>Sets the stub of Control.get_ClientID()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ClientIDModeGet">
+            <summary>Sets the stub of Control.get_ClientIDMode()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ClientIDModeSetClientIDMode">
+            <summary>Sets the stub of Control.set_ClientIDMode(ClientIDMode value)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.Construct">
+            <summary>Sets the stub of TemplateControl.Construct()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.Construct01">
+            <summary>Sets the stub of TemplateControl.Construct()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ContextGet">
+            <summary>Sets the stub of Page.get_Context()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ControlsGet">
+            <summary>Sets the stub of Control.get_Controls()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.CreateChildControls">
+            <summary>Sets the stub of Control.CreateChildControls()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.CreateChildControls01">
+            <summary>Sets the stub of Control.CreateChildControls()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.CreateControlCollection">
+            <summary>Sets the stub of Control.CreateControlCollection()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.CreateControlCollection01">
+            <summary>Sets the stub of Control.CreateControlCollection()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.CreateHtmlTextWriter(System.IO.TextWriter)">
+            <summary>Sets the stub of Page.CreateHtmlTextWriter(TextWriter tw)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.CreateHtmlTextWriterTextWriter">
+            <summary>Sets the stub of Page.CreateHtmlTextWriter(TextWriter tw)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.DataBind">
+            <summary>Sets the stub of Control.DataBind()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.DataBind(System.Boolean)">
+            <summary>Sets the stub of Control.DataBind(Boolean raiseOnDataBinding)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.DataBind01">
+            <summary>Sets the stub of Control.DataBind()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.DataBindBoolean">
+            <summary>Sets the stub of Control.DataBind(Boolean raiseOnDataBinding)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.DataBindChildren">
+            <summary>Sets the stub of Control.DataBindChildren()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.DataBindChildren01">
+            <summary>Sets the stub of Control.DataBindChildren()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.DeterminePostBackMode">
+            <summary>Sets the stub of Page.DeterminePostBackMode()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.DeterminePostBackMode01">
+            <summary>Sets the stub of Page.DeterminePostBackMode()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.DeterminePostBackModeUnvalidated">
+            <summary>Sets the stub of Page.DeterminePostBackModeUnvalidated()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.DeterminePostBackModeUnvalidated01">
+            <summary>Sets the stub of Page.DeterminePostBackModeUnvalidated()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.Dispose">
+            <summary>Sets the stub of Control.Dispose()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.Dispose01">
+            <summary>Sets the stub of Control.Dispose()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.EnableEventValidationGet">
+            <summary>Sets the stub of Page.get_EnableEventValidation()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.EnableEventValidationSetBoolean">
+            <summary>Sets the stub of Page.set_EnableEventValidation(Boolean value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.EnableThemingGet">
+            <summary>Sets the stub of TemplateControl.get_EnableTheming()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.EnableThemingSetBoolean">
+            <summary>Sets the stub of TemplateControl.set_EnableTheming(Boolean value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.EnableViewStateGet">
+            <summary>Sets the stub of Page.get_EnableViewState()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.EnableViewStateSetBoolean">
+            <summary>Sets the stub of Page.set_EnableViewState(Boolean value)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.EnsureChildControls">
+            <summary>Sets the stub of Control.EnsureChildControls()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.EnsureChildControls01">
+            <summary>Sets the stub of Control.EnsureChildControls()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.FindControl(System.String)">
+            <summary>Sets the stub of Page.FindControl(String id)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.FindControl(System.String,System.Int32)">
+            <summary>Sets the stub of Control.FindControl(String id, Int32 pathOffset)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.FindControlString">
+            <summary>Sets the stub of Page.FindControl(String id)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.FindControlStringInt32">
+            <summary>Sets the stub of Control.FindControl(String id, Int32 pathOffset)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.Focus">
+            <summary>Sets the stub of Control.Focus()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.Focus01">
+            <summary>Sets the stub of Control.Focus()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.FrameworkInitialize">
+            <summary>Sets the stub of Page.FrameworkInitialize()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.FrameworkInitialize01">
+            <summary>Sets the stub of Page.FrameworkInitialize()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.GetDesignModeState">
+            <summary>Sets the stub of Control.GetDesignModeState()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.GetDesignModeState01">
+            <summary>Sets the stub of Control.GetDesignModeState()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.GetTypeHashCode">
+            <summary>Sets the stub of Page.GetTypeHashCode()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.GetTypeHashCode01">
+            <summary>Sets the stub of Page.GetTypeHashCode()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.HasControls">
+            <summary>Sets the stub of Control.HasControls()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.HasControls01">
+            <summary>Sets the stub of Control.HasControls()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.IDGet">
+            <summary>Sets the stub of Page.get_ID()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.IDSetString">
+            <summary>Sets the stub of Page.set_ID(String value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.IdSeparatorGet">
+            <summary>Sets the stub of Page.get_IdSeparator()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.InitOutputCache(System.Web.UI.OutputCacheParameters)">
+            <summary>Sets the stub of Page.InitOutputCache(OutputCacheParameters cacheSettings)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.InitOutputCache(System.Int32,System.String,System.String,System.Web.UI.OutputCacheLocation,System.String)">
+            <summary>Sets the stub of Page.InitOutputCache(Int32 duration, String varyByHeader, String varyByCustom, OutputCacheLocation location, String varyByParam)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.InitOutputCache(System.Int32,System.String,System.String,System.String,System.Web.UI.OutputCacheLocation,System.String)">
+            <summary>Sets the stub of Page.InitOutputCache(Int32 duration, String varyByContentEncoding, String varyByHeader, String varyByCustom, OutputCacheLocation location, String varyByParam)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.InitOutputCacheInt32StringStringOutputCacheLocationString">
+            <summary>Sets the stub of Page.InitOutputCache(Int32 duration, String varyByHeader, String varyByCustom, OutputCacheLocation location, String varyByParam)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.InitOutputCacheInt32StringStringStringOutputCacheLocationString">
+            <summary>Sets the stub of Page.InitOutputCache(Int32 duration, String varyByContentEncoding, String varyByHeader, String varyByCustom, OutputCacheLocation location, String varyByParam)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.InitOutputCacheOutputCacheParameters">
+            <summary>Sets the stub of Page.InitOutputCache(OutputCacheParameters cacheSettings)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.InitializeCulture">
+            <summary>Sets the stub of Page.InitializeCulture()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.InitializeCulture01">
+            <summary>Sets the stub of Page.InitializeCulture()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.InitializeStub">
+            <summary>Initializes a new instance of type StubBinaryData</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.LoadControlState(System.Object)">
+            <summary>Sets the stub of Control.LoadControlState(Object savedState)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.LoadControlStateObject">
+            <summary>Sets the stub of Control.LoadControlState(Object savedState)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.LoadPageStateFromPersistenceMedium">
+            <summary>Sets the stub of Page.LoadPageStateFromPersistenceMedium()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.LoadPageStateFromPersistenceMedium01">
+            <summary>Sets the stub of Page.LoadPageStateFromPersistenceMedium()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.LoadViewState(System.Object)">
+            <summary>Sets the stub of Control.LoadViewState(Object savedState)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.LoadViewStateObject">
+            <summary>Sets the stub of Control.LoadViewState(Object savedState)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.MasterPageFileGet">
+            <summary>Sets the stub of Page.get_MasterPageFile()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.MasterPageFileSetString">
+            <summary>Sets the stub of Page.set_MasterPageFile(String value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.NamingContainerGet">
+            <summary>Sets the stub of Control.get_NamingContainer()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnAbortTransaction(System.EventArgs)">
+            <summary>Sets the stub of TemplateControl.OnAbortTransaction(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnAbortTransactionEventArgs">
+            <summary>Sets the stub of TemplateControl.OnAbortTransaction(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnBubbleEvent(System.Object,System.EventArgs)">
+            <summary>Sets the stub of Control.OnBubbleEvent(Object source, EventArgs args)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnBubbleEventObjectEventArgs">
+            <summary>Sets the stub of Control.OnBubbleEvent(Object source, EventArgs args)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnCommitTransaction(System.EventArgs)">
+            <summary>Sets the stub of TemplateControl.OnCommitTransaction(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnCommitTransactionEventArgs">
+            <summary>Sets the stub of TemplateControl.OnCommitTransaction(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnDataBinding(System.EventArgs)">
+            <summary>Sets the stub of Control.OnDataBinding(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnDataBindingEventArgs">
+            <summary>Sets the stub of Control.OnDataBinding(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnError(System.EventArgs)">
+            <summary>Sets the stub of TemplateControl.OnError(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnErrorEventArgs">
+            <summary>Sets the stub of TemplateControl.OnError(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnInit(System.EventArgs)">
+            <summary>Sets the stub of Page.OnInit(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnInitComplete(System.EventArgs)">
+            <summary>Sets the stub of Page.OnInitComplete(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnInitCompleteEventArgs">
+            <summary>Sets the stub of Page.OnInitComplete(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnInitEventArgs">
+            <summary>Sets the stub of Page.OnInit(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnLoad(System.EventArgs)">
+            <summary>Sets the stub of Control.OnLoad(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnLoadComplete(System.EventArgs)">
+            <summary>Sets the stub of Page.OnLoadComplete(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnLoadCompleteEventArgs">
+            <summary>Sets the stub of Page.OnLoadComplete(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnLoadEventArgs">
+            <summary>Sets the stub of Control.OnLoad(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnPreInit(System.EventArgs)">
+            <summary>Sets the stub of Page.OnPreInit(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnPreInitEventArgs">
+            <summary>Sets the stub of Page.OnPreInit(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnPreLoad(System.EventArgs)">
+            <summary>Sets the stub of Page.OnPreLoad(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnPreLoadEventArgs">
+            <summary>Sets the stub of Page.OnPreLoad(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnPreRender(System.EventArgs)">
+            <summary>Sets the stub of Control.OnPreRender(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnPreRenderComplete(System.EventArgs)">
+            <summary>Sets the stub of Page.OnPreRenderComplete(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnPreRenderCompleteEventArgs">
+            <summary>Sets the stub of Page.OnPreRenderComplete(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnPreRenderEventArgs">
+            <summary>Sets the stub of Control.OnPreRender(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnSaveStateComplete(System.EventArgs)">
+            <summary>Sets the stub of Page.OnSaveStateComplete(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnSaveStateCompleteEventArgs">
+            <summary>Sets the stub of Page.OnSaveStateComplete(EventArgs e)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.OnUnload(System.EventArgs)">
+            <summary>Sets the stub of Control.OnUnload(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.OnUnloadEventArgs">
+            <summary>Sets the stub of Control.OnUnload(EventArgs e)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.PageStatePersisterGet">
+            <summary>Sets the stub of Page.get_PageStatePersister()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ParentGet">
+            <summary>Sets the stub of Control.get_Parent()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.ProcessRequest(System.Web.HttpContext)">
+            <summary>Sets the stub of Page.ProcessRequest(HttpContext context)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ProcessRequestHttpContext">
+            <summary>Sets the stub of Page.ProcessRequest(HttpContext context)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.RaisePostBackEvent(System.Web.UI.IPostBackEventHandler,System.String)">
+            <summary>Sets the stub of Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RaisePostBackEventIPostBackEventHandlerString">
+            <summary>Sets the stub of Page.RaisePostBackEvent(IPostBackEventHandler sourceControl, String eventArgument)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.RegisterClientScriptBlock(System.String,System.String)">
+            <summary>Sets the stub of Page.RegisterClientScriptBlock(String key, String script)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RegisterClientScriptBlockStringString">
+            <summary>Sets the stub of Page.RegisterClientScriptBlock(String key, String script)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.RegisterHiddenField(System.String,System.String)">
+            <summary>Sets the stub of Page.RegisterHiddenField(String hiddenFieldName, String hiddenFieldInitialValue)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RegisterHiddenFieldStringString">
+            <summary>Sets the stub of Page.RegisterHiddenField(String hiddenFieldName, String hiddenFieldInitialValue)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.RegisterRequiresRaiseEvent(System.Web.UI.IPostBackEventHandler)">
+            <summary>Sets the stub of Page.RegisterRequiresRaiseEvent(IPostBackEventHandler control)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RegisterRequiresRaiseEventIPostBackEventHandler">
+            <summary>Sets the stub of Page.RegisterRequiresRaiseEvent(IPostBackEventHandler control)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.RegisterStartupScript(System.String,System.String)">
+            <summary>Sets the stub of Page.RegisterStartupScript(String key, String script)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RegisterStartupScriptStringString">
+            <summary>Sets the stub of Page.RegisterStartupScript(String key, String script)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.RemovedControl(System.Web.UI.Control)">
+            <summary>Sets the stub of Control.RemovedControl(Control control)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RemovedControlControl">
+            <summary>Sets the stub of Control.RemovedControl(Control control)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.Render(System.Web.UI.HtmlTextWriter)">
+            <summary>Sets the stub of Page.Render(HtmlTextWriter writer)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.RenderChildren(System.Web.UI.HtmlTextWriter)">
+            <summary>Sets the stub of Control.RenderChildren(HtmlTextWriter writer)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RenderChildrenHtmlTextWriter">
+            <summary>Sets the stub of Control.RenderChildren(HtmlTextWriter writer)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.RenderControl(System.Web.UI.HtmlTextWriter)">
+            <summary>Sets the stub of Control.RenderControl(HtmlTextWriter writer)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RenderControlHtmlTextWriter">
+            <summary>Sets the stub of Control.RenderControl(HtmlTextWriter writer)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RenderHtmlTextWriter">
+            <summary>Sets the stub of Page.Render(HtmlTextWriter writer)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RenderingCompatibilityGet">
+            <summary>Sets the stub of Control.get_RenderingCompatibility()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.RenderingCompatibilitySetVersion">
+            <summary>Sets the stub of Control.set_RenderingCompatibility(Version value)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.ResolveAdapter">
+            <summary>Sets the stub of Control.ResolveAdapter()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ResolveAdapter01">
+            <summary>Sets the stub of Control.ResolveAdapter()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.SaveControlState">
+            <summary>Sets the stub of Control.SaveControlState()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.SaveControlState01">
+            <summary>Sets the stub of Control.SaveControlState()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.SavePageStateToPersistenceMedium(System.Object)">
+            <summary>Sets the stub of Page.SavePageStateToPersistenceMedium(Object state)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.SavePageStateToPersistenceMediumObject">
+            <summary>Sets the stub of Page.SavePageStateToPersistenceMedium(Object state)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.SaveViewState">
+            <summary>Sets the stub of Control.SaveViewState()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.SaveViewState01">
+            <summary>Sets the stub of Control.SaveViewState()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.SessionGet">
+            <summary>Sets the stub of Page.get_Session()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.SetDesignModeState(System.Collections.IDictionary)">
+            <summary>Sets the stub of Control.SetDesignModeState(IDictionary data)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.SetDesignModeStateIDictionary">
+            <summary>Sets the stub of Control.SetDesignModeState(IDictionary data)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.SkinIDGet">
+            <summary>Sets the stub of Control.get_SkinID()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.SkinIDSetString">
+            <summary>Sets the stub of Control.set_SkinID(String value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.StyleSheetThemeGet">
+            <summary>Sets the stub of Page.get_StyleSheetTheme()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.StyleSheetThemeSetString">
+            <summary>Sets the stub of Page.set_StyleSheetTheme(String value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.SupportAutoEventsGet">
+            <summary>Sets the stub of TemplateControl.get_SupportAutoEvents()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.TemplateSourceDirectoryGet">
+            <summary>Sets the stub of Control.get_TemplateSourceDirectory()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.TestDeviceFilter(System.String)">
+            <summary>Sets the stub of TemplateControl.TestDeviceFilter(String filterName)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.TestDeviceFilterString">
+            <summary>Sets the stub of TemplateControl.TestDeviceFilter(String filterName)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ThemeGet">
+            <summary>Sets the stub of Page.get_Theme()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ThemeSetString">
+            <summary>Sets the stub of Page.set_Theme(String value)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.TrackViewState">
+            <summary>Sets the stub of Control.TrackViewState()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.TrackViewState01">
+            <summary>Sets the stub of Control.TrackViewState()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.TryUpdateModel``1(``0)">
+            <summary>Sets the stub of Page.TryUpdateModel(!!0 model)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.TryUpdateModel``1(``0,System.Web.ModelBinding.IValueProvider)">
+            <summary>Sets the stub of Page.TryUpdateModel(!!0 model, IValueProvider valueProvider)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.TryUpdateModelOf1M0``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0,System.Boolean})">
+            <summary>Sets stubs of TryUpdateModel(!!0 model)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.TryUpdateModelOf1M0IValueProvider``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Func{``0,System.Web.ModelBinding.IValueProvider,System.Boolean})">
+            <summary>Sets stubs of TryUpdateModel(!!0 model, IValueProvider valueProvider)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.UniqueFilePathSuffixGet">
+            <summary>Sets the stub of Page.get_UniqueFilePathSuffix()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.UniqueIDGet">
+            <summary>Sets the stub of Control.get_UniqueID()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.UpdateModel``1(``0)">
+            <summary>Sets the stub of Page.UpdateModel(!!0 model)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.UpdateModel``1(``0,System.Web.ModelBinding.IValueProvider)">
+            <summary>Sets the stub of Page.UpdateModel(!!0 model, IValueProvider valueProvider)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.UpdateModelOf1M0``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Action{``0})">
+            <summary>Sets stubs of UpdateModel(!!0 model)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.UpdateModelOf1M0IValueProvider``1(Microsoft.QualityTools.Testing.Fakes.FakesDelegates.Action{``0,System.Web.ModelBinding.IValueProvider})">
+            <summary>Sets stubs of UpdateModel(!!0 model, IValueProvider valueProvider)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.Validate">
+            <summary>Sets the stub of Page.Validate()</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.Validate(System.String)">
+            <summary>Sets the stub of Page.Validate(String validationGroup)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.Validate01">
+            <summary>Sets the stub of Page.Validate()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ValidateRequestModeGet">
+            <summary>Sets the stub of Page.get_ValidateRequestMode()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ValidateRequestModeSetValidateRequestMode">
+            <summary>Sets the stub of Page.set_ValidateRequestMode(ValidateRequestMode value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ValidateString">
+            <summary>Sets the stub of Page.Validate(String validationGroup)</summary>
+        </member>
+        <member name="M:WebApplication1.Fakes.StubBinaryData.VerifyRenderingInServerForm(System.Web.UI.Control)">
+            <summary>Sets the stub of Page.VerifyRenderingInServerForm(Control control)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.VerifyRenderingInServerFormControl">
+            <summary>Sets the stub of Page.VerifyRenderingInServerForm(Control control)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ViewStateGet">
+            <summary>Sets the stub of Control.get_ViewState()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ViewStateIgnoresCaseGet">
+            <summary>Sets the stub of Control.get_ViewStateIgnoresCase()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ViewStateModeGet">
+            <summary>Sets the stub of Control.get_ViewStateMode()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.ViewStateModeSetViewStateMode">
+            <summary>Sets the stub of Control.set_ViewStateMode(ViewStateMode value)</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.VisibleGet">
+            <summary>Sets the stub of Page.get_Visible()</summary>
+        </member>
+        <member name="F:WebApplication1.Fakes.StubBinaryData.VisibleSetBoolean">
+            <summary>Sets the stub of Page.set_Visible(Boolean value)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.AutoHandlers">
+            <summary>Sets the stub of TemplateControl.get_AutoHandlers()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.CallBase">
+            <summary>Gets or sets a value that indicates if the base method should be called instead of the fallback behavior</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.ClientID">
+            <summary>Sets the stub of Control.get_ClientID()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.ClientIDMode">
+            <summary>Sets the stub of Control.get_ClientIDMode()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.Context">
+            <summary>Sets the stub of Page.get_Context()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.Controls">
+            <summary>Sets the stub of Control.get_Controls()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.EnableEventValidation">
+            <summary>Sets the stub of Page.get_EnableEventValidation()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.EnableTheming">
+            <summary>Sets the stub of TemplateControl.get_EnableTheming()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.EnableViewState">
+            <summary>Sets the stub of Page.get_EnableViewState()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.ID">
+            <summary>Sets the stub of Page.get_ID()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.IdSeparator">
+            <summary>Sets the stub of Page.get_IdSeparator()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.InstanceBehavior">
+            <summary>Gets or sets the instance behavior.</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.InstanceObserver">
+            <summary>Gets or sets the instance observer.</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.MasterPageFile">
+            <summary>Sets the stub of Page.get_MasterPageFile()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.NamingContainer">
+            <summary>Sets the stub of Control.get_NamingContainer()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.PageStatePersister">
+            <summary>Sets the stub of Page.get_PageStatePersister()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.Parent">
+            <summary>Sets the stub of Control.get_Parent()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.RenderingCompatibility">
+            <summary>Sets the stub of Control.get_RenderingCompatibility()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.Session">
+            <summary>Sets the stub of Page.get_Session()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.SkinID">
+            <summary>Sets the stub of Control.get_SkinID()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.StyleSheetTheme">
+            <summary>Sets the stub of Page.get_StyleSheetTheme()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.SupportAutoEvents">
+            <summary>Sets the stub of TemplateControl.get_SupportAutoEvents()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.TemplateSourceDirectory">
+            <summary>Sets the stub of Control.get_TemplateSourceDirectory()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.Theme">
+            <summary>Sets the stub of Page.get_Theme()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.UniqueFilePathSuffix">
+            <summary>Sets the stub of Page.get_UniqueFilePathSuffix()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.UniqueID">
+            <summary>Sets the stub of Control.get_UniqueID()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.ValidateRequestMode">
+            <summary>Sets the stub of Page.get_ValidateRequestMode()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.ViewState">
+            <summary>Sets the stub of Control.get_ViewState()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.ViewStateIgnoresCase">
+            <summary>Sets the stub of Control.get_ViewStateIgnoresCase()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.ViewStateMode">
+            <summary>Sets the stub of Control.get_ViewStateMode()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.StubBinaryData.Visible">
+            <summary>Sets the stub of Page.get_Visible()</summary>
         </member>
         <member name="T:WebApplication1.Fakes.StubController">
             <summary>Stub type of WebApplication1.Controller</summary>

@@ -59,6 +59,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BinaryData.aspx" />
     <Content Include="Form.aspx" />
     <None Include="Scripts\jquery-2.0.0-vsdoc.js" />
     <Content Include="Scripts\images\animated-overlay.gif" />
@@ -92,6 +93,13 @@
     <Content Include="LogInForm.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryData.aspx.cs">
+      <DependentUpon>BinaryData.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="BinaryData.aspx.designer.cs">
+      <DependentUpon>BinaryData.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Controller.cs" />
     <Compile Include="ControllerExceptions.cs" />
     <Compile Include="Form.aspx.cs">

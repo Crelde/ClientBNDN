@@ -111,19 +111,22 @@ namespace WebApplication1
                 try 
                 { 
                     file = Controller.DownloadFileById(id);
-                    /*
-                    File.
-                    //test
-                    Response.BinaryWrite(file);
-                    Response.Flush();
                     
+                    //File.
+                    //test
+                    //Response.BinaryWrite(file);
+                    //Response.Flush();
 
-                    File.wr
-                    File.WriteAllBytes("mor.jpg", file);
-                    */
+                    string filename = "Flytning.pdf";
+                    File.WriteAllBytes("D:\\Visual Studio Workspace\\ClientBNDN\\WebApplication1\\"+filename, file);
+                    Response.Redirect("Flytning.pdf");
+
+                    
                 }
                 catch (NotLoggedInException)
                 {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('An error has occured, try reloading the page.');", true);
+                    Response.Redirect("LogInForm.aspx");
                     // Shouldn't ever happen, but if it does, do a popup and send back to login screen. #Crelde
                 }
                 catch (ObjectNotFoundException)
@@ -304,8 +307,5 @@ namespace WebApplication1
         {
             fixSource();
         }
-
-
-
     }
 }
