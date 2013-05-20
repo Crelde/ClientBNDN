@@ -5,6 +5,7 @@ using WebApplication1.ServiceReference1.Fakes;
 using WebApplication1.ServiceReference1;
 using WebApplication1;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 
 namespace ClientUnitTest
@@ -24,6 +25,10 @@ namespace ClientUnitTest
             // Inserting blank methods instead of connecting to service
             ShimsContext.Create();
             ShimServiceClient.Constructor = (a) => { };
+            ShimServiceClient.ConstructorBindingEndpointAddress = (a, b, c) => { };
+            ShimServiceClient.ConstructorString = (a, b) => { };
+            ShimServiceClient.ConstructorStringEndpointAddress = (a, b, c) => { };
+            ShimServiceClient.ConstructorStringString = (a, b, c) => { };
             System.ServiceModel.Fakes.
                 ShimClientBase<WebApplication1.ServiceReference1.IService>.
                 AllInstances.Close = (a) => { };
@@ -146,7 +151,7 @@ namespace ClientUnitTest
                     Controller.CreateUser(testuser); //this should fail
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //User not created. All is good.
                 }
@@ -183,7 +188,7 @@ namespace ClientUnitTest
                 {
                     Controller.CreateUser(testuser);
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     //User not created. Something is wrong
                 }
@@ -217,7 +222,7 @@ namespace ClientUnitTest
                 {
                     Controller.DownloadFileById(011);
                 }
-                catch (NotLoggedInException e)
+                catch (NotLoggedInException)
                 {
                     // everything is ok!
                 }
@@ -248,13 +253,92 @@ namespace ClientUnitTest
                 {
                     Controller.UpdateUser(test2);
                 }
-                catch (InsufficientRightsException e)
+                catch (InsufficientRightsException)
                 {
                     //Everything is good.
                 }
             }
         }
+        //check if adding and removing tags does what they're supposed to
+        [TestMethod]
+        public void tagTest1()
+        {
 
+            User user1 = new User();
+            user1.Email = "u1@mail.com";
+            user1.Password = "user1";
+            user1.Type = UserType.standard;
+
+            User user2 = new User();
+            user2.Email = "u2@mail.com";
+            user2.Password = "user2";
+            user2.Type = UserType.standard;
+
+            Package p = new Package();
+            p.Id = 1001;
+            p.Name = "p1001";
+            p.OwnerEmail = "u1@mail.com";
+            p.FileIds = new int[] {001};
+
+            FileInfo fi = new FileInfo();
+            fi.Id = 001;
+            fi.Name = "testItem";
+            fi.OwnerEmail = "u1@mail.com";
+            fi.Type = FileType.text;
+
+            Right r = new Right();
+            r.ItemId = 001;
+            r.Type = RightType.edit;
+            r.Until = DateTime.Now.AddDays(1);
+            r.UserEmail = "u1@mail.com";
+
+            Right r2 = new Right();
+            r2.ItemId = 001;
+            r2.Type = RightType.edit;
+            r2.Until = DateTime.Now.AddDays(1);
+            r2.UserEmail = "u2@mail.com";
+
+            var tagsList = new List<string>();
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) =>
+                {
+                    if (b.Equals(user1.Email)) { return user1; } else { return user2; }
+                };
+                ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => { return 1; };
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => { return p; };
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => { return fi; };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => { return r; };
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+                ShimServiceClient.AllInstances.GrantRightRight = (a, b) => { };
+                ShimServiceClient.AllInstances.GetTagsByItemIdInt32 = (a, b) => { return tagsList.ToArray();};
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => {tagsList.Add(b);};
+                };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) =>
+                {
+                    if (b.Equals(r)) { return r; } else { return r2; }
+                };
+                
+                Controller.LogIn("u1@mail.com", "user1");
+                Controller.CreatePackage(p);
+                Controller.AddToPackage(new int[] { 001 }, 1001);
+                Controller.AddTag("testTag", 001);
+                Controller.GrantRight(r2);
+                Controller.LogOut();
+
+                Controller.LogIn("u2@mail.com", "user2");
+                Controller.AddTag("tag2",001);
+                Assert.AreEqual(new string[] {"testTag","tag2"}, Controller.GetTagsByItemId(001));
+                Controller.DropTag("testTag", 001);
+                Assert.AreEqual(new string[] { "tag2" }, Controller.GetTagsByItemId(001));
+                Controller.LogOut();
+
+                Controller.LogIn("u1@mail.com", "user1");
+                Assert.AreEqual(new string[] { "tag2" }, Controller.GetTagsByItemId(001));
+                Controller.LogOut();
+        }
         //check to see if logging in keeps you logged in
         [TestMethod]
         public void sessioning1()
@@ -305,10 +389,106 @@ namespace ClientUnitTest
                 try
                 {
                     Controller.UpdateFileInfo(fiu);
-                } catch(OriginalNotFoundException e){
+                } catch(OriginalNotFoundException){
                     //This should be thrown
                 }
             }
+        }
+
+        //check if logging into one account, logging out, then logging into another account gives correct authorization 
+        [TestMethod]
+        public void authorization2()
+        {
+            User user1 = new User();
+            user1.Email = "u1@mail.com";
+            user1.Password = "user1";
+            user1.Type = UserType.standard;
+
+            User user2 = new User();
+            user2.Email = "u2@mail.com";
+            user2.Password = "user2";
+            user2.Type = UserType.standard;
+
+            Package p = new Package();
+            p.Id = 1001;
+            p.Name = "p1001";
+            p.OwnerEmail = "u1@mail.com";
+            p.FileIds = new int[] {001};
+
+            FileInfo fi = new FileInfo();
+            fi.Id = 001;
+            fi.Name = "testItem";
+            fi.OwnerEmail = "u1@mail.com";
+            fi.Type = FileType.text;
+
+            FileInfo update = new FileInfo();
+            update.Id = 001;
+            update.Name = "updatedItem";
+            update.OwnerEmail = "u1@mail.com";
+            update.Type = FileType.text;
+
+            Right r = new Right();
+            r.ItemId = 092;
+            r.Type = RightType.edit;
+            r.Until = DateTime.Now.AddDays(1);
+            r.UserEmail = "u1@mail.com";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) =>
+                {
+                    if (b.Equals(user1.Email)) { return user1; } else { return user2; }
+                };
+                ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => { return 1; };
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => { return p; };
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => { return fi; };
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => { return r; };
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+
+                Controller.LogIn("u1@mail.com", "user1");
+                Controller.CreatePackage(p);
+                Controller.AddToPackage(new int[] { 001 }, 1001);
+
+                Controller.LogOut();
+
+                Controller.LogIn("u2@mail.com", "user2");
+                try
+                {
+                    Controller.UpdateFileInfo(update);
+                } catch(InadequateObjectException) 
+                { 
+                    //should fail 
+                }
+                Controller.LogOut();
+
+                Controller.LogIn("u1@mail.com","user1");
+                try
+                {
+                    Controller.UpdateFileInfo(update);
+                } catch(InsufficientRightsException) 
+                { 
+                    //should not fail 
+                }
+            }
+        }
+        
+        
+
+        //check if editing file metadata is only allowed to correct people
+        [TestMethod]
+        public void tagTest2()
+        {
+
+        }
+
+        //check if editing file metadata does what it's supposed to
+        [TestMethod]
+        public void tagTest3()
+        {
+
         }
     }
 }
