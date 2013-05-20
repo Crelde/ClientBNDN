@@ -61,7 +61,7 @@
                             <br />
                             <asp:Label ID="dDate" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Date") %>'></asp:Label>
                             <br />
-                            <asp:Button ID="downloadItem" runat="server" CommandArgument='<%# Eval("Id") %>' CommandName="download" Height="32px" OnCommand="btn_command" Text="Download" Width="112px" />
+                            <asp:Button ID="downloadItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="download" Height="32px" OnCommand="btn_command" Text="Download" Width="112px" />
                             <br />
                             <asp:Button ID="deleteItem" runat="server" CommandName="delete" Height="32px" OnCommand="btn_command" Text="Delete" Width="112px" />
                         </h2>
