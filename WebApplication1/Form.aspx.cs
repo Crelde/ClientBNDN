@@ -19,15 +19,7 @@ namespace WebApplication1
             {
                 using (var serv = new ServiceReference1.ServiceClient())
                 {
-                    packageList = Controller.CollectPackages();
-                    packageDictionary.Clear();
-                    
-                    foreach (ServiceReference1.Package p in packageList)
-                    {
-                        packageDictionary.Add(p.Name, p.Id);
-                        DropDownList1.Items.Add(p.Name);
-                    }
-                    fixSource();
+                    fixSource(true);
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass = "rightCol";
                     TagPanel.CssClass = "rightCol";
@@ -38,22 +30,34 @@ namespace WebApplication1
             }
         }
 
-        protected void fixSource()
+        protected void fixSource(bool redo = false)
         {
+            if (redo)
+            {
+                packageList = Controller.CollectPackages();
+                packageDictionary.Clear();
+                DropDownList1.Items.Clear();
+                foreach (ServiceReference1.Package p in packageList)
+                {
+                    packageDictionary.Add(p.Name, p.Id);
+                    DropDownList1.Items.Add(p.Name);
+                }
+            }
+
             int packageId; 
             packageDictionary.TryGetValue(DropDownList1.SelectedValue, out packageId);
 
-            ServiceReference1.Package p = null;
+            ServiceReference1.Package pack = null;
 
             foreach(ServiceReference1.Package package in packageList)
             {
                 if (package.Id == packageId)
-                    p = package;
+                    pack = package;
             }
 
             List<ServiceReference1.FileInfo> myList = new List<ServiceReference1.FileInfo>();
-
-            foreach (int i in p.FileIds)
+            myList.Clear();
+            foreach (int i in pack.FileIds)
             {
                 ServiceReference1.FileInfo fi = Controller.GetFileInfoById(i);
                 if (fi!=null)
@@ -118,10 +122,18 @@ namespace WebApplication1
             }
             else if (e.CommandName == "addToPackage")
             {
+                fileI2.Value = id.ToString();
                 TagPanel.Visible = false;
                 addFiletoPackagePanel.Visible = true;
-                fileI2.Value = id.ToString();
+
+                foreach(ServiceReference1.Package package in packageList)
+                {
+                    if (package.Id > 0)
+                        PackageDropDownF.Items.Add(package.Name);
+                }
+                
             }
+            
         }
 
         protected void ChangeUserButton_Click(object sender, EventArgs e)
@@ -297,7 +309,28 @@ namespace WebApplication1
         {
             string pName = packageName.Text;
 
-            DropDownList1.SelectedIndex = DropDownList1.Items.Count - 1;
+            ServiceReference1.Package package = new ServiceReference1.Package();
+
+            package.Name = pName;
+
+            try { Controller.CreatePackage(package); }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InadequateObjectException)
+            {
+                messageBox("The name of the package has to be at least 4 characers long");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, please try reloading the page.");
+            }
+
+            fixSource(true);
+
+            DropDownList1.SelectedIndex = DropDownList1.Items.Count - 4;
             InteractivePanelOther.Visible = false;
             InteractivePanelFiles.Visible = true;
         }
@@ -403,6 +436,33 @@ namespace WebApplication1
                 messageBox("An error has occured, try reloading the page.");
             }
 
+        }
+
+        protected void addfiletoP_Click(object sender, EventArgs e)
+        {
+            int[] asArray = { int.Parse(fileI2.Value) };
+            int packageId;
+            packageDictionary.TryGetValue(PackageDropDownF.SelectedValue, out packageId);
+
+            try { Controller.AddToPackage(asArray, packageId); }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InadequateObjectException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            fixSource(true);
         }
     }
 }

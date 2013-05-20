@@ -430,7 +430,7 @@ namespace WebApplication1
         /// <summary>Creates the given Package on the service.</summary>
         /// <param name="newPackage">The Package that should be created.</param>
         /// <returns>The Id that the created Package has been given.</returns>
-        public static int CreatePackage(Package newPackage)
+        public static void CreatePackage(Package newPackage)
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
@@ -438,17 +438,16 @@ namespace WebApplication1
             if (newPackage == null
                 || newPackage.Name == null
                 || newPackage.Name.Length < 3
-                || !newPackage.FileIds.All(FileExists)
-                )
+                )             
                 throw new InadequateObjectException();
-            if (newPackage.FileIds.Any(fileId => !HasEditRights(fileId) && !IsOwnerOf(fileId)))
-                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
                 // NOTE - OwnerEmail field is force-set to the _sessionUser's Email.
                 newPackage.OwnerEmail = _sessionUser.Email;
-                return client.CreatePackage(newPackage);
+                try { client.CreatePackage(newPackage); }
+                catch (Exception) { }   // NOTE: This is unsafe, but the only way to stop faultException´1 from breaking the program, 
+                                        // it's thrown by the server even though everything works as intended
             }
         }
 
@@ -580,12 +579,6 @@ namespace WebApplication1
                     throw new ObjectNotFoundException();
                 }
             }
-        }
-
-        //KEWIN HJÆLPE FUNKTION
-        public static Package[] kewinhalp()
-        {
-            return GetOwnedPackagesByEmail(_sessionUser.Email);
         }
 
         /// <summary>Looks up Packages with a matching tag.</summary>

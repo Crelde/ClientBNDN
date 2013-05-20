@@ -105,7 +105,7 @@ ul.BList li a {color: #000000; }
                     <br />
                     <asp:DropDownList ID="PackageDropDownF" runat="server" > </asp:DropDownList >
                     <br />
-                    <asp:Button ID="addfiletoP" runat="server" Text="Add File" />
+                    <asp:Button ID="addfiletoP" runat="server" Text="Add File" OnClick="addfiletoP_Click" />
                     <asp:HiddenField ID="fileI2" runat="server" />
                 </asp:Panel>
    
