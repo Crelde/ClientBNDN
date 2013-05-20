@@ -11,53 +11,26 @@ namespace WebApplication1
 {
     public partial class Form : System.Web.UI.Page
     {
-        //bool updateTime = true;
         protected void Page_Load(object sender, EventArgs e)
         {
-                
-
-            // Here is a good place to add which packages should be able to be seen to the dropdown.
             if (!IsPostBack)
             {
                 using (var serv = new ServiceReference1.ServiceClient())
                 {
-                 
-
-
-                        ServiceReference1.Package[] l = Controller.kewinhalp();
-                        foreach (ServiceReference1.Package p in l)
-                        {
-                            DropDownList1.Items.Add(p.Id.ToString());
-                        }
-                        fixSource();
-                        //DropDownList1.Items.Add("");
-                        //DropDownList1.Items.Add("");
-
-                     
+                    ServiceReference1.Package[] l = Controller.kewinhalp();
+                    foreach (ServiceReference1.Package p in l)
+                    {
+                        DropDownList1.Items.Add(p.Id.ToString());
+                    }
+                    fixSource();
                 }
-
-                /*
-                
-                {
-                    Somebody get a list of all packages the user is supposed to see, and make it into a list, so my foreach works :)
-                     
-                    List<ServiceReference1.Package> l = new List<ServiceReference1.Package>(YOUR LIST);
-                    
-                    */
-
-
                     InteractivePanelFiles.CssClass = "rightCol";
-                    InteractivePanelOther.CssClass ="rightCol";
-                    
+                    InteractivePanelOther.CssClass ="rightCol";         
             }
-                
-
-            //}
-
         }
+
         protected void fixSource()
         {
-           // var fi = Controller.GetOwnedFileInfosByEmail(Controller._sessionUser.Email);
             ServiceReference1.Package p = Controller.GetPackageById(int.Parse(""+DropDownList1.SelectedValue));
             List<ServiceReference1.FileInfo> myList = new List<ServiceReference1.FileInfo>();
 
@@ -67,7 +40,7 @@ namespace WebApplication1
             }
 
 
-
+            /*
 
             //ServiceReference1.FileInfo f = new ServiceReference1.FileInfo();
             //f.Description = "test fileinfo";
@@ -96,7 +69,7 @@ namespace WebApplication1
             //f2.Type = ServiceReference1.FileType.text;
             //f2.Date = DateTime.Now;
             //myList.Add(f2);
-
+            */
             DataList1.DataSource = myList;
             DataList1.DataBind();
         }
@@ -111,42 +84,41 @@ namespace WebApplication1
 
             if (e.CommandName == "download")
             {
-                int id = int.Parse(idOfFile);
                 byte[] file;
                 try 
                 { 
                     file = Controller.DownloadFileById(id);
-                    
-                    //File.
-                    //test
-                    //Response.BinaryWrite(file);
-                    //Response.Flush();
-
-                    string filename = "Flytning.pdf";
-                    File.WriteAllBytes("D:\\Visual Studio Workspace\\ClientBNDN\\WebApplication1\\"+filename, file);
-                    Response.Redirect("Flytning.pdf");
-
-                    
+                    Response.Clear();
+                    Response.AppendHeader("Content-Disposition", "attachment; filename="+filename);
+                    Response.BinaryWrite(file);
+                    Response.End();
                 }
                 catch (NotLoggedInException)
                 {
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('An error has occured, try reloading the page.');", true);
+                    messageBox("An error has occured, please log in again.");
                     Response.Redirect("LogInForm.aspx");
-                    // Shouldn't ever happen, but if it does, do a popup and send back to login screen. #Crelde
                 }
                 catch (ObjectNotFoundException)
                 {
-                    Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('An error has occured, try reloading the page.');", true);
+                    messageBox("An error has occured, try reloading the page.");
                 }
-
-                // Call downloadfilebyID
-                string s = "download was pressed";
             }
             else if (e.CommandName == "delete")
             {
-                // DeletefilebyID
-                string s1 = "delete was pressed";
-
+                try { Controller.DeleteFileById(id); }
+                catch (NotLoggedInException)
+                {
+                    messageBox("An error has occured, please log in again.");
+                    Response.Redirect("LogInForm.aspx");
+                }
+                catch (ObjectNotFoundException)
+                {
+                    messageBox("An error has occured, try reloading the page.");
+                }
+                catch (InsufficientRightsException)
+                {
+                    messageBox("An error has occured, try reloading the page.");
+                }
             }
         }
 
@@ -155,7 +127,8 @@ namespace WebApplication1
             try { Controller.LogOut(); }
             catch (NotLoggedInException)
             {
-                // Shouldn't ever happen, but if it does, do a popup and send back to login screen. #Crelde
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
             }
             Response.Redirect("LogInForm.aspx");
         }
@@ -170,7 +143,8 @@ namespace WebApplication1
             try { Controller.CreatePackage(package); } // This function also returns the ID of the new package created, do u need that info? #Crelde #Kewin
             catch (NotLoggedInException)
             {
-                // Shouldn't ever happen, but if it does, do a popup and send back to login screen. #Crelde
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
             }
             catch (InadequateObjectException)
             {
@@ -234,13 +208,13 @@ namespace WebApplication1
                     try { Controller.UploadFile(filetrans); }
                     catch (NotLoggedInException)
                     {
-                        // #Kewin
+                        messageBox("An error has occured, please log in again.");
+                        Response.Redirect("LogInForm.aspx");
                     }
                     catch (InadequateObjectException)
                     {
-                        // Tell the user he has to selece a file from file system # Kewin
+                        messageBox("You have to select a file.");
                     }
-                    //Check if everything is fine, and upload the file.
                 }
             }
 
@@ -256,9 +230,8 @@ namespace WebApplication1
         protected void logOut_Click(object sender, EventArgs e)
         {
             try { Controller.LogOut(); }
-            catch (NotLoggedInException) { } // Shouldn't happen, but doesn't really matter, 
-            // as the result will still be that the user should be redirected to the logIn screen.
-            finally { Response.Redirect("LogInForm.aspx"); } //Redirect to login screen, is it done correct? #Crelde
+            catch (NotLoggedInException) { } 
+            finally { Response.Redirect("LogInForm.aspx"); } 
         }
 
         // THIS IS NOT YET DONE FRONT END
@@ -271,19 +244,20 @@ namespace WebApplication1
             }
             catch (NotLoggedInException)
             {
-                // Shouldn't ever happen, but if it does, do a popup and send back to login screen. #Crelde
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
             }
             catch (InsufficientRightsException)
             {
-                // Shouldn't ever happen as the button shouldn't be visible to a user without rights.  
+                messageBox("An error has occured, try reloading the page.");
             }
             catch (InadequateObjectException)
             {
-                // User has not given enough information, explain to the user that both email and password are required. #Crelde
+                messageBox("Both email and password is required to create a user.");
             }
             catch (KeyOccupiedException)
             {
-                // The email that was given is already in use on the server, explain this to the user #Crelde
+                messageBox("A user already exists with the given email.");
             }
         }
 
@@ -294,16 +268,16 @@ namespace WebApplication1
             try { user = Controller.GetUserByEmail(email); }
             catch (NotLoggedInException)
             {
-                // Shouldn't ever happen, but if it does, do a popup and send back to login screen. #Crelde
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
             }
             catch (InsufficientRightsException)
             {
-                // Shouldn't ever happen as the button shouldn't be visible to a user without rights.  
+                messageBox("An error has occured, please try reloading the page.");
             }
             catch (ObjectNotFoundException)
             {
-                Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('A user does not exist with that e-mail.');", true);
-                // A user does not exist with that email, communicate to user.
+                messageBox("A user does not exist with that e-mail.");
             }
 
         }
@@ -311,6 +285,11 @@ namespace WebApplication1
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
         {
             fixSource();
+        }
+
+        private void messageBox(string message)
+        {
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('"+message+"');", true);
         }
     }
 }

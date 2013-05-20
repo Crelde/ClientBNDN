@@ -28,6 +28,10 @@ namespace WebApplication1
 
                 try { 
                     Controller.LogIn(email, password);
+
+                   //int[] kage = { 52 };
+                  //  Controller.AddToPackage(kage, 48);
+                    
                     Response.Redirect("Form.aspx"); 
                 }
                 catch (NotLoggedOutException)
