@@ -26,6 +26,8 @@ namespace WebApplication1
                     TagPanel.CssClass = "rightCol";
                     addFiletoPackagePanel.CssClass = "rightCol";
                     passwordPanel.CssClass = "rightCol";
+                    deletePackagePanel.CssClass = "rightCol";
+                    sharePackagePanel.CssClass = "rightCol";
                     TagPanel.Style["width"] = "350px";
                     //TagPanel.Style["margin-left"] ="1001px";
                 }
@@ -174,28 +176,6 @@ namespace WebApplication1
             }
         }
 
-        protected void SubmitASP_Click(object sender, EventArgs e)
-        {
-
-        }
-        
-        protected void test_click(object sender, EventArgs e)
-        {
-            if (InteractivePanelFiles.Visible == true)
-            {
-                InteractivePanelFiles.Visible = false;
-                InteractivePanelOther.Visible = true;
-            }
-            else
-            {
-                InteractivePanelFiles.Visible = true;
-                InteractivePanelOther.Visible = false;
-                
-            }
-            //Response.Write(@"<script language='javascript'>alert('error');</script>");
-            //Page.ClientScript.RegisterStartupScript(this.GetType(), "ErrorAlert", "alert('Some text here - maybe ex.Message');", true);
-        }
-
         protected void finalUpload_Click(object sender, EventArgs e)
         {
             using (var serv = new ServiceReference1.ServiceClient())
@@ -238,8 +218,8 @@ namespace WebApplication1
 
         protected void adminButton_Click(object sender, EventArgs e)
         {
-            InteractivePanelFiles.Visible = false;
-            InteractivePanelOther.Visible = false;
+            hideRightPanels();
+            hideMidPanels();
             InteractivePanelAdmin.Visible = true;
         }
 
@@ -359,6 +339,8 @@ namespace WebApplication1
             InteractivePanelOther.Visible = false;
             InteractivePanelFiles.Visible = false;
             InteractivePanelAdmin.Visible = false;
+            deletePackagePanel.Visible = false;
+            sharePackagePanel.Visible = false;
 
         }
         protected void changepw_Click(object sender, EventArgs e)
@@ -389,6 +371,76 @@ namespace WebApplication1
             hideRightPanels();
             InteractivePanelFiles.Visible = true;
         }
+
+        protected void DeletePackage_Click(object sender, EventArgs e)
+        {
+            string s = DropDownList1.SelectedValue;
+            // Kewin do you stuff, s is the name of the package to be deleted.
+            hideMidPanels();
+            hideRightPanels();
+            deletePackagePanel.Visible = true;
+        }
+        protected void SharePackage_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            sharePackagePanel.Visible = true;
+        }
+
+        protected void CancelShare_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+        }
+
+        protected void SharePackageBut_Click(object sender, EventArgs e)
+        {
+            string s = emailToShareWith.Text;
+            // call the share with shit from controller here.
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+        }
+
+        protected void canceldelete_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+        }
+
+        protected void confirmdelete_Click(object sender, EventArgs e)
+        {
+            string packageToBeDeleted = DropDownList1.SelectedValue;
+
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+            // MAYBE CALL FIXSOURCE TO FIX DROPDOWN NOT SHOWING THE ONE WE JUST KILLED
+        }
+
+        protected void confirmchange_Click(object sender, EventArgs e)
+        {
+            string oldpws = oldpw.Text;
+            string newpws = newpw.Text;
+            string confirmpws = confirmpw.Text;
+
+
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+        }
+
+        protected void canceladmin_Click(object sender, EventArgs e)
+        {
+
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+        }
+
+
 
         // THIS IS NOT YET DONE FRONT END
         protected void createUserSubmit_Click(object sender, EventArgs e)

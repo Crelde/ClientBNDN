@@ -18,6 +18,9 @@
         #CreatePackage {
             margin-left: 0px;
         }
+        #createPackage0 {
+            margin-left: 0px;
+        }
         </style>
    <style type="text/css">
         ul.BList li{color:Black ;}
@@ -38,10 +41,11 @@
         </div>
         <div class="leftCol">
              <asp:Button ID="createPackage" runat="server" Text="Create new package" OnClick="createPackage_Click" />
+             <asp:Button ID="DeletePackage" runat="server" Text="Delete this package" OnClick="DeletePackage_Click" style="margin-top: 19px"  />
              <br />
-            &nbsp;<br />
-            <asp:Button ID="testVisibility" runat="server" Text="testvisibility" OnClick="test_click"/>
-            &nbsp;<br />
+             <asp:Button ID="SharePackage" runat="server" Text="Share this package" style="margin-top: 19px" OnClick="SharePackage_Click"  />
+             <br />
+            &nbsp;&nbsp;<br />
             <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Large" Text="These are the packages you have the rights to"></asp:Label>
             <br />
             <asp:DropDownList ID="DropDownList1" runat="server" Height="27px" style="margin-left: 1px; margin-top: 22px" Width="141px" AutoPostBack="True" OnSelectedIndexChanged="DropDownList1_SelectedIndexChanged">
@@ -56,7 +60,6 @@
                 <asp:FileUpload ID="FileUpload1" runat="server" />
                 <asp:Button ID="UploadModal" runat="server" style="margin-left: 22px" Text="Create a new File" Width="123px" Height="22px" />
                 <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 19px" Text="Upload!" Width="112px" Height="22px" />
-                <asp:Button ID="Button6" runat="server" Text="Button" />
                 <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="500px" style="margin-right: 0px">
                     <AlternatingItemStyle BackColor="#CCCCCC" />
                     <FooterStyle BackColor="#CCCCCC" />
@@ -126,18 +129,21 @@
         <asp:Panel ID="passwordPanel" runat="server" Visible="false">
             <asp:Label ID="Label888" runat="server" Text="Please enter your current password:"  Font-Size="Larger"></asp:Label>
             <br />
-            <asp:TextBox ID="oldpw" runat="server"></asp:TextBox>
+            <asp:TextBox ID="oldpw" type="password" runat="server"></asp:TextBox>
             <br />
             <asp:Label ID="Label5" runat="server" Text="Please enter a new password:" Font-Size="Larger"></asp:Label>
             <br />
-            <asp:TextBox ID="newpw" runat="server"></asp:TextBox>
+            <asp:TextBox ID="newpw" type="password" runat="server"></asp:TextBox>
 
             <br />
             <asp:Label ID="Label6" runat="server" Text="Please confirm your password:" Font-Size="Larger"></asp:Label>
             <br />
-            <asp:TextBox ID="confirmpw" runat="server"></asp:TextBox>
+            <asp:TextBox ID="confirmpw" type="password" runat="server"></asp:TextBox>
             <br />
-            <asp:Button ID="cancelpw" runat="server" Text="Cancel" OnClick="cancelpw_Click" />
+            <asp:Button ID="confirmchange" runat="server" Text="Change Password" OnClick="confirmchange_Click" />
+
+
+            <asp:Button ID="cancelpw" runat="server" OnClick="cancelpw_Click" style="margin-left: 57px" Text="Cancel" />
 
 
             &nbsp;</asp:Panel>
@@ -149,6 +155,27 @@
             <asp:Button ID="Button5" runat="server" Text="Button" />
             <br />
             <asp:Button ID="Button2" runat="server" Text="Delete existing user" />
+            <br />
+            <br />
+            <asp:Button ID="canceladmin" runat="server" Text="Cancel" OnClick="canceladmin_Click" />
+            &nbsp;</asp:Panel>
+        <asp:Panel ID="sharePackagePanel" runat="server" Visible="false">
+            <asp:Label ID="Label7" runat="server" Text="Enter the email of a user you wish to share this package with:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="emailToShareWith" runat="server" Width="178px"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Button ID="SharePackageBut" runat="server" Text="Share Package" OnClick="SharePackageBut_Click" />
+            <asp:Button ID="CancelShare" runat="server" Text="Cancel" style="margin-left: 50px" OnClick="CancelShare_Click" />
+            <br />
+            &nbsp;</asp:Panel>
+        <asp:Panel ID="deletePackagePanel" runat="server" Visible="false">
+            <asp:Label ID="Label8" runat="server" Text="Are you sure you wish to delete this package?" Font-Size="Larger"></asp:Label>
+            <br />
+            <br />
+            <asp:Button ID="confirmdelete" runat="server" Text="Yes" OnClick="confirmdelete_Click" />
+            <asp:Button ID="canceldelete" runat="server" Text="Cancel" style="margin-left: 70px" OnClick="canceldelete_Click" />
+            <br />
             <br />
             &nbsp;</asp:Panel>
 
