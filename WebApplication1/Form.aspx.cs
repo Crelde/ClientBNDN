@@ -359,8 +359,7 @@ namespace WebApplication1
             hideMidPanels();
             passwordPanel.Visible = true;
         }
-            newpw.Text = "";
-            confirmpw.Text = "";
+
         protected void DeletePackage_Click(object sender, EventArgs e)
         {
             string s = DropDownList1.SelectedValue;
@@ -478,10 +477,8 @@ namespace WebApplication1
                 }
             }
         }
-protected void cancelAndReturnToFiles(object sender, EventArgs e)
-
+        protected void cancelAndReturnToFiles(object sender, EventArgs e)
         {
-
             hideMidPanels();
             hideRightPanels();
             InteractivePanelFiles.Visible = true;
