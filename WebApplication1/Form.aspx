@@ -44,7 +44,7 @@
              <br />
              <br />
             &nbsp;&nbsp;<br />
-            <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Small" Text="These are the packages you have the rights to"></asp:Label>
+            <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Small" Text="Here are the items you have the rights to"></asp:Label>
             <br />
             <asp:DropDownList ID="DropDownList1" runat="server" Height="27px" style="margin-left: 1px; margin-top: 22px" Width="141px">
             </asp:DropDownList>
@@ -81,7 +81,7 @@
                             <asp:Label ID="dDate" runat="server" Text='<%#"Date: " + DataBinder.Eval(Container.DataItem, "Date") %>'></asp:Label>
                             <br />
                             <asp:Button ID="downloadItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="download" Height="20px" OnCommand="btn_command" Text="Download" Width="80px" />
-                            <asp:Button ID="Button1" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="edit" Height="20px" OnCommand="btn_command" Text="Edit" Width="80px" />
+                            <asp:Button ID="edit" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name") + ";" + Eval("Description")%>' CommandName="edit" Height="20px" OnCommand="btn_command" Text="Edit" Width="80px" />
                             <asp:Button ID="deleteItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="delete" Height="20px" OnCommand="btn_command" Text="Delete" Width="80px" />
                             <asp:Button ID="addtopackage" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="addToPackage"  Height="20px" OnCommand="btn_command" Text="Add File to a package" Width="150px" />
                             <asp:Button ID="shareFile" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="sharefile"  Height="20px" OnCommand="btn_command" Text="Share this file" Width="100px" />
@@ -189,14 +189,14 @@
         <asp:Panel ID="editFilePanel" runat="server" Visible="false">
             <asp:Label ID="Label9" runat="server" Text="Fill in the fields that you want to change:" Font-Size="Larger"></asp:Label>
             <br />
+            <asp:Label ID="Label889" runat="server" Text="Description:"></asp:Label>
+            <br />
+            <asp:TextBox ID="newDesc" runat="server" Width="237px"></asp:TextBox>
             <br />
             <br />
-            <asp:TextBox ID="newDesc" runat="server" Text='<%# Eval("Description") %>'></asp:TextBox>
             <br />
-            <br />
-            <br />
-            <asp:Button ID="updatefilebut" runat="server" Text="Update file" OnClick="updatefilebut_Click" />
-            <asp:Button ID="cancelEdit" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" style="margin-left: 38px" />
+            <asp:Button ID="updatefilebut" runat="server" OnClick="updatefilebut_Click" Text="Update file" />
+            <asp:Button ID="cancelEdit" runat="server" OnClick="cancelAndReturnToFiles" style="margin-left: 38px" Text="Cancel" />
             &nbsp;</asp:Panel>
 
             <br />
