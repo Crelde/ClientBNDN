@@ -6,7 +6,7 @@
     float: initial;
     height: 100px;
 }
-        
+       
 .rightCol {
     background-color: #BBBBBB;
     width: 520px;
@@ -23,3 +23,12 @@
     height: 800px;
 }
 
+.rightrightCol {
+    background-color: #BBBBBB;
+    width: 400px;
+    margin-left: 1001px;
+    margin-top: 100px;
+    position:absolute;
+    float: left;
+    height: 800px;
+}

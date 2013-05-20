@@ -25,10 +25,11 @@ namespace WebApplication1
                     fixSource();
                     BulletedList1.Items.Add(new ListItem("hello"));
                     InteractivePanelFiles.CssClass = "rightCol";
-                    InteractivePanelOther.CssClass ="rightCol";         
+                    InteractivePanelOther.CssClass = "rightCol";
                     TagPanel.CssClass = "rightCol";
                     TagPanel.Style["width"] = "350px";
                     //TagPanel.Style["margin-left"] ="1001px";
+                }
             }
         }
 
@@ -138,8 +139,18 @@ namespace WebApplication1
                 }
                 catch (NotLoggedInException)
                 {
-
+                    messageBox("An error has occured, please log in again.");
+                    Response.Redirect("LogInForm.aspx");
                 }
+                catch (ObjectNotFoundException)
+                {
+                    messageBox("An error has occured, try reloading the page.");
+                }
+                catch (InsufficientRightsException)
+                {
+                    messageBox("An error has occured, try reloading the page.");
+                }
+
 
 
             }
@@ -151,9 +162,8 @@ namespace WebApplication1
             catch (NotLoggedInException)
             {
                 messageBox("An error has occured, please log in again.");
-                Response.Redirect("LogInForm.aspx");
             }
-            Response.Redirect("LogInForm.aspx");
+            finally { Response.Redirect("LogInForm.aspx"); }
             
         }
 

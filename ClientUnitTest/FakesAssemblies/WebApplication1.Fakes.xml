@@ -295,6 +295,12 @@
         <member name="P:WebApplication1.Fakes.ShimForm.DeleteTag_ClickObjectEventArgs">
             <summary>Sets the shim of Form.DeleteTag_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.DropDownList1_SelectedIndexChangedObjectEventArgs">
+            <summary>Sets the shim of Form.DropDownList1_SelectedIndexChanged(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.GetUserByEmail_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.GetUserByEmail_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.Page_LoadObjectEventArgs">
             <summary>Sets the shim of Form.Page_Load(Object sender, EventArgs e)</summary>
         </member>
@@ -318,6 +324,9 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.logOut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.messageBoxString">
+            <summary>Sets the shim of Form.messageBox(String message)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.test_clickObjectEventArgs">
             <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
@@ -369,6 +378,9 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.logOut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.messageBoxString">
+            <summary>Sets the shim of Form.messageBox(String message)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.test_clickObjectEventArgs">
             <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
