@@ -103,7 +103,12 @@ namespace WebApplication1
 
         protected void btn_command(object sender, CommandEventArgs e)
         {
-            string idOfFile = e.CommandArgument.ToString();
+            string[] commandarg = e.CommandArgument.ToString().Split(";".ToCharArray());
+            string ids = commandarg[0];
+
+            string filename = commandarg[1];
+            int id = int.Parse(ids);
+
             if (e.CommandName == "download")
             {
                 int id = int.Parse(idOfFile);
