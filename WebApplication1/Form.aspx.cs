@@ -36,6 +36,9 @@ namespace WebApplication1
 
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass ="rightCol";
+                    TagPanel.CssClass = "rightCol";
+                    TagPanel.Style["width"] = "350px";
+                    //TagPanel.Style["margin-left"] ="1001px";
                     
                 }     
 
@@ -98,6 +101,13 @@ namespace WebApplication1
                 string s1 = "delete was pressed";
 
             }
+            else if (e.CommandName == "tag")
+            {
+                // foreach tag on file{
+                BulletedList1.Items.Add(new ListItem(""));
+                // }
+                TagPanel.Visible = true;
+            }
         }
 
         protected void ChangeUserButton_Click(object sender, EventArgs e)
@@ -108,6 +118,7 @@ namespace WebApplication1
                 // Shouldn't ever happen, but if it does, do a popup and send back to login screen. #Crelde
             }     
             Response.Redirect("LogInForm.aspx"); 
+            
         }
       
         protected void CreatePackageButton_Click(object sender, EventArgs e)
@@ -201,6 +212,21 @@ namespace WebApplication1
             InteractivePanelFiles.Visible = false;
             InteractivePanelOther.Visible = false;
             InteractivePanelAdmin.Visible = true;
+        }
+
+        // kewin do
+        protected void CreateTag_Click(object sender, EventArgs e)
+        {
+            //create tag by that string ---V
+            string dummy = "tag";
+        }
+        // kewin do
+        protected void DeleteTag_Click(object sender, EventArgs e)
+        {
+            // pretend ---v is tagname to be deleted
+            string dummy = "tag";
+
+
         }
        
 

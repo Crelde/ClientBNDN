@@ -37,21 +37,23 @@
             <asp:DropDownList ID="DropDownList1" runat="server" Height="27px" style="margin-left: 1px; margin-top: 22px" Width="141px">
             </asp:DropDownList>
              <br />
-             <asp:Button ID="adminButton" runat="server" style="margin-left: 31px" Text="Admin Controls" OnClick="adminButton_Click" />
+             <asp:Button ID="adminButton" runat="server" style="margin-left: 31px; margin-top: 8px;" Text="Admin Controls" OnClick="adminButton_Click" />
+             <asp:Button ID="addtopackage" runat="server" Text="AddFileToPackage" />
         </div>
-            <asp:Panel ID="InteractivePanelFiles" runat="server" ScrollBars="Vertical">
+            <asp:Panel ID="InteractivePanelFiles" runat="server" ScrollBars="Vertical" >
                 <asp:Label ID="uploadfilelabel" Text="Upload a new file here" runat="server"/>
                 <br />
                 <asp:FileUpload ID="FileUpload1" runat="server" />
-                <asp:Button ID="UploadModal" runat="server" style="margin-left: 37px" Text="Create a new File" Width="150px" />
-                <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 47px" Text="Upload!" Width="116px" />
-                <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="800px" style="margin-right: 0px">
+                <asp:Button ID="UploadModal" runat="server" style="margin-left: 22px" Text="Create a new File" Width="124px" />
+                <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 19px" Text="Upload!" Width="116px" />
+                <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="500px" style="margin-right: 0px">
                     <AlternatingItemStyle BackColor="#CCCCCC" />
                     <FooterStyle BackColor="#CCCCCC" />
                     <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
                     <ItemTemplate>
                         <h2>
                             <asp:Label ID="dName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Name") %>'></asp:Label>
+                            <asp:Button ID="tagsB" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="tag" style="float: right" Height="32px" OnCommand="btn_command" Text="Tags" Width="112px" />
                             <br />
                             <asp:Label ID="dId" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Id") %>'></asp:Label>
                             <br />
@@ -63,12 +65,29 @@
                             <br />
                             <asp:Button ID="downloadItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="download" Height="32px" OnCommand="btn_command" Text="Download" Width="112px" />
                             <br />
-                            <asp:Button ID="deleteItem" runat="server" CommandName="delete" Height="32px" OnCommand="btn_command" Text="Delete" Width="112px" />
+                            <asp:Button ID="deleteItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="delete" Height="32px" OnCommand="btn_command" Text="Delete" Width="112px" />
                         </h2>
                     </ItemTemplate>
                     <SelectedItemStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
                 </asp:DataList>
-            </asp:Panel>
+                          </asp:Panel>
+                <asp:Panel ID="TagPanel" runat="server" CssClass="rightrightCol" Visible="False">
+                    <asp:BulletedList ID="BulletedList1" runat="server">
+                    </asp:BulletedList>
+                    <asp:Button ID="CreateTag" runat="server" Text="Create a new Tag" Width="158px" OnClick="CreateTag_Click" />
+                    <asp:TextBox ID="CreateBox" runat="server" style="margin-left: 25px"></asp:TextBox>
+                    <br />
+                    <br />
+                    <br />
+                    <asp:Label ID="deleteLabel" runat="server" Text="Click on the tag you wish to delete"></asp:Label>
+                    <br />
+                    <br />
+                    <asp:Button ID="DeleteTag" runat="server" Text="Delete a tag" Width="158px" OnClick="DeleteTag_Click" />
+                    <asp:TextBox ID="DeleteBox" runat="server" style="margin-left: 25px"> </asp:TextBox>
+                    <br />
+                </asp:Panel>
+   
+
         <asp:Panel ID="InteractivePanelOther" runat="server" Visible="false">
             <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
             <asp:FileUpload ID="FileUpload2" runat="server" />

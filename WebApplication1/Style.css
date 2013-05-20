@@ -6,20 +6,28 @@
     float: initial;
     height: 100px;
 }
-    
+       
 .rightCol {
     background-color: #BBBBBB;
-    width: 800px;
+    width: 520px;
     float: left;
     height: 800px;
-    
-
-    
+   
 }
 
 .leftCol {
     background-color: #999999;
     width: 200px;
+    float: left;
+    height: 800px;
+}
+
+.rightrightCol {
+    background-color: #BBBBBB;
+    width: 400px;
+    margin-left: 1001px;
+    margin-top: 100px;
+    position:absolute;
     float: left;
     height: 800px;
 }
