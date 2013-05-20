@@ -18,13 +18,23 @@
         #CreatePackage {
             margin-left: 0px;
         }
+        </style>
+   <style type="text/css">
+        ul.BList li{color:Black ;}
+        ul.BList a:hover{color:grey ;}
+        ul.BList li a {color: #000000; } 
     </style>
 </head>
 <body>
     
     <form id="form1" runat="server" target="UploadPage">
             <div class="topCol">
-            <asp:Button ID="ChangeUserButton" runat="server" Text="Log Out" OnClick="ChangeUserButton_Click" Height="32px" style="margin-left: 240px" Width="116px" />
+            &nbsp;&nbsp;
+                <asp:Label ID="Label4" runat="server" Text="Currently logged in as:"></asp:Label>
+                <asp:Button ID="changepw" runat="server" style="margin-left: 73px" Text="Change password" Width="161px" OnClick="changepw_Click" />
+            <asp:Button ID="ChangeUserButton" runat="server" Text="Log Out" OnClick="ChangeUserButton_Click"  Width="161px" style="margin-left: 53px; margin-top: 7px;"  />
+                <br />
+                <asp:Label ID="activeuserLabel" runat="server" style="margin-left: 8px; margin-top: 8px"></asp:Label>
         </div>
         <div class="leftCol">
              <asp:Button ID="createPackage" runat="server" Text="Create new package" OnClick="createPackage_Click" />
@@ -39,7 +49,8 @@
              <br />
              <asp:Button ID="adminButton" runat="server" style="margin-left: 31px; margin-top: 8px;" Text="Admin Controls" OnClick="adminButton_Click" />
         </div>
-            <asp:Panel ID="InteractivePanelFiles" runat="server" ScrollBars="Vertical" >
+
+        <asp:Panel ID="InteractivePanelFiles" runat="server" ScrollBars="Vertical" >
                 <asp:Label ID="uploadfilelabel" Text="Upload a new file here" runat="server"/>
                 <br />
                 <asp:FileUpload ID="FileUpload1" runat="server" />
@@ -75,13 +86,7 @@
                     <SelectedItemStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
                 </asp:DataList>
                           </asp:Panel>
-        <style type="text/css">
-ul.BList li{color:Black ;}
-ul.BList a:hover{color:grey ;}
-ul.BList li a {color: #000000; } 
-            </style>
-
-                <asp:Panel ID="TagPanel" runat="server" Visible="False">
+        <asp:Panel ID="TagPanel" runat="server" Visible="False">
                     <asp:BulletedList ID="BulletedList1" runat="server" OnClick="BulletedList1_Click" DisplayMode="LinkButton" CssClass="Blist">
                     </asp:BulletedList>
                     <asp:Button ID="CreateTag" runat="server" Text="Create new tag" Width="158px" OnClick="CreateTag_Click" />
@@ -95,22 +100,21 @@ ul.BList li a {color: #000000; }
                     <asp:Button ID="DeleteTag" runat="server" Text="Delete tag" Width="158px" OnClick="DeleteTag_Click" />
                     <asp:TextBox ID="DeleteBox" runat="server" style="margin-left: 25px" Enabled="False"></asp:TextBox>
                     <br />
+            <asp:Button ID="cancelTag" runat="server" Text="Cancel" OnClick="cancelTag_Click" />
                     <asp:HiddenField ID="fileI" runat="server" />
                     <asp:HiddenField ID="fileN" runat="server" />
                 </asp:Panel>
-
-                <asp:Panel ID="addFiletoPackagePanel" runat="server"  Visible="False">
+        <asp:Panel ID="addFiletoPackagePanel" runat="server"  Visible="False">
                     <asp:Label ID="Label3" runat="server" Text="Select the package you wish to add your file to:"></asp:Label>
                     <br />
                     <br />
                     <asp:DropDownList ID="PackageDropDownF" runat="server" > </asp:DropDownList >
                     <br />
                     <asp:Button ID="addfiletoP" runat="server" Text="Add File" />
+                    <br />
+                    <asp:Button ID="canceladdpack" runat="server" Text="Cancel" OnClick="canceladdpack_Click" />
                     <asp:HiddenField ID="fileI2" runat="server" />
-                </asp:Panel>
-   
-   
-
+       </asp:Panel>
         <asp:Panel ID="InteractivePanelOther" runat="server" Visible="false">
             <asp:Label ID="Label1" runat="server" Text="Enter a name for your new package:" Font-Size="Larger"></asp:Label>
             <br />
@@ -119,7 +123,24 @@ ul.BList li a {color: #000000; }
             <asp:Button ID="cancelcreatepacakge" runat="server" Text="Cancel" style="margin-left: 46px" OnClick="cancelcreatepacakge_Click" />
 
         </asp:Panel>
+        <asp:Panel ID="passwordPanel" runat="server" Visible="false">
+            <asp:Label ID="Label888" runat="server" Text="Please enter your current password:"  Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="oldpw" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="Label5" runat="server" Text="Please enter a new password:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="newpw" runat="server"></asp:TextBox>
 
+            <br />
+            <asp:Label ID="Label6" runat="server" Text="Please confirm your password:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="confirmpw" runat="server"></asp:TextBox>
+            <br />
+            <asp:Button ID="cancelpw" runat="server" Text="Cancel" OnClick="cancelpw_Click" />
+
+
+            &nbsp;</asp:Panel>
         <asp:Panel ID="InteractivePanelAdmin" runat="server" Visible="false">
             <asp:Label ID="Label2" runat="server" Text="Here goes all that is admin related, only visible to admins" Font-Size="Larger"></asp:Label>
             <br />
@@ -132,7 +153,6 @@ ul.BList li a {color: #000000; }
             &nbsp;</asp:Panel>
 
 
-            <h3>&nbsp;</h3>
             <br />
             <br />
 

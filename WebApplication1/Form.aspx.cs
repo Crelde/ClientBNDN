@@ -28,6 +28,7 @@ namespace WebApplication1
                         DropDownList1.Items.Add(p.Name);
                     }
                     */
+                //activeuserLabel.Text = Controller._sessionUser.Email;
                     DropDownList1.Items.Add("Crelde");
                     DropDownList1.Items.Add("Er");
                     DropDownList1.Items.Add("Sej");
@@ -38,6 +39,7 @@ namespace WebApplication1
                     InteractivePanelOther.CssClass ="rightCol";
                     TagPanel.CssClass = "rightCol";
                     addFiletoPackagePanel.CssClass = "rightCol";
+                    passwordPanel.CssClass = "rightCol";
                     TagPanel.Style["width"] = "350px";
                     //TagPanel.Style["margin-left"] ="1001px";
                     
@@ -107,16 +109,17 @@ namespace WebApplication1
                 // foreach tag on file{
                 //BulletedList1.Items.Add(new ListItem(""));
                 // }
-                addFiletoPackagePanel.Visible = false;
+                hideRightPanels();
                 TagPanel.Visible = true;
                 fileI.Value = id.ToString();
                 fileN.Value = filename;
             }
             else if (e.CommandName == "addToPackage")
             {
-                TagPanel.Visible = false;
+                hideRightPanels();
                 addFiletoPackagePanel.Visible = true;
                 fileI2.Value = id.ToString();
+                
             }
         }
 
@@ -251,25 +254,71 @@ namespace WebApplication1
 
         protected void createPackage_Click(object sender, EventArgs e)
         {
-            InteractivePanelFiles.Visible = false;
+            hideMidPanels();
+            hideRightPanels();
             InteractivePanelOther.Visible = true;
         }
+
+        
 
         protected void submitpackage_Click(object sender, EventArgs e)
         {
             string pName = packageName.Text;
 
             DropDownList1.SelectedIndex = DropDownList1.Items.Count - 1;
-            InteractivePanelOther.Visible = false;
+            hideRightPanels();
+            hideMidPanels();
             InteractivePanelFiles.Visible = true;
         }
 
         protected void cancelcreatepacakge_Click(object sender, EventArgs e)
         {
-            InteractivePanelOther.Visible = false;
+            hideRightPanels();
+            hideMidPanels();
             InteractivePanelFiles.Visible = true;
         }
-       
+        protected void hideRightPanels()
+        {
+
+            TagPanel.Visible = false;
+            passwordPanel.Visible = false;
+            addFiletoPackagePanel.Visible = false;
+        }
+        protected void hideMidPanels()
+        {
+            InteractivePanelOther.Visible = false;
+            InteractivePanelFiles.Visible = false;
+            InteractivePanelAdmin.Visible = false;
+
+        }
+        protected void changepw_Click(object sender, EventArgs e)
+        {
+            hideRightPanels();
+            hideMidPanels();
+            passwordPanel.Visible = true;
+        }
+
+        protected void cancelpw_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+
+        }
+
+        protected void cancelTag_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+        }
+
+        protected void canceladdpack_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+        }
 
     }
 

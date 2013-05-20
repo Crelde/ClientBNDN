@@ -238,8 +238,20 @@
         <member name="P:WebApplication1.Fakes.ShimForm.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.cancelTag_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.cancelTag_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.canceladdpack_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.canceladdpack_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.cancelcreatepacakge_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.cancelpw_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.cancelpw_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.changepw_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.changepw_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
@@ -249,6 +261,12 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.fixSource">
             <summary>Sets the shim of Form.fixSource()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.hideMidPanels">
+            <summary>Sets the shim of Form.hideMidPanels()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.hideRightPanels">
+            <summary>Sets the shim of Form.hideRightPanels()</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
@@ -286,8 +304,20 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelTag_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.cancelTag_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.canceladdpack_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.canceladdpack_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelcreatepacakge_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelpw_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.cancelpw_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.changepw_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.changepw_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
@@ -297,6 +327,12 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSource">
             <summary>Sets the shim of Form.fixSource()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.hideMidPanels">
+            <summary>Sets the shim of Form.hideMidPanels()</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.hideRightPanels">
+            <summary>Sets the shim of Form.hideRightPanels()</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
