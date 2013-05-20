@@ -10,12 +10,6 @@ using System.Collections.Generic;
 
 namespace ClientUnitTest
 {
-    public class DummyDisposable : System.IDisposable
-    {
-        public void Dispose() { }
-    }
-
-
     [TestClass]
     public class ControllerUnitTest
     {
@@ -49,7 +43,7 @@ namespace ClientUnitTest
         }
 
         [TestMethod]
-        public void LoginTest()
+        public void LogInTest()
         {
             User testuser = new User();
 
@@ -67,15 +61,77 @@ namespace ClientUnitTest
         }
 
         [TestMethod]
-        public void LogOutTest()
+        public void LogInIncorrectPassTest()
         {
-            try
+            User testuser = new User();
+
+            testuser.Email = "a@b.com";
+            testuser.Password = "123";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
             {
-                Controller.LogOut(); // this should fail
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
+
+                try
+                {
+                    Controller.LogIn("a@b.com", "");
+                }
+                catch (IncorrectPasswordException)
+                {
+                    // All is good
+                }
+
             }
-            catch (NotLoggedInException)
+        }
+
+        [TestMethod]
+        public void LogInIncorrectPassTest2()
+        {
+            User testuser = new User();
+
+            testuser.Email = "a@b.com";
+            testuser.Password = "123";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
             {
-                // All is good
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
+
+                try
+                {
+                    Controller.LogIn("a@b.com", "1234");
+                }
+                catch (IncorrectPasswordException)
+                {
+                    // All is good
+                }
+
+            }
+        }
+
+        [TestMethod]
+        public void LogInIncorrectFormatTest()
+        {
+            User testuser = new User();
+
+            testuser.Email = "a@b.com";
+            testuser.Password = "123";
+            testuser.Type = UserType.standard;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testuser;
+
+                try
+                {
+                    Controller.LogIn("abcom", "123");
+                }
+                catch (NoSuchUserException)
+                {
+                    // All is good
+                }
+
             }
         }
 
@@ -97,7 +153,8 @@ namespace ClientUnitTest
             }
 
             Controller.LogOut();
-        }
+        }        
+
 
         //check if admin can make new users
         [TestMethod]
@@ -149,9 +206,8 @@ namespace ClientUnitTest
                 try
                 {
                     Controller.CreateUser(testuser); //this should fail
-
                 }
-                catch (Exception)
+                catch (InsufficientRightsException) 
                 {
                     //User not created. All is good.
                 }
@@ -183,16 +239,7 @@ namespace ClientUnitTest
                 ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { };
                 ShimServiceClient.AllInstances.DeleteUserByEmailString = (a, b) => { };
                 Controller.LogIn("ta@ta.com", "ta123");
-
-                try
-                {
-                    Controller.CreateUser(testuser);
-                }
-                catch (Exception)
-                {
-                    //User not created. Something is wrong
-                }
-
+                Controller.CreateUser(testuser);
                 Controller.DeleteUserByEmail("p@s.com");
             }
         }
@@ -205,8 +252,6 @@ namespace ClientUnitTest
             testAdmin.Email = "ta@ta.com";
             testAdmin.Password = "ta123";
             testAdmin.Type = UserType.admin;
-
-
             Item testItem = new Item();
             testItem.Id = 011;
             testItem.Name = "test";
