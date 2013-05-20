@@ -29,10 +29,11 @@ namespace WebApplication1
                     deletePackagePanel.CssClass = "rightCol";
                     sharePackagePanel.CssClass = "rightCol";
                     editFilePanel.CssClass = "rightCol";
+                    InteractivePanelAdmin.CssClass = "rightCol";
                     editFilePanel.Style["width"] = "350px";
                     TagPanel.Style["width"] = "350px";
                     addFiletoPackagePanel.Style["width"] = "350px";
-                    //TagPanel.Style["margin-left"] ="1001px";
+                    newDesc.Text = Description.Value;
                 }
             }
         }
@@ -107,6 +108,8 @@ namespace WebApplication1
             }
             else if (e.CommandName == "edit")
             {
+                string desc = commandarg[2];
+                newDesc.Text = desc;
                 editFilePanel.Visible = true;
             }
 
@@ -486,8 +489,8 @@ namespace WebApplication1
         // This is the method that edits the file
         protected void updatefilebut_Click(object sender, EventArgs e)
         {
-            // many fields
-            
+            // this is the new desc---v
+            string s = newDesc.Text;
 
         }
 
