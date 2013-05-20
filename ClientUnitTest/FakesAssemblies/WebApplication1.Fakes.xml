@@ -196,32 +196,26 @@
         <member name="P:WebApplication1.Fakes.ShimController.UserExistsString">
             <summary>Sets the shim of Controller.UserExists(String email)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimController._AddToPackageb__4Int32">
-            <summary>Sets the shim of Controller.&lt;AddToPackage&gt;b__4(Int32 fileId)</summary>
+        <member name="P:WebApplication1.Fakes.ShimController._AddToPackageb__2Int32">
+            <summary>Sets the shim of Controller.&lt;AddToPackage&gt;b__2(Int32 fileId)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimController._AddToPackageb__5Int32">
-            <summary>Sets the shim of Controller.&lt;AddToPackage&gt;b__5(Int32 fileId)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimController._CreatePackageb__2Int32">
-            <summary>Sets the shim of Controller.&lt;CreatePackage&gt;b__2(Int32 fileId)</summary>
+        <member name="P:WebApplication1.Fakes.ShimController._AddToPackageb__3Int32">
+            <summary>Sets the shim of Controller.&lt;AddToPackage&gt;b__3(Int32 fileId)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimController._GetFileInfosByTagb__0FileInfo">
             <summary>Sets the shim of Controller.&lt;GetFileInfosByTag&gt;b__0(FileInfo info)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimController._GetPackagesByTagb__aPackage">
-            <summary>Sets the shim of Controller.&lt;GetPackagesByTag&gt;b__a(Package package)</summary>
+        <member name="P:WebApplication1.Fakes.ShimController._GetPackagesByTagb__8Package">
+            <summary>Sets the shim of Controller.&lt;GetPackagesByTag&gt;b__8(Package package)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimController._RemoveFromPackageb__8Int32">
-            <summary>Sets the shim of Controller.&lt;RemoveFromPackage&gt;b__8(Int32 fileId)</summary>
+        <member name="P:WebApplication1.Fakes.ShimController._RemoveFromPackageb__6Int32">
+            <summary>Sets the shim of Controller.&lt;RemoveFromPackage&gt;b__6(Int32 fileId)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimController._SearchFileInfosb__cFileInfo">
-            <summary>Sets the shim of Controller.&lt;SearchFileInfos&gt;b__c(FileInfo info)</summary>
+        <member name="P:WebApplication1.Fakes.ShimController._SearchFileInfosb__aFileInfo">
+            <summary>Sets the shim of Controller.&lt;SearchFileInfos&gt;b__a(FileInfo info)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimController._SearchPackagesb__ePackage">
-            <summary>Sets the shim of Controller.&lt;SearchPackages&gt;b__e(Package package)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimController.kewinhalp">
-            <summary>Sets the shim of Controller.kewinhalp()</summary>
+        <member name="P:WebApplication1.Fakes.ShimController._SearchPackagesb__cPackage">
+            <summary>Sets the shim of Controller.&lt;SearchPackages&gt;b__c(Package package)</summary>
         </member>
         <member name="T:WebApplication1.Fakes.ShimController.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -310,29 +304,38 @@
         <member name="P:WebApplication1.Fakes.ShimForm.SubmitASP_ClickObjectEventArgs">
             <summary>Sets the shim of Form.SubmitASP_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.addfiletoP_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.addfiletoP_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.adminButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.adminButton_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.createUserSubmit_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.createUserSubmit_Click(Object sender, EventArgs e)</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.cancelcreatepacakge_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.createUserSubmit_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createUserSubmit_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.fixSource">
-            <summary>Sets the shim of Form.fixSource()</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.fixSourceBoolean">
+            <summary>Sets the shim of Form.fixSource(Boolean redo)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.logOut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.messageBoxString">
             <summary>Sets the shim of Form.messageBox(String message)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.submitpackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.test_clickObjectEventArgs">
             <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
@@ -370,30 +373,38 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.SubmitASP_ClickObjectEventArgs">
             <summary>Sets the shim of Form.SubmitASP_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.addfiletoP_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.addfiletoP_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.adminButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.adminButton_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelcreatepacakge_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createUserSubmit_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createUserSubmit_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSource">
-            <summary>Sets the shim of Form.fixSource()</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSourceBoolean">
+            <summary>Sets the shim of Form.fixSource(Boolean redo)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.logOut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.logOut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.messageBoxString">
             <summary>Sets the shim of Form.messageBox(String message)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.test_clickObjectEventArgs">
             <summary>Sets the shim of Form.test_click(Object sender, EventArgs e)</summary>
