@@ -23,7 +23,7 @@ namespace WebApplication1
                         DropDownList1.Items.Add(p.Id.ToString());
                     }
                     fixSource();
-                }
+                    BulletedList1.Items.Add(new ListItem("hello"));
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass ="rightCol";         
                     TagPanel.CssClass = "rightCol";
@@ -254,16 +254,23 @@ namespace WebApplication1
         // kewin do
         protected void CreateTag_Click(object sender, EventArgs e)
         {
-            //create tag by that string ---V
-            string dummy = "tag";
+            //create tag by that string ---V REMEMBER TO CHECK IF EMPTY STRING 
+            string tagtext = CreateBox.Text; 
+
         }
         // kewin do
         protected void DeleteTag_Click(object sender, EventArgs e)
         {
-            // pretend ---v is tagname to be deleted
-            string dummy = "tag";
+            // pretend ---v is tagname to be deleted REMEMBER TO CHECK IF EMPTY STRING 
+            string tagtextToBeDeleted = DeleteBox.Text; 
 
 
+
+        }
+
+        protected void BulletedList1_Click(object sender, BulletedListEventArgs e)
+        {
+            DeleteBox.Text = BulletedList1.Items[e.Index].ToString();
         }
 
         protected void logOut_Click(object sender, EventArgs e)

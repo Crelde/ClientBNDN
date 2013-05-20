@@ -71,8 +71,14 @@
                     <SelectedItemStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
                 </asp:DataList>
                           </asp:Panel>
+        <style type="text/css">
+ul.BList li{color:Black ;}
+ul.BList a:hover{color:grey ;}
+ul.BList li a {color: #000000; } 
+            </style>
+
                 <asp:Panel ID="TagPanel" runat="server" CssClass="rightrightCol" Visible="False">
-                    <asp:BulletedList ID="BulletedList1" runat="server">
+                    <asp:BulletedList ID="BulletedList1" runat="server" OnClick="BulletedList1_Click" DisplayMode="LinkButton" CssClass="Blist">
                     </asp:BulletedList>
                     <asp:Button ID="CreateTag" runat="server" Text="Create a new Tag" Width="158px" OnClick="CreateTag_Click" />
                     <asp:TextBox ID="CreateBox" runat="server" style="margin-left: 25px"></asp:TextBox>
