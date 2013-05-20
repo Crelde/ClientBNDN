@@ -304,6 +304,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.Page_LoadObjectEventArgs">
             <summary>Sets the shim of Form.Page_Load(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.StaticConstructor">
+            <summary>Sets the shim of Form.Form()</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.SubmitASP_ClickObjectEventArgs">
             <summary>Sets the shim of Form.SubmitASP_Click(Object sender, EventArgs e)</summary>
         </member>
