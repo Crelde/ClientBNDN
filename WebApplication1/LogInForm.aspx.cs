@@ -13,7 +13,7 @@ namespace WebApplication1
         protected void Page_Load(object sender, EventArgs e)
         {
             try { Controller.LogOut(); }
-            catch (NotLoggedInException) { } // Expected.
+            catch (NotLoggedInException) { } // Expected. // test
 
         
         }
