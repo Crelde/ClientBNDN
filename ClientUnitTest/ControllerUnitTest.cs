@@ -267,12 +267,12 @@ namespace ClientUnitTest
             User user1 = new User();
             user1.Email = "u1@mail.com";
             user1.Password = "user1";
-            user1.Type = UserType.standard;
+            user1.Type = UserType.admin;
 
-            User user2 = new User();
-            user2.Email = "u2@mail.com";
-            user2.Password = "user2";
-            user2.Type = UserType.standard;
+            User user7 = new User();
+            user7.Email = "u7@mail.com";
+            user7.Password = "user7";
+            user7.Type = UserType.standard;
 
             Package p = new Package();
             p.Id = 1001;
@@ -296,16 +296,15 @@ namespace ClientUnitTest
             r2.ItemId = 001;
             r2.Type = RightType.edit;
             r2.Until = DateTime.Now.AddDays(1);
-            r2.UserEmail = "u2@mail.com";
+            r2.UserEmail = "u7@mail.com";
 
             var tagsList = new List<string>();
+            var userDictionary = new Dictionary<string,User>();
+            userDictionary.Add("u1@mail.com", user1);
 
             using (ShimsContext.Create())
             {
-                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) =>
-                {
-                    if (b.Equals(user1.Email)) { return user1; } else { return user2; }
-                };
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => {return userDictionary[b];};
                 ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => { return 1; };
                 ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => { return p; };
                 ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
@@ -313,32 +312,36 @@ namespace ClientUnitTest
                 ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => { return r; };
                 ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
                 ShimServiceClient.AllInstances.GrantRightRight = (a, b) => { };
-                ShimServiceClient.AllInstances.GetTagsByItemIdInt32 = (a, b) => { return tagsList.ToArray();};
-                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => {tagsList.Add(b);};
-                };
+                ShimServiceClient.AllInstances.DropTagStringInt32 = (a, b, c) => { tagsList.Remove(b);};
+                ShimServiceClient.AllInstances.GetTagsByItemIdInt32 = (a, b) => { return tagsList.ToArray(); };
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { tagsList.Add(b); };
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => {userDictionary.Add(b.Email, b);};
                 ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) =>
                 {
                     if (b.Equals(r)) { return r; } else { return r2; }
                 };
-                
+
                 Controller.LogIn("u1@mail.com", "user1");
+                Controller.CreateUser(user7);
                 Controller.CreatePackage(p);
                 Controller.AddToPackage(new int[] { 001 }, 1001);
                 Controller.AddTag("testTag", 001);
                 Controller.GrantRight(r2);
                 Controller.LogOut();
 
-                Controller.LogIn("u2@mail.com", "user2");
-                Controller.AddTag("tag2",001);
-                Assert.AreEqual(new string[] {"testTag","tag2"}, Controller.GetTagsByItemId(001));
+                Controller.LogIn("u7@mail.com", "user7");
+                Controller.AddTag("tag2", 001);
+                CollectionAssert.AreEqual(new string[] { "testTag", "tag2" }, Controller.GetTagsByItemId(001));
                 Controller.DropTag("testTag", 001);
-                Assert.AreEqual(new string[] { "tag2" }, Controller.GetTagsByItemId(001));
+                CollectionAssert.AreEqual(new string[] { "tag2" }, Controller.GetTagsByItemId(001));
                 Controller.LogOut();
 
                 Controller.LogIn("u1@mail.com", "user1");
-                Assert.AreEqual(new string[] { "tag2" }, Controller.GetTagsByItemId(001));
+                CollectionAssert.AreEqual(new string[] { "tag2" }, Controller.GetTagsByItemId(001));
                 Controller.LogOut();
+            }
         }
+
         //check to see if logging in keeps you logged in
         [TestMethod]
         public void sessioning1()
@@ -402,43 +405,43 @@ namespace ClientUnitTest
             User user1 = new User();
             user1.Email = "u1@mail.com";
             user1.Password = "user1";
-            user1.Type = UserType.standard;
+            user1.Type = UserType.admin;
 
-            User user2 = new User();
-            user2.Email = "u2@mail.com";
-            user2.Password = "user2";
-            user2.Type = UserType.standard;
+            User user5 = new User();
+            user5.Email = "usertest@mail.com";
+            user5.Password = "mm";
+            user5.Type = UserType.standard;
 
             Package p = new Package();
-            p.Id = 1001;
-            p.Name = "p1001";
+            p.Id = 1002;
+            p.Name = "p1002";
             p.OwnerEmail = "u1@mail.com";
-            p.FileIds = new int[] {001};
+            p.FileIds = new int[] {002};
 
             FileInfo fi = new FileInfo();
-            fi.Id = 001;
-            fi.Name = "testItem";
+            fi.Id = 002;
+            fi.Name = "testItem2";
             fi.OwnerEmail = "u1@mail.com";
             fi.Type = FileType.text;
 
             FileInfo update = new FileInfo();
-            update.Id = 001;
-            update.Name = "updatedItem";
+            update.Id = 002;
+            update.Name = "updatedItem2";
             update.OwnerEmail = "u1@mail.com";
             update.Type = FileType.text;
 
             Right r = new Right();
-            r.ItemId = 092;
+            r.ItemId = 002;
             r.Type = RightType.edit;
             r.Until = DateTime.Now.AddDays(1);
             r.UserEmail = "u1@mail.com";
 
+            var db = new Dictionary<string, User>();
+            db.Add("u1@mail.com", user1);
+
             using (ShimsContext.Create())
             {
-                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) =>
-                {
-                    if (b.Equals(user1.Email)) { return user1; } else { return user2; }
-                };
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => {return db[b];};
                 ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => { return 1; };
                 ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => { return p; };
                 ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
@@ -447,14 +450,14 @@ namespace ClientUnitTest
                 ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
                 ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => { return r; };
                 ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { db.Add(b.Email, b); };
 
                 Controller.LogIn("u1@mail.com", "user1");
+                Controller.CreateUser(user5);
                 Controller.CreatePackage(p);
-                Controller.AddToPackage(new int[] { 001 }, 1001);
-
+                Controller.AddToPackage(new int[] { 002 }, 1002);
                 Controller.LogOut();
-
-                Controller.LogIn("u2@mail.com", "user2");
+                Controller.LogIn("usertest@mail.com", "mm");
                 try
                 {
                     Controller.UpdateFileInfo(update);
@@ -481,13 +484,100 @@ namespace ClientUnitTest
         [TestMethod]
         public void tagTest2()
         {
+            User user1 = new User();
+            user1.Email = "u1@mail.com";
+            user1.Password = "user1";
+            user1.Type = UserType.admin;
 
+            User user8 = new User();
+            user8.Email = "u8@mail.com";
+            user8.Password = "user8";
+            user8.Type = UserType.standard;
+
+            User testAdmin = new User();
+            testAdmin.Email = "ua@mail.com";
+            testAdmin.Password = "usera";
+            testAdmin.Type = UserType.admin;
+
+            Package p = new Package();
+            p.Id = 1003;
+            p.Name = "p1003";
+            p.OwnerEmail = "u1@mail.com";
+            p.FileIds = new int[] {003};
+
+            FileInfo fi = new FileInfo();
+            fi.Id = 003;
+            fi.Name = "testItem";
+            fi.OwnerEmail = "u1@mail.com";
+            fi.Type = FileType.text;
+
+            FileInfo update = new FileInfo();
+            update.Id = 003;
+            update.Name = "updatedItem";
+            update.OwnerEmail = "u1@mail.com";
+            update.Type = FileType.text;
+
+            Right r = new Right();
+            r.ItemId = 003;
+            r.Type = RightType.edit;
+            r.Until = DateTime.Now.AddDays(1);
+            r.UserEmail = "u1@mail.com";
+
+            var db = new Dictionary<string, User>();
+            db.Add("u1@mail.com", user1);
+            db.Add("ua@mail.com", testAdmin);
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => {return db[b]; };
+                ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => { return 1; };
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => { return p; };
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => { return fi; };
+                ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { };
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => { return r; };
+                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => { db.Add(b.Email, b);};
+                
+                //User1 uploads a file to a package:
+                Controller.LogIn("u1@mail.com", "user1");
+                Controller.CreateUser(user8);
+                Controller.CreatePackage(p);
+                Controller.AddToPackage(new int[] { 003 }, 1003);
+                Controller.LogOut();
+
+                //User2 tries to update the file user1 just uploaded, but has no editing rights:
+                Controller.LogIn("u8@mail.com", "user8");
+                try
+                {
+                    Controller.UpdateFileInfo(update);
+                }
+                catch (InadequateObjectException)
+                { 
+                    //this should fail
+                }
+                Controller.LogOut();
+
+                //User3 who is an admin tries the same as user2:
+                Controller.LogIn("ua@mail.com", "usera");
+                try
+                {
+                    Controller.UpdateFileInfo(update);
+                }
+                catch (InadequateObjectException)
+                {
+                    //this should not fail
+                }
+                Controller.LogOut();
+            }
         }
 
         //check if editing file metadata does what it's supposed to
         [TestMethod]
         public void tagTest3()
         {
+            
 
         }
     }
