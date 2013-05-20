@@ -42,7 +42,10 @@ namespace WebApplication1
                     passwordPanel.CssClass = "rightCol";
                     deletePackagePanel.CssClass = "rightCol";
                     sharePackagePanel.CssClass = "rightCol";
+                    editFilePanel.CssClass = "rightCol";
+                    editFilePanel.Style["width"] = "350px";
                     TagPanel.Style["width"] = "350px";
+                    addFiletoPackagePanel.Style["width"] = "350px";
                     //TagPanel.Style["margin-left"] ="1001px";
                     
                 }     
@@ -99,6 +102,11 @@ namespace WebApplication1
             {
                 // Call downloadfilebyID
                 string s = "download was pressed";
+            
+            }
+            else if (e.CommandName == "edit")
+            {
+                editFilePanel.Visible = true;
             }
             else if (e.CommandName == "delete")
             {
@@ -121,7 +129,7 @@ namespace WebApplication1
                 hideRightPanels();
                 addFiletoPackagePanel.Visible = true;
                 fileI2.Value = id.ToString();
-                
+
             }
         }
 
@@ -259,7 +267,7 @@ namespace WebApplication1
         }
         protected void hideRightPanels()
         {
-
+            editFilePanel.Visible = false;
             TagPanel.Visible = false;
             passwordPanel.Visible = false;
             addFiletoPackagePanel.Visible = false;
@@ -279,29 +287,6 @@ namespace WebApplication1
             hideMidPanels();
             passwordPanel.Visible = true;
         }
-
-        protected void cancelpw_Click(object sender, EventArgs e)
-        {
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
-
-        }
-
-        protected void cancelTag_Click(object sender, EventArgs e)
-        {
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
-        }
-
-        protected void canceladdpack_Click(object sender, EventArgs e)
-        {
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
-        }
-
         protected void DeletePackage_Click(object sender, EventArgs e)
         {
             string s = DropDownList1.SelectedValue;
@@ -316,14 +301,6 @@ namespace WebApplication1
             hideRightPanels();
             sharePackagePanel.Visible = true;
         }
-
-        protected void CancelShare_Click(object sender, EventArgs e)
-        {
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
-        }
-
         protected void SharePackageBut_Click(object sender, EventArgs e)
         {
             string s = emailToShareWith.Text;
@@ -332,14 +309,6 @@ namespace WebApplication1
             hideRightPanels();
             InteractivePanelFiles.Visible = true;
         }
-
-        protected void canceldelete_Click(object sender, EventArgs e)
-        {
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
-        }
-
         protected void confirmdelete_Click(object sender, EventArgs e)
         {
             string packageToBeDeleted = DropDownList1.SelectedValue;
@@ -349,7 +318,6 @@ namespace WebApplication1
             InteractivePanelFiles.Visible = true;
             // MAYBE CALL FIXSOURCE TO FIX DROPDOWN NOT SHOWING THE ONE WE JUST KILLED
         }
-
         protected void confirmchange_Click(object sender, EventArgs e)
         {
             string oldpws = oldpw.Text;
@@ -361,14 +329,21 @@ namespace WebApplication1
             hideRightPanels();
             InteractivePanelFiles.Visible = true;
         }
-
-        protected void canceladmin_Click(object sender, EventArgs e)
+        protected void cancelAndReturnToFiles(object sender, EventArgs e)
         {
-
             hideMidPanels();
             hideRightPanels();
             InteractivePanelFiles.Visible = true;
         }
+        // This is the method that edits the file
+        protected void updatefilebut_Click(object sender, EventArgs e)
+        {
+            // many fields
+            
+
+        }
+
+
 
 
 

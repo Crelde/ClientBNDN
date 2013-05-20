@@ -211,9 +211,6 @@
         <member name="P:WebApplication1.Fakes.ShimForm.BulletedList1_ClickObjectBulletedListEventArgs">
             <summary>Sets the shim of Form.BulletedList1_Click(Object sender, BulletedListEventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.CancelShare_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.CancelShare_Click(Object sender, EventArgs e)</summary>
-        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.ChangeUserButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.ChangeUserButton_Click(Object sender, EventArgs e)</summary>
         </member>
@@ -247,20 +244,11 @@
         <member name="P:WebApplication1.Fakes.ShimForm.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.cancelTag_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.cancelTag_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.canceladdpack_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.canceladdpack_Click(Object sender, EventArgs e)</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.cancelAndReturnToFilesObjectEventArgs">
+            <summary>Sets the shim of Form.cancelAndReturnToFiles(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.cancelcreatepacakge_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.canceldelete_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.canceldelete_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.cancelpw_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.cancelpw_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.changepw_ClickObjectEventArgs">
             <summary>Sets the shim of Form.changepw_Click(Object sender, EventArgs e)</summary>
@@ -289,14 +277,14 @@
         <member name="P:WebApplication1.Fakes.ShimForm.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.updatefilebut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.updatefilebut_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="T:WebApplication1.Fakes.ShimForm.AllInstances">
             <summary>Define shims for all instances members</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.BulletedList1_ClickObjectBulletedListEventArgs">
             <summary>Sets the shim of Form.BulletedList1_Click(Object sender, BulletedListEventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CancelShare_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.CancelShare_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.ChangeUserButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.ChangeUserButton_Click(Object sender, EventArgs e)</summary>
@@ -328,20 +316,11 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.btn_commandObjectCommandEventArgs">
             <summary>Sets the shim of Form.btn_command(Object sender, CommandEventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelTag_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.cancelTag_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.canceladdpack_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.canceladdpack_Click(Object sender, EventArgs e)</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelAndReturnToFilesObjectEventArgs">
+            <summary>Sets the shim of Form.cancelAndReturnToFiles(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelcreatepacakge_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.canceldelete_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.canceldelete_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelpw_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.cancelpw_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.changepw_ClickObjectEventArgs">
             <summary>Sets the shim of Form.changepw_Click(Object sender, EventArgs e)</summary>
@@ -369,6 +348,9 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.updatefilebut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.updatefilebut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="T:WebApplication1.Fakes.ShimInadequateObjectException">
             <summary>Shim type of WebApplication1.InadequateObjectException</summary>

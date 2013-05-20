@@ -41,50 +41,52 @@
         </div>
         <div class="leftCol">
              <asp:Button ID="createPackage" runat="server" Text="Create new package" OnClick="createPackage_Click" />
-             <asp:Button ID="DeletePackage" runat="server" Text="Delete this package" OnClick="DeletePackage_Click" style="margin-top: 19px"  />
              <br />
-             <asp:Button ID="SharePackage" runat="server" Text="Share this package" style="margin-top: 19px" OnClick="SharePackage_Click"  />
              <br />
             &nbsp;&nbsp;<br />
-            <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Large" Text="These are the packages you have the rights to"></asp:Label>
+            <asp:Label ID="ChooseAPackageLabel" runat="server" Font-Size="Small" Text="These are the packages you have the rights to"></asp:Label>
             <br />
             <asp:DropDownList ID="DropDownList1" runat="server" Height="27px" style="margin-left: 1px; margin-top: 22px" Width="141px">
             </asp:DropDownList>
+             <asp:Button ID="DeletePackage" runat="server" Text="Delete this package" OnClick="DeletePackage_Click" style="margin-top: 19px" Width="178px"  />
+             <asp:Button ID="SharePackage" runat="server" Text="Share this package" style="margin-top: 19px" OnClick="SharePackage_Click"  Width="178px" />
              <br />
-             <asp:Button ID="adminButton" runat="server" style="margin-left: 31px; margin-top: 8px;" Text="Admin Controls" OnClick="adminButton_Click" />
+             <asp:Button ID="adminButton" runat="server" Text="Admin Controls" OnClick="adminButton_Click" style="margin-top: 11px"  Width="178px" />
         </div>
 
         <asp:Panel ID="InteractivePanelFiles" runat="server" ScrollBars="Vertical" >
                 <asp:Label ID="uploadfilelabel" Text="Upload a new file here" runat="server"/>
                 <br />
                 <asp:FileUpload ID="FileUpload1" runat="server" />
-                <asp:Button ID="UploadModal" runat="server" style="margin-left: 22px" Text="Create a new File" Width="124px" />
-                <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 19px" Text="Upload!" Width="116px" />
-                <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="500px" style="margin-right: 0px">
+                <asp:Button ID="UploadModal" runat="server" style="margin-left: 0px" Text="Create a new File" Width="124px" />
+                <asp:Button ID="finalUpload" runat="server" OnClick="finalUpload_Click" style="margin-left: 0px" Text="Upload!" Width="116px" />
+                <asp:DataList ID="DataList1" runat="server" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" ForeColor="Black" GridLines="Vertical" Width="650px" style="margin-right: 0px">
                     <AlternatingItemStyle BackColor="#CCCCCC" />
                     <FooterStyle BackColor="#CCCCCC" />
                     <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
                     <ItemTemplate>
-                        <h2>
-                            <asp:Button ID="tagsB" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="tag" style="float: right" Height="32px" OnCommand="btn_command" Text="Tags" Width="150px" />
+                        <h4>
 
-                            <asp:Label ID="dName" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Name") %>'></asp:Label>
+                            <asp:Label ID="dName" runat="server" Text='<%#"Filename:" + DataBinder.Eval(Container.DataItem, "Name") %>'></asp:Label>
                             <br />
-                            <asp:Label ID="dId" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Id") %>'></asp:Label>
+                      <!--   <asp:Label ID="dId" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Id") %>'></asp:Label> -->
 
-                            <br />
-                            <asp:Label ID="dDesc" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Description") %>'></asp:Label>
-                            <asp:Button ID="addtopackage" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="addToPackage" style="float: right" Height="32px" OnCommand="btn_command" Text="Add File to a package" Width="150px" />
+                            <asp:Label ID="dDesc" runat="server" Text='<%# "Description: " + DataBinder.Eval(Container.DataItem, "Description") %>'></asp:Label>
 
                             <br />
-                            <asp:Label ID="dEmail" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "OwnerEmail") %>'></asp:Label>
+                            <asp:Label ID="dEmail" runat="server" Text='<%#"Owner email: " + DataBinder.Eval(Container.DataItem, "OwnerEmail") %>'></asp:Label>
                             <br />
-                            <asp:Label ID="dDate" runat="server" Text='<%# DataBinder.Eval(Container.DataItem, "Date") %>'></asp:Label>
+                            <asp:Label ID="dOrigin" runat="server" Text='<%#"Origin: " + DataBinder.Eval(Container.DataItem, "Origin") %>'></asp:Label>
                             <br />
-                            <asp:Button ID="downloadItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="download" Height="32px" OnCommand="btn_command" Text="Download" Width="112px" />
+                            <asp:Label ID="dDate" runat="server" Text='<%#"Date: " + DataBinder.Eval(Container.DataItem, "Date") %>'></asp:Label>
                             <br />
-                            <asp:Button ID="deleteItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="delete" Height="32px" OnCommand="btn_command" Text="Delete" Width="112px" />
-                        </h2>
+                            <asp:Button ID="downloadItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="download" Height="20px" OnCommand="btn_command" Text="Download" Width="80px" />
+                            <asp:Button ID="Button1" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="edit" Height="20px" OnCommand="btn_command" Text="Edit" Width="80px" />
+                            <asp:Button ID="deleteItem" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="delete" Height="20px" OnCommand="btn_command" Text="Delete" Width="80px" />
+                            <asp:Button ID="addtopackage" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="addToPackage"  Height="20px" OnCommand="btn_command" Text="Add File to a package" Width="150px" />
+                            <asp:Button ID="shareFile" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="sharefile"  Height="20px" OnCommand="btn_command" Text="Share this file" Width="100px" />
+                            <asp:Button ID="tagsB" runat="server" CommandArgument='<%# Eval("Id") + ";" +Eval("Name")%>' CommandName="tag" Height="20px" style="margin-left: 50px" OnCommand="btn_command" Text="Tags" Width="80px" />
+                        </h4>
                     </ItemTemplate>
                     <SelectedItemStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
                 </asp:DataList>
@@ -103,11 +105,11 @@
                     <asp:Button ID="DeleteTag" runat="server" Text="Delete tag" Width="158px" OnClick="DeleteTag_Click" />
                     <asp:TextBox ID="DeleteBox" runat="server" style="margin-left: 25px" Enabled="False"></asp:TextBox>
                     <br />
-            <asp:Button ID="cancelTag" runat="server" Text="Cancel" OnClick="cancelTag_Click" />
+            <asp:Button ID="cancelTag" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" />
                     <asp:HiddenField ID="fileI" runat="server" />
                     <asp:HiddenField ID="fileN" runat="server" />
                 </asp:Panel>
-        <asp:Panel ID="addFiletoPackagePanel" runat="server"  Visible="False">
+        <asp:Panel ID="addFiletoPackagePanel" runat="server"  Visible="False" >
                     <asp:Label ID="Label3" runat="server" Text="Select the package you wish to add your file to:"></asp:Label>
                     <br />
                     <br />
@@ -115,7 +117,7 @@
                     <br />
                     <asp:Button ID="addfiletoP" runat="server" Text="Add File" />
                     <br />
-                    <asp:Button ID="canceladdpack" runat="server" Text="Cancel" OnClick="canceladdpack_Click" />
+                    <asp:Button ID="canceladdpack" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" />
                     <asp:HiddenField ID="fileI2" runat="server" />
        </asp:Panel>
         <asp:Panel ID="InteractivePanelOther" runat="server" Visible="false">
@@ -123,7 +125,7 @@
             <br />
             <asp:TextBox ID="packageName" runat="server" Width="199px"></asp:TextBox>
             <asp:Button ID="submitpackage" runat="server" Text="Create Package" OnClick="submitpackage_Click" style="margin-left: 41px" />
-            <asp:Button ID="cancelcreatepacakge" runat="server" Text="Cancel" style="margin-left: 46px" OnClick="cancelcreatepacakge_Click" />
+            <asp:Button ID="cancelcreatepacakge" runat="server" Text="Cancel" style="margin-left: 46px" OnClick="cancelAndReturnToFiles" />
 
         </asp:Panel>
         <asp:Panel ID="passwordPanel" runat="server" Visible="false">
@@ -143,7 +145,7 @@
             <asp:Button ID="confirmchange" runat="server" Text="Change Password" OnClick="confirmchange_Click" />
 
 
-            <asp:Button ID="cancelpw" runat="server" OnClick="cancelpw_Click" style="margin-left: 57px" Text="Cancel" />
+            <asp:Button ID="cancelpw" runat="server" OnClick="cancelAndReturnToFiles" style="margin-left: 57px" Text="Cancel" />
 
 
             &nbsp;</asp:Panel>
@@ -157,16 +159,22 @@
             <asp:Button ID="Button2" runat="server" Text="Delete existing user" />
             <br />
             <br />
-            <asp:Button ID="canceladmin" runat="server" Text="Cancel" OnClick="canceladmin_Click" />
+            <asp:Button ID="canceladmin" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" />
             &nbsp;</asp:Panel>
         <asp:Panel ID="sharePackagePanel" runat="server" Visible="false">
             <asp:Label ID="Label7" runat="server" Text="Enter the email of a user you wish to share this package with:" Font-Size="Larger"></asp:Label>
             <br />
             <asp:TextBox ID="emailToShareWith" runat="server" Width="178px"></asp:TextBox>
             <br />
+            <asp:Label ID="Label10" runat="server" Text="How many days should the user have access to the package?" Font-Size="Larger"></asp:Label>
             <br />
+            <asp:TextBox ID="daysAccess" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="Label11" runat="server" Text="Which kind of access should the user have?" Font-Size="Larger"></asp:Label>
+            <br />
+            <
             <asp:Button ID="SharePackageBut" runat="server" Text="Share Package" OnClick="SharePackageBut_Click" />
-            <asp:Button ID="CancelShare" runat="server" Text="Cancel" style="margin-left: 50px" OnClick="CancelShare_Click" />
+            <asp:Button ID="CancelShare" runat="server" Text="Cancel" style="margin-left: 50px" OnClick="cancelAndReturnToFiles" />
             <br />
             &nbsp;</asp:Panel>
         <asp:Panel ID="deletePackagePanel" runat="server" Visible="false">
@@ -174,16 +182,25 @@
             <br />
             <br />
             <asp:Button ID="confirmdelete" runat="server" Text="Yes" OnClick="confirmdelete_Click" />
-            <asp:Button ID="canceldelete" runat="server" Text="Cancel" style="margin-left: 70px" OnClick="canceldelete_Click" />
+            <asp:Button ID="canceldelete" runat="server" Text="Cancel" style="margin-left: 70px" OnClick="cancelAndReturnToFiles" />
             <br />
             <br />
             &nbsp;</asp:Panel>
-
+        <asp:Panel ID="editFilePanel" runat="server" Visible="false">
+            <asp:Label ID="Label9" runat="server" Text="Fill in the fields that you want to change:" Font-Size="Larger"></asp:Label>
+            <br />
+            <br />
+            <br />
+            <asp:TextBox ID="newDesc" runat="server" Text='<%# Eval("Description") %>'></asp:TextBox>
+            <br />
+            <br />
+            <br />
+            <asp:Button ID="updatefilebut" runat="server" Text="Update file" OnClick="updatefilebut_Click" />
+            <asp:Button ID="cancelEdit" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" style="margin-left: 38px" />
+            &nbsp;</asp:Panel>
 
             <br />
             <br />
-
-
 
         <asp:HiddenField ID="Origin" runat="server" />
         <asp:HiddenField ID="Description" runat="server" />
