@@ -44,7 +44,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void LogInTest()
         {
-            var testuser = new User { Email = "a@b.com", Password = "123", Type = UserType.standard};
+            var testuser = new User { Email = "a@b.com", Password = "123", Type = UserType.standard };
 
             using (ShimsContext.Create())
             {
@@ -56,7 +56,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void LogInIncorrectPassTest()
         {
-            var testuser = new User{ Email = "a@b.com", Password = "123", Type = UserType.standard };
+            var testuser = new User { Email = "a@b.com", Password = "123", Type = UserType.standard };
 
             using (ShimsContext.Create())
             {
@@ -66,7 +66,7 @@ namespace ClientUnitTest
                     Controller.LogIn("a@b.com", "");
                     Assert.Fail();
                 }
-                catch (IncorrectPasswordException){ }
+                catch (IncorrectPasswordException) { }
             }
         }
 
@@ -116,7 +116,7 @@ namespace ClientUnitTest
             }
 
             Controller.LogOut();
-        }        
+        }
 
 
         //check if admin can make new users
@@ -164,8 +164,8 @@ namespace ClientUnitTest
         {
             var testAdmin = new User { Email = "ta@ta.com", Password = "ta123", Type = UserType.admin };
             var testuser = new User { Email = "p@s.com", Password = "199", Type = UserType.standard };
-        
-            var userDictionary = new Dictionary<string, User> {{"ta@ta.com", testAdmin}};
+
+            var userDictionary = new Dictionary<string, User> { { "ta@ta.com", testAdmin } };
 
             using (ShimsContext.Create())
             {
@@ -183,7 +183,7 @@ namespace ClientUnitTest
         public void AuthorizationFail()
         {
             var testAdmin = new User { Email = "ta@ta.com", Password = "ta123", Type = UserType.admin };
-            
+
             using (ShimsContext.Create())
             {
                 ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testAdmin;
@@ -204,13 +204,13 @@ namespace ClientUnitTest
         public void FileNotExistsTest()
         {
             var testAdmin = new User { Email = "ta@ta.com", Password = "ta123", Type = UserType.admin };
-           
+
             using (ShimsContext.Create())
             {
                 ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => testAdmin;
                 ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => new FileInfo();
                 ShimServiceClient.AllInstances.DownloadFileByIdInt32 = (a, b) => new byte[] { };
-                
+
                 Controller.LogIn("ta@ta.com", "ta123");
                 try
                 {
@@ -221,24 +221,24 @@ namespace ClientUnitTest
             }
         }
 
-        
+
         //check if adding and removing tags does what they're supposed to
         [TestMethod]
         public void TagTest1()
         {
 
             var user1 = new User { Email = "u1@mail.com", Password = "user1", Type = UserType.admin };
-            var user7 = new User { Email = "u7@mail.com", Password = "user7", Type = UserType.standard};
+            var user7 = new User { Email = "u7@mail.com", Password = "user7", Type = UserType.standard };
 
             var p = new Package { Id = 1001, Name = "p1001", OwnerEmail = "u1@mail.com", FileIds = new[] { 001 } };
 
-            var fi = new FileInfo { Id = 001, Name = "testItem", OwnerEmail ="u1@mail.com", Type = FileType.text};
+            var fi = new FileInfo { Id = 001, Name = "testItem", OwnerEmail = "u1@mail.com", Type = FileType.text };
 
-            var r = new Right { ItemId = 001, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u1@mail.com"};
+            var r = new Right { ItemId = 001, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u1@mail.com" };
             var r2 = new Right { ItemId = 001, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u7@mail.com" };
 
             var tagsList = new List<string>();
-            var userDictionary = new Dictionary<string,User> {{"u1@mail.com", user1}};
+            var userDictionary = new Dictionary<string, User> { { "u1@mail.com", user1 } };
 
             using (ShimsContext.Create())
             {
@@ -286,14 +286,14 @@ namespace ClientUnitTest
             var fi = new FileInfo { Id = 092, Name = "testItem", OwnerEmail = "au@au.com", Type = FileType.text };
             var fiu = new FileInfo { Id = 092, Name = "UpdatedtestItem", OwnerEmail = "au@au.com", Type = FileType.text };
             var r = new Right { ItemId = 092, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "au@au.com" };
-            var db = new Dictionary<int, FileInfo> {{fi.Id,fi}};
+            var db = new Dictionary<int, FileInfo> { { fi.Id, fi } };
 
             using (ShimsContext.Create())
             {
                 ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => test;
                 ShimServiceClient.AllInstances.CreatePackagePackage = (a, b) => 1;
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => p; 
-                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => {}; 
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 = (a, b) => p;
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 = (a, b, c) => { };
                 ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => db[b];
                 ShimServiceClient.AllInstances.AddTagStringInt32 = (a, b, c) => { };
                 ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { };
@@ -304,7 +304,7 @@ namespace ClientUnitTest
 
                 Controller.LogIn("au@au.com", "test");
                 Controller.CreatePackage(p);
-                Controller.AddToPackage(new[]{092},1001);              
+                Controller.AddToPackage(new[] { 092 }, 1001);
                 Controller.AddTag("tag1", 092);
                 Controller.DeleteFileById(092);
                 try
@@ -315,70 +315,345 @@ namespace ClientUnitTest
                 catch (OriginalNotFoundException) { }
             }
         }
-        
 
-        // check if allowed to edit correct files
-        [TestMethod]
-        public void RwAuthorization1()
+
+
+        private static Dictionary<string, User> AuthUsersDB()
         {
-            var u1 = new User { Email = "u1@u1.com", Password = "u1", Type = UserType.admin};
-            var u2 = new User { Email = "u2@u2.com", Password = "u2", Type = UserType.standard };
-            var u3 = new User { Email = "u3@u3.com", Password = "u3", Type = UserType.standard };
+            var std1 = new User { Email = "std1@users.com", Password = "std1", Type = UserType.standard };
+            var std2 = new User { Email = "std2@users.com", Password = "std2", Type = UserType.standard };
+            return new Dictionary<string, User> { { std1.Email, std1 }, { std2.Email, std2 } };
+        }
 
-            var db = new Dictionary<string, User> {{"u1@u1.com", u1}};
+        private static Dictionary<int, FileInfo> AuthFilesDB()
+        {
+            var fin1 = new FileInfo { Id = 1, Name = "FileInfo1", OwnerEmail = "std1@users.com", Type = FileType.other };
+            return new Dictionary<int, FileInfo> { { fin1.Id, fin1 } };
+        }
+
+        private static Dictionary<int, byte[]> AuthDatasDB()
+        {
+            var dat1 = new byte[] { 1 };
+            return new Dictionary<int, byte[]> { { 1, dat1} };
+        }
+
+        /// <summary>
+        /// Tests whether a user with no rights can view, edit and delete.
+        /// All three should fail.
+        /// </summary>
+        [TestMethod]
+        public void RWDAuthorizationNone()
+        {
+            var users = AuthUsersDB();
+            var files = AuthFilesDB();
+            var datas = AuthDatasDB();
+            var rights = new Dictionary<string, Dictionary<int, Right>> { };
 
             using (ShimsContext.Create())
             {
-                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => db[b];
-                ShimServiceClient.AllInstances.CreateUserUser = (a, b) => db.Add(b.Email, b);
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => files[b];
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 = (a, b) => datas[b];
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => files[b.Id] = b;
+                ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 = (a, b, c) => datas[c] = b;
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { files.Remove(b); datas.Remove(b); };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => rights[b][c];
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) =>
+                {
+                    Dictionary<int,Right> val = null;
+                    if (rights.TryGetValue(b, out val))
+                    {
+                        Right value = null;
 
-                Controller.LogIn("u1@u1.com", "u1");
-                Controller.CreateUser(u2);
-                Controller.CreateUser(u3);
+                        val.TryGetValue(c, out value);
+                        return value;
+                    } else {
+                        return null;
+                    }
+                };
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => users[b];
 
+                Controller.LogIn("std2@users.com", "std2");
+
+                // Attempt to view fin1 - should fail
+                try
+                {
+                    Controller.GetFileInfoById(1);
+                    // This point should not be reached.
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // This point should be reached.
+                }
+
+                try
+                {
+                    Controller.DownloadFileById(1);
+                    // This point should not be reached.
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // This point should be reached.
+                }
+
+                // Attempt to edit fin1 - should fail
+                try
+                {
+                    Controller.UpdateFileInfo(new FileInfo { Id = 1, Name = "UpdatedInfo1", OwnerEmail = "std1@users.com", Type = FileType.text });
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // This point should be reached.
+                }
+                try
+                {
+                    Controller.UpdateFileData(new byte[] { 11 }, 1);
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // This point should be reached.
+                }
+
+                // Attempt to delete fin1 - should fail
+                try
+                {
+                    Controller.DeleteFileById(1);
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // This point should be reached.
+                }
             }
         }
 
-        // check if readonly is actually read-only, or edit is possible
+        /// <summary>
+        /// Tests whether a user with view rights can view, edit and delete.
+        /// Viewing should succeed, the rest should fail.
+        /// </summary>
         [TestMethod]
-        public void RwAuthorization2()
+        public void RWDAuthorizationView()
         {
+            var users = AuthUsersDB();
+            var files = AuthFilesDB();
+            var datas = AuthDatasDB();
+
+            var rit1 = new Right() { ItemId = 1, UserEmail = "std2@users.com", Type = RightType.view, Until = DateTime.Today.AddDays(1) };
+            var rights = new Dictionary<string, Dictionary<int, Right>> { {"std2@users.com", new Dictionary<int,Right> {{1, rit1}}} };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => files[b];
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 = (a, b) => datas[b];
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => files[b.Id] = b;
+                ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 = (a, b, c) => datas[c] = b;
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { files.Remove(b); datas.Remove(b); };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => rights[b][c];
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => users[b];
+
+                Controller.LogIn("std2@users.com", "std2");
+
+                // Attempt to view fin1 - should succeed
+                var fut1 = Controller.GetFileInfoById(1);
+                Assert.AreEqual(fut1, files[1]);
+
+                var dut1 = Controller.DownloadFileById(1);
+                Assert.AreEqual(dut1, datas[1]);
+
+                // Attempt to edit fin1 - should fail
+                try
+                {
+                    Controller.UpdateFileInfo(new FileInfo { Id = 1, Name = "UpdatedInfo1", OwnerEmail = "std1@users.com", Type = FileType.text });
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // This point should be reached.
+                }
+                try
+                {
+                    Controller.UpdateFileData(new byte[] { 11 }, 1);
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // This point should be reached.
+                }
+
+                // Attempt to delete fin1 - shuold fail
+                try
+                {
+                    Controller.DeleteFileById(1);
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // This point should be reached.
+                }
+            }
         }
 
-        // check if write rights also allows reading
+        /// <summary>
+        /// Tests whether a user with edit rights can view, edit and delete.
+        /// Viewing and editing should succeed, deleting should fail.
+        /// </summary>
         [TestMethod]
-        public void RwAuthorization3()
+        public void RWDAuthorizationEdit()
         {
+            var users = AuthUsersDB();
+            var files = AuthFilesDB();
+            var datas = AuthDatasDB();
+
+            var rit1 = new Right() { ItemId = 1, UserEmail = "std2@users.com", Type = RightType.edit, Until = DateTime.Today.AddDays(1) };
+            var rights = new Dictionary<string, Dictionary<int, Right>> { { "std2@users.com", new Dictionary<int, Right> { { 1, rit1 } } } };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => files[b];
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 = (a, b) => datas[b];
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => files[b.Id] = b;
+                ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 = (a, b, c) => datas[c] = b;
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { files.Remove(b); datas.Remove(b); };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => rights[b][c];
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => users[b];
+
+                Controller.LogIn("std2@users.com", "std2");
+
+                // Attempt to view fin1 - should succeed
+                var fut1 = Controller.GetFileInfoById(1);
+                Assert.AreEqual(fut1, files[1]);
+
+                var dut1 = Controller.DownloadFileById(1);
+                Assert.AreEqual(dut1, datas[1]);
+
+                // Attempt to edit fin1 - should succeed
+                var upf1 = new FileInfo { Id = 1, Name = "UpdatedInfo1", OwnerEmail = "std1@users.com", Type = FileType.text };
+                Controller.UpdateFileInfo(upf1);
+                Assert.AreEqual(upf1, files[1]);
+
+                var upd1 = new byte[] { 11 };
+                Controller.UpdateFileData(upd1, 1);
+                Assert.AreEqual(upd1, datas[1]);
+                
+                // Attempt to delete fin1 - should succeed
+                Controller.DeleteFileById(1);
+                Assert.IsFalse(files.ContainsKey(1));
+                Assert.IsFalse(datas.ContainsKey(1));
+            }
         }
 
-        // check if non-/owners can delete files
+        /// <summary>
+        /// Tests whether an owner can view, edit and delete.
+        /// All three should succed.
+        /// </summary>
         [TestMethod]
-        public void RwAuthorization4()
+        public void RWDAuthorizationOwner()
         {
+            var users = AuthUsersDB();
+            var files = AuthFilesDB();
+            var datas = AuthDatasDB();
+            var rights = new Dictionary<string, Dictionary<int, Right>> {};
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => files[b];
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 = (a, b) => datas[b];
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => files[b.Id] = b;
+                ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 = (a, b, c) => datas[c] = b;
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { files.Remove(b); datas.Remove(b); };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => rights[b][c];
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => users[b];
+
+                Controller.LogIn("std1@users.com", "std1");
+
+                // Attempt to view fin1 - should succeed
+                var fut1 = Controller.GetFileInfoById(1);
+                Assert.AreEqual(fut1, files[1]);
+
+                var dut1 = Controller.DownloadFileById(1);
+                Assert.AreEqual(dut1, datas[1]);
+
+                // Attempt to edit fin1 - should succeed
+                var upf1 = new FileInfo { Id = 1, Name = "UpdatedInfo1", OwnerEmail = "std1@users.com", Type = FileType.text };
+                Controller.UpdateFileInfo(upf1);
+                Assert.AreEqual(upf1, files[1]);
+
+                var upd1 = new byte[] { 11 };
+                Controller.UpdateFileData(upd1, 1);
+                Assert.AreEqual(upd1, datas[1]);
+                
+                // Attempt to delete fin1 - should succeed
+                Controller.DeleteFileById(1);
+                Assert.IsFalse(files.ContainsKey(1));
+                Assert.IsFalse(datas.ContainsKey(1));
+            }
         }
 
+        /// <summary>
+        /// Tests whether an admins can view, edit and delete.
+        /// All three should succeed.
+        /// </summary>
+        [TestMethod]
+        public void RWDAuthorizationAdmin()
+        {
+            var users = AuthUsersDB();
+            var files = AuthFilesDB();
+            var datas = AuthDatasDB();
 
+            var adm = new User {Email = "adm@users.com", Password = "unguessable", Type = UserType.admin};
+            users.Add(adm.Email, adm);
 
+            var rights = new Dictionary<string, Dictionary<int, Right>> {};
 
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 = (a, b) => files[b];
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 = (a, b) => datas[b];
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => files[b.Id] = b;
+                ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 = (a, b, c) => datas[c] = b;
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { files.Remove(b); datas.Remove(b); };
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => rights[b][c];
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => users[b];
 
+                Controller.LogIn("adm@users.com", "unguessable");
 
+                // Attempt to view fin1 - should succeed
+                var fut1 = Controller.GetFileInfoById(1);
+                Assert.AreEqual(fut1, files[1]);
 
+                var dut1 = Controller.DownloadFileById(1);
+                Assert.AreEqual(dut1, datas[1]);
 
+                // Attempt to edit fin1 - should succeed
+                var upf1 = new FileInfo() { Id = 1, Name = "upd1", OwnerEmail = "std1@users.com", Type = FileType.text };
+                Controller.UpdateFileInfo(upf1);
+                Assert.AreEqual(upf1, files[1]);
 
-
-
+                var upd1 = new byte[] { 11 };
+                Controller.UpdateFileData(upd1, 1);
+                Assert.AreEqual(upd1, datas[1]);
+                
+                // Attempt to delete fin1 - should succeed
+                Controller.DeleteFileById(1);
+                Assert.IsFalse(files.ContainsKey(1));
+                Assert.IsFalse(datas.ContainsKey(1));
+            }
+        }
 
         //check if logging into one account, logging out, then logging into another account gives correct authorization 
         [TestMethod]
         public void Authorization1()
         {
-            var user1 = new User {Email = "u1@mail.com", Password = "user1", Type = UserType.admin};
-            var user5 = new User {Email = "usertest@mail.com", Password = "mm", Type = UserType.standard};
-            var p = new Package {Id = 1002, Name = "p1002", OwnerEmail = "u1@mail.com", FileIds = new[] {002}};
-            var fi = new FileInfo {Id = 002, Name = "testItem2", OwnerEmail = "u1@mail.com", Type = FileType.text};
-            var update = new FileInfo{Id = 002, Name = "updatedItem2", OwnerEmail = "u1@mail.com", Type = FileType.text };
-            var r = new Right { ItemId = 002, Type = RightType.edit, Until = DateTime.Now.AddDays(1),UserEmail = "u1@mail.com" };
-            var db = new Dictionary<string, User> {{"u1@mail.com", user1}};
+            var user1 = new User { Email = "u1@mail.com", Password = "user1", Type = UserType.admin };
+            var user5 = new User { Email = "usertest@mail.com", Password = "mm", Type = UserType.standard };
+            var p = new Package { Id = 1002, Name = "p1002", OwnerEmail = "u1@mail.com", FileIds = new[] { 002 } };
+            var fi = new FileInfo { Id = 002, Name = "testItem2", OwnerEmail = "u1@mail.com", Type = FileType.text };
+            var update = new FileInfo { Id = 002, Name = "updatedItem2", OwnerEmail = "u1@mail.com", Type = FileType.text };
+            var r = new Right { ItemId = 002, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u1@mail.com" };
+            var db = new Dictionary<string, User> { { "u1@mail.com", user1 } };
 
             using (ShimsContext.Create())
             {
@@ -402,18 +677,20 @@ namespace ClientUnitTest
                 try
                 {
                     Controller.UpdateFileInfo(update);
-                } catch(InadequateObjectException) 
-                { 
+                }
+                catch (InadequateObjectException)
+                {
                     //should fail 
                 }
                 Controller.LogOut();
 
-                Controller.LogIn("u1@mail.com","user1");
+                Controller.LogIn("u1@mail.com", "user1");
                 try
                 {
                     Controller.UpdateFileInfo(update);
-                } catch(InsufficientRightsException) 
-                { 
+                }
+                catch (InsufficientRightsException)
+                {
                     //should not fail 
                 }
             }
@@ -445,12 +722,12 @@ namespace ClientUnitTest
         [TestMethod]
         public void DownloadingWithoutRightsTest()
         {
-            var user1 = new User {Email = "u1@mail.com", Password = "user1", Type = UserType.admin};
-            var user5 = new User {Email = "usertest@mail.com", Password = "mm", Type = UserType.standard};
-            var p = new Package {Id = 1002, Name = "p1002", OwnerEmail = "u1@mail.com", FileIds = new[] {002}};
-            var fi = new FileInfo {Id = 002, Name = "testItem2", OwnerEmail = "u1@mail.com", Type = FileType.text};
-            var r = new Right{ItemId = 002,Type = RightType.edit,Until = DateTime.Now.AddDays(1),UserEmail = "u1@mail.com" };
-            var db = new Dictionary<string, User> {{"u1@mail.com", user1}};
+            var user1 = new User { Email = "u1@mail.com", Password = "user1", Type = UserType.admin };
+            var user5 = new User { Email = "usertest@mail.com", Password = "mm", Type = UserType.standard };
+            var p = new Package { Id = 1002, Name = "p1002", OwnerEmail = "u1@mail.com", FileIds = new[] { 002 } };
+            var fi = new FileInfo { Id = 002, Name = "testItem2", OwnerEmail = "u1@mail.com", Type = FileType.text };
+            var r = new Right { ItemId = 002, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u1@mail.com" };
+            var db = new Dictionary<string, User> { { "u1@mail.com", user1 } };
 
             using (ShimsContext.Create())
             {
@@ -487,15 +764,15 @@ namespace ClientUnitTest
         [TestMethod]
         public void MetaDataTest1()
         {
-            var user1 = new User { Email = "u1@mail.com", Password = "user1", Type = UserType.admin};
+            var user1 = new User { Email = "u1@mail.com", Password = "user1", Type = UserType.admin };
             var user8 = new User { Email = "u8@mail.com", Password = "user8", Type = UserType.standard };
             var testAdmin = new User { Email = "ua@mail.com", Password = "usera", Type = UserType.admin };
-            var p = new Package{Id = 1003, Name = "p1003", OwnerEmail = "u1@mail.com", FileIds = new[] {003}} ;
-            var fi = new FileInfo{Id = 003, Name = "testItem", OwnerEmail = "u1@mail.com", Type = FileType.text};
-            var update = new FileInfo{Id = 003, Name = "updatedItem", OwnerEmail = "u1@mail.com", Type = FileType.text};
-            var r = new Right{ItemId=003, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u1@mail.com"};
+            var p = new Package { Id = 1003, Name = "p1003", OwnerEmail = "u1@mail.com", FileIds = new[] { 003 } };
+            var fi = new FileInfo { Id = 003, Name = "testItem", OwnerEmail = "u1@mail.com", Type = FileType.text };
+            var update = new FileInfo { Id = 003, Name = "updatedItem", OwnerEmail = "u1@mail.com", Type = FileType.text };
+            var r = new Right { ItemId = 003, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u1@mail.com" };
 
-            var db = new Dictionary<string, User> {{"u1@mail.com", user1}, {"ua@mail.com", testAdmin}};
+            var db = new Dictionary<string, User> { { "u1@mail.com", user1 }, { "ua@mail.com", testAdmin } };
 
             using (ShimsContext.Create())
             {
@@ -509,7 +786,7 @@ namespace ClientUnitTest
                 ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
                 ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => r.UserEmail.Equals(b) ? r : null;
                 ShimServiceClient.AllInstances.CreateUserUser = (a, b) => db.Add(b.Email, b);
-                
+
                 //User1 uploads a file to a package:
                 Controller.LogIn("u1@mail.com", "user1");
                 Controller.CreateUser(user8);
@@ -524,13 +801,13 @@ namespace ClientUnitTest
                     Controller.UpdateFileInfo(update);
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException){}
+                catch (InsufficientRightsException) { }
                 Controller.LogOut();
 
                 //User3 who is an admin tries the same as user2:
                 Controller.LogIn("ua@mail.com", "usera");
                 Controller.UpdateFileInfo(update);
-                
+
             }
         }
 
@@ -538,22 +815,22 @@ namespace ClientUnitTest
         [TestMethod]
         public void MetaDataTest2()
         {
-            var user1 = new User {Email = "u1@mail.com", Password = "user1", Type = UserType.admin};
-            var user8 = new User {Email = "u8@mail.com", Password = "user8", Type = UserType.standard};
-            var testAdmin = new User {Email = "ua@mail.com", Password = "usera", Type = UserType.admin};
+            var user1 = new User { Email = "u1@mail.com", Password = "user1", Type = UserType.admin };
+            var user8 = new User { Email = "u8@mail.com", Password = "user8", Type = UserType.standard };
+            var testAdmin = new User { Email = "ua@mail.com", Password = "usera", Type = UserType.admin };
 
-            var p = new Package {Id = 1003, Name = "p1003", OwnerEmail = "u1@mail.com", FileIds = new[] {003}};
-            
-            var fi = new FileInfo {Id = 003, Name = "testItem", OwnerEmail = "u1@mail.com", Type = FileType.text};
-            var fio = new FileInfo {Id = 004, Name = "testItem4", OwnerEmail = "u1@mail.com", Type = FileType.text};
-            var update2 = new FileInfo { Id = 003, Name = "updatedItem2", OwnerEmail = "u1@mail.com", Type = FileType.text};
-            var update1 = new FileInfo { Id = 003, Name = "updatedItem1", OwnerEmail = "u1@mail.com", Type = FileType.text};
-           
-            var r = new Right { ItemId = 003, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u1@mail.com"};
+            var p = new Package { Id = 1003, Name = "p1003", OwnerEmail = "u1@mail.com", FileIds = new[] { 003 } };
+
+            var fi = new FileInfo { Id = 003, Name = "testItem", OwnerEmail = "u1@mail.com", Type = FileType.text };
+            var fio = new FileInfo { Id = 004, Name = "testItem4", OwnerEmail = "u1@mail.com", Type = FileType.text };
+            var update2 = new FileInfo { Id = 003, Name = "updatedItem2", OwnerEmail = "u1@mail.com", Type = FileType.text };
+            var update1 = new FileInfo { Id = 003, Name = "updatedItem1", OwnerEmail = "u1@mail.com", Type = FileType.text };
+
+            var r = new Right { ItemId = 003, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u1@mail.com" };
             var ru = new Right { ItemId = 003, Type = RightType.edit, Until = DateTime.Now.AddDays(1), UserEmail = "u8@mail.com" };
 
-            var db = new Dictionary<string, User> {{"u1@mail.com", user1}, {"ua@mail.com", testAdmin}};
-            var dbFiles = new Dictionary<int, FileInfo> {{fi.Id, fi}, {fio.Id, fio}};
+            var db = new Dictionary<string, User> { { "u1@mail.com", user1 }, { "ua@mail.com", testAdmin } };
+            var dbFiles = new Dictionary<int, FileInfo> { { fi.Id, fi }, { fio.Id, fio } };
 
             using (ShimsContext.Create())
             {
@@ -584,14 +861,14 @@ namespace ClientUnitTest
 
                 Controller.LogIn("u1@mail.com", "user1");
                 Controller.UpdateFileInfo(update2);
-                Assert.AreEqual("updatedItem2",Controller.GetFileInfoById(003).Name);
+                Assert.AreEqual("updatedItem2", Controller.GetFileInfoById(003).Name);
                 Controller.DropRight("u8@mail.com", 003);
                 Controller.LogOut();
 
                 Controller.LogIn("u8@mail.com", "user8");
                 Controller.UpdateFileInfo(update1);
-                   
-                
+
+
             }
         }
 
@@ -600,18 +877,18 @@ namespace ClientUnitTest
         public void EditProfile()
         {
 
-            var editUserA = new User {Email = "eusera@mail.com", Password = "eu00", Type = UserType.admin};
-            var updatedUserA = new User {Email = "eua@mail.com", Password = "eu00", Type = UserType.admin};
-            var updatedUser = new User {Email = "eusera@mail.com", Password = "password", Type = UserType.admin};
+            var editUserA = new User { Email = "eusera@mail.com", Password = "eu00", Type = UserType.admin };
+            var updatedUserA = new User { Email = "eua@mail.com", Password = "eu00", Type = UserType.admin };
+            var updatedUser = new User { Email = "eusera@mail.com", Password = "password", Type = UserType.admin };
 
-            var db = new Dictionary<string, User> {{"eusera@mail.com", editUserA}};
+            var db = new Dictionary<string, User> { { "eusera@mail.com", editUserA } };
 
             using (ShimsContext.Create())
             {
                 ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => db[b];
                 ShimServiceClient.AllInstances.UpdateUserUser = (a, b) => { db[b.Email] = b; };
 
-                Controller.LogIn("eusera@mail.com","eu00");
+                Controller.LogIn("eusera@mail.com", "eu00");
                 //A user should not be able to change their mail
                 try
                 {
@@ -629,11 +906,11 @@ namespace ClientUnitTest
         [TestMethod]
         public void EditTest()
         {
-            var editUserA = new User {Email = "eusera@mail.com", Password = "eu00", Type = UserType.admin};
-            var updatedUserS = new User {Email = "eusers@mail.com", Password = "std00", Type = UserType.standard};
-            var editUserS = new User {Email = "eusers@mail.com", Password = "pw", Type = UserType.standard};
+            var editUserA = new User { Email = "eusera@mail.com", Password = "eu00", Type = UserType.admin };
+            var updatedUserS = new User { Email = "eusers@mail.com", Password = "std00", Type = UserType.standard };
+            var editUserS = new User { Email = "eusers@mail.com", Password = "pw", Type = UserType.standard };
 
-            var db = new Dictionary<string, User> {{"eusera@mail.com", editUserA}};
+            var db = new Dictionary<string, User> { { "eusera@mail.com", editUserA } };
 
             using (ShimsContext.Create())
             {
@@ -657,11 +934,11 @@ namespace ClientUnitTest
         [TestMethod]
         public void EditTest1()
         {
-            var editUserA = new User {Email = "eusera@mail.com", Password = "eu00", Type = UserType.admin};
-            var updatedUserS = new User {Email = "eusers@mail.com", Password = "std00", Type = UserType.standard};
-            var editUserS = new User {Email = "eusers@mail.com", Password = "pw", Type = UserType.standard};
+            var editUserA = new User { Email = "eusera@mail.com", Password = "eu00", Type = UserType.admin };
+            var updatedUserS = new User { Email = "eusers@mail.com", Password = "std00", Type = UserType.standard };
+            var editUserS = new User { Email = "eusers@mail.com", Password = "pw", Type = UserType.standard };
 
-            var db = new Dictionary<string, User> {{"eusera@mail.com", editUserA}};
+            var db = new Dictionary<string, User> { { "eusera@mail.com", editUserA } };
 
             using (ShimsContext.Create())
             {
@@ -681,12 +958,12 @@ namespace ClientUnitTest
         public void EditTest3()
         {
 
-            var editUserA = new User {Email = "eusera@mail.com", Password = "eu00", Type = UserType.admin};
-            var editingUserS = new User {Email = "editing@mail.com", Password = "ed", Type = UserType.standard};
-            var updatedUserS = new User {Email = "eusers@mail.com", Password = "std00", Type = UserType.standard};
-            var editUserS = new User {Email = "eusers@mail.com", Password = "pw", Type = UserType.standard};
+            var editUserA = new User { Email = "eusera@mail.com", Password = "eu00", Type = UserType.admin };
+            var editingUserS = new User { Email = "editing@mail.com", Password = "ed", Type = UserType.standard };
+            var updatedUserS = new User { Email = "eusers@mail.com", Password = "std00", Type = UserType.standard };
+            var editUserS = new User { Email = "eusers@mail.com", Password = "pw", Type = UserType.standard };
 
-            var db = new Dictionary<string, User> {{"eusera@mail.com", editUserA}};
+            var db = new Dictionary<string, User> { { "eusera@mail.com", editUserA } };
 
             using (ShimsContext.Create())
             {
@@ -708,7 +985,7 @@ namespace ClientUnitTest
                 catch (InsufficientRightsException) { }
                 Controller.LogOut();
 
-                Controller.LogIn("eusers@mail.com","pw");
+                Controller.LogIn("eusers@mail.com", "pw");
             }
 
         }
