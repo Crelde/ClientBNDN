@@ -46,14 +46,29 @@ namespace WebApplication1
                     InteractivePanelAdmin.CssClass = "rightCol";
                     CreateNewFilePanel.CssClass = "rightCol";
                     shareFilePanel.CssClass = "rightCol";
+                    CreateNewUserPanel.CssClass = "rightCol";
+                    DeleteUserPanel.CssClass = "rightCol";
+                    UpdateUserPanel.CssClass = "rightCol";
                     shareFilePanel.Style["width"] = "350px";
                     editFilePanel.Style["width"] = "350px";
                     TagPanel.Style["width"] = "350px";
                     addFiletoPackagePanel.Style["width"] = "350px";
+                    CreateNewUserPanel.Style["width"] = "350px";
+                    DeleteUserPanel.Style["width"] = "350px";
+                    UpdateUserPanel.Style["width"] = "350px";
                     kindofrightDD.Items.Add(new ListItem("View"));
                     kindofrightDD.Items.Add(new ListItem("Edit"));
                     kindofrightddF.Items.Add(new ListItem("View"));
                     kindofrightddF.Items.Add(new ListItem("Edit"));
+                    createUserTypeDD.Items.Add(new ListItem("admin"));
+                    createUserTypeDD.Items.Add(new ListItem("student"));
+                
+                /*
+                    if (Controller._sessionUser.Type == "admin")
+                    {
+                        adminButton.Visible = true;
+                    }
+                 */
 
                 }     
 
@@ -288,6 +303,9 @@ namespace WebApplication1
             passwordPanel.Visible = false;
             addFiletoPackagePanel.Visible = false;
             shareFilePanel.Visible = false;
+            CreateNewUserPanel.Visible = false;
+            UpdateUserPanel.Visible = false;
+            DeleteUserPanel.Visible = false;
         }
         protected void hideMidPanels()
         {
@@ -400,6 +418,64 @@ namespace WebApplication1
             string days = daysOfAccessFile.Text;
             string right = kindofrightddF.SelectedValue;
 
+        }
+
+        protected void CreateNewUserSubmit_Click(object sender, EventArgs e)
+        {
+            string email = createUserEmail.Text;
+            string pw = createUserPw.Text;
+            string type = createUserTypeDD.SelectedValue;
+            // create a new user from dis
+            hideRightPanels();
+        }
+
+        protected void createUserBut_Click(object sender, EventArgs e)
+        {
+            hideRightPanels();
+            CreateNewUserPanel.Visible = true;
+        }
+
+        protected void cancelNewUser_Click(object sender, EventArgs e)
+        {
+            hideRightPanels();
+        }
+
+        protected void deleteUserBut_Click(object sender, EventArgs e)
+        {
+            hideRightPanels();
+            DeleteUserPanel.Visible = true;
+            
+        }
+
+        protected void updateUserBut_Click(object sender, EventArgs e)
+        {
+            // Get the user by the email. so i can put the fields to the current value of the fields.
+            ServiceReference1.User userToBeUpdated = new ServiceReference1.User();
+            userToBeUpdated.Email = "crelde@er.sej";
+            userToBeUpdated.Password = "123";
+           
+            UpdatedUserEmail.Text = userToBeUpdated.Email;
+            UpdatedUserPw.Text = userToBeUpdated.Password;
+
+           
+            hideRightPanels();
+            UpdateUserPanel.Visible = true;
+        }
+
+        protected void confirmDeleteUser_Click(object sender, EventArgs e)
+        {
+            // delete user
+            string email = userToBeDeleted.Text;
+
+            hideRightPanels();
+        }
+
+        protected void submitUpdatedUser_Click(object sender, EventArgs e)
+        {
+            string email = UpdatedUserEmail.Text; 
+            string pw = UpdatedUserPw.Text;
+
+            hideRightPanels();
         }
 
 

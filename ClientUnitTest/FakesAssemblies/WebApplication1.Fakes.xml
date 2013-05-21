@@ -217,6 +217,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.Constructor">
             <summary>Sets the shim of Form.Form()</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.CreateNewUserSubmit_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.CreateNewUserSubmit_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.CreatePackageButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreatePackageButton_Click(Object sender, EventArgs e)</summary>
         </member>
@@ -247,11 +250,17 @@
         <member name="P:WebApplication1.Fakes.ShimForm.cancelAndReturnToFilesObjectEventArgs">
             <summary>Sets the shim of Form.cancelAndReturnToFiles(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.cancelNewUser_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.cancelNewUser_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.cancelcreatepacakge_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.changepw_ClickObjectEventArgs">
             <summary>Sets the shim of Form.changepw_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.confirmDeleteUser_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.confirmDeleteUser_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.confirmchange_ClickObjectEventArgs">
             <summary>Sets the shim of Form.confirmchange_Click(Object sender, EventArgs e)</summary>
@@ -264,6 +273,12 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.createUserBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createUserBut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.deleteUserBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.deleteUserBut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
@@ -283,8 +298,14 @@
         <member name="P:WebApplication1.Fakes.ShimForm.submitShareFile_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitShareFile_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.submitUpdatedUser_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitUpdatedUser_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.updateUserBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.updateUserBut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.updatefilebut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.updatefilebut_Click(Object sender, EventArgs e)</summary>
@@ -300,6 +321,9 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.ChangeUserButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.ChangeUserButton_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreateNewUserSubmit_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.CreateNewUserSubmit_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreatePackageButton_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreatePackageButton_Click(Object sender, EventArgs e)</summary>
@@ -331,11 +355,17 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelAndReturnToFilesObjectEventArgs">
             <summary>Sets the shim of Form.cancelAndReturnToFiles(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelNewUser_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.cancelNewUser_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.cancelcreatepacakge_ClickObjectEventArgs">
             <summary>Sets the shim of Form.cancelcreatepacakge_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.changepw_ClickObjectEventArgs">
             <summary>Sets the shim of Form.changepw_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.confirmDeleteUser_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.confirmDeleteUser_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.confirmchange_ClickObjectEventArgs">
             <summary>Sets the shim of Form.confirmchange_Click(Object sender, EventArgs e)</summary>
@@ -348,6 +378,12 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createUserBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createUserBut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.deleteUserBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.deleteUserBut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
@@ -367,8 +403,14 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitShareFile_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitShareFile_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitUpdatedUser_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitUpdatedUser_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.updateUserBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.updateUserBut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.updatefilebut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.updatefilebut_Click(Object sender, EventArgs e)</summary>
