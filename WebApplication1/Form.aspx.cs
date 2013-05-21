@@ -21,27 +21,7 @@ namespace WebApplication1
                 {
                     fixSource(true);
                     activeuserLabel.Text = Controller._sessionUser.Email;
-                    InteractivePanelFiles.CssClass = "rightCol";
-                    InteractivePanelOther.CssClass = "rightCol";
-                    TagPanel.CssClass = "rightCol";
-                    addFiletoPackagePanel.CssClass = "rightCol";
-                    passwordPanel.CssClass = "rightCol";
-                    deletePackagePanel.CssClass = "rightCol";
-                    sharePackagePanel.CssClass = "rightCol";
-                    editFilePanel.CssClass = "rightCol";
-                    InteractivePanelAdmin.CssClass = "rightCol";
-                    CreateNewFilePanel.CssClass = "rightCol";
-                    shareFilePanel.CssClass = "rightCol";
-                    CreateNewUserPanel.CssClass = "rightCol";
-                    DeleteUserPanel.CssClass = "rightCol";
-                    UpdateUserPanel.CssClass = "rightCol";
-                    shareFilePanel.Style["width"] = "350px";
-                    editFilePanel.Style["width"] = "350px";
-                    TagPanel.Style["width"] = "350px";
-                    addFiletoPackagePanel.Style["width"] = "350px";
-                    CreateNewUserPanel.Style["width"] = "350px";
-                    DeleteUserPanel.Style["width"] = "350px";
-                    UpdateUserPanel.Style["width"] = "350px";
+
                     kindofrightDD.Items.Add(new ListItem("View"));
                     kindofrightDD.Items.Add(new ListItem("Edit"));
                     kindofrightddF.Items.Add(new ListItem("View"));
@@ -207,46 +187,6 @@ namespace WebApplication1
                 messageBox("An error has occured, please log in again.");
             }
             finally { Response.Redirect("LogInForm.aspx"); }          
-        }
-
-        protected void finalUpload_Click(object sender, EventArgs e)
-        {
-            using (var serv = new ServiceReference1.ServiceClient())
-            {
-
-                //make new file from the file coming from this bytearray!
-                if (FileUpload1.FileName != "")
-                {
-                    byte[] filebytes = FileUpload1.FileBytes;
-                    string desc = Description.Value;
-                    string filename = FileUpload1.FileName;
-                    string origin = Origin.Value;  
-                
-                    ServiceReference1.FileTransfer filetrans = new ServiceReference1.FileTransfer();
-
-                    filetrans.Data = filebytes;
-                    
-                    ServiceReference1.FileInfo fileinf = new ServiceReference1.FileInfo();
-
-                    fileinf.Date = DateTime.Now;
-                    fileinf.Description = desc;
-                    fileinf.Name = FileUpload1.FileName;
-                    fileinf.Origin = origin;
-                    filetrans.Info = fileinf;
-
-                    try { Controller.UploadFile(filetrans); }
-                    catch (NotLoggedInException)
-                    {
-                        messageBox("An error has occured, please log in again.");
-                        Response.Redirect("LogInForm.aspx");
-                    }
-                    catch (InadequateObjectException)
-                    {
-                        messageBox("You have to select a file.");
-                    }
-                }
-            }
-
         }
 
         protected void adminButton_Click(object sender, EventArgs e)
@@ -572,7 +512,9 @@ namespace WebApplication1
             {
                 Controller.UploadFile(filetrans);
                 returnToFiles(sender, e);
-                fixSource(true, previndex);
+                fixSource(true, DropDownList1.Items.Count -1);
+                returnToFiles(sender, e);
+                
             }
             catch (NotLoggedInException)
             {

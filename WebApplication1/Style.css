@@ -1,14 +1,16 @@
 ﻿body {
+     background-color: #DDDDDD;
 }
+
 .topCol {
     background-color: #DDDDDD;
-    width: 100%;
+    width: 1220px;
     float: initial;
     height: 100px;
 }
        
 .rightCol {
-    background-color: #BBBBBB;
+    background-color: #CCCCCC;
     width: 670px;
     float: left;
     height: 800px;
@@ -21,4 +23,10 @@
     width: 200px;
     float: left;
     height: 800px;
+}
+.headerLabel {
+    position:absolute;
+    top: 10px;
+    margin-left: 250px;
+    left: 25px;
 }
