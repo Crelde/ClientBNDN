@@ -6,12 +6,14 @@
     float: initial;
     height: 100px;
 }
-    
+       
 .rightCol {
     background-color: #BBBBBB;
-    width: 800px;
+    width: 670px;
     float: left;
     height: 800px;
+    
+   
 }
 
 .leftCol {

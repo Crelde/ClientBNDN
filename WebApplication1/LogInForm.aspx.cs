@@ -13,7 +13,7 @@ namespace WebApplication1
         protected void Page_Load(object sender, EventArgs e)
         {
             try { Controller.LogOut(); }
-            catch (NotLoggedInException) { } // Expected.
+            catch (NotLoggedInException) { } // Expected. // test
 
         
         }
@@ -33,7 +33,6 @@ namespace WebApplication1
                 catch (NotLoggedOutException)
                 {
                     Response.Redirect("LogInForm.aspx");
-                    // Shouldn't happen, as the page logs the user out when it loads, but if it does, reload page.
                      
                 }
                 catch (NoSuchUserException)

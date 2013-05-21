@@ -198,7 +198,7 @@ namespace WebApplication1
                 throw new NotLoggedInException();
 
             if (!FileExists(fileId))
-                throw new ObjectNotFoundException();
+                return null; // NOTE: ObjectNotFoundException is not thrown, as our sever is unable to remove old references from files that are deleted.
             
             using (var client = new ServiceClient())
             {
@@ -276,8 +276,7 @@ namespace WebApplication1
 
             using (var client = new ServiceClient())
             {
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
+                if ( !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
                     && !HasEditRights(fileId))
                     throw new InsufficientRightsException();
 
@@ -339,8 +338,7 @@ namespace WebApplication1
                 if (item == null)
                     throw new ObjectNotFoundException();
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                if ( !_sessionUser.Email.Equals(item.OwnerEmail)
                     && !HasEditRights(itemId))
                     throw new InsufficientRightsException();
 
@@ -430,7 +428,7 @@ namespace WebApplication1
         /// <summary>Creates the given Package on the service.</summary>
         /// <param name="newPackage">The Package that should be created.</param>
         /// <returns>The Id that the created Package has been given.</returns>
-        public static int CreatePackage(Package newPackage)
+        public static void CreatePackage(Package newPackage)
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
@@ -438,19 +436,16 @@ namespace WebApplication1
             if (newPackage == null
                 || newPackage.Name == null
                 || newPackage.Name.Length < 3
-                || newPackage.FileIds == null
-                || !newPackage.FileIds.All(FileExists)
-                )
+                )             
                 throw new InadequateObjectException();
-
-            if (newPackage.FileIds.Any(fileId => !HasEditRights(fileId) && !IsOwnerOf(fileId)))
-                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
                 // NOTE - OwnerEmail field is force-set to the _sessionUser's Email.
                 newPackage.OwnerEmail = _sessionUser.Email;
-                return client.CreatePackage(newPackage);
+                try { client.CreatePackage(newPackage); }
+                catch (Exception) { }   // NOTE: This is unsafe, but the only way to stop faultException´1 from breaking the program, 
+                                        // it's thrown by the server even though everything works as intended
             }
         }
 
@@ -584,12 +579,6 @@ namespace WebApplication1
             }
         }
 
-        //KEWIN HJÆLPE FUNKTION
-        public static Package[] kewinhalp()
-        {
-            return GetOwnedPackagesByEmail(_sessionUser.Email);
-        }
-
         /// <summary>Looks up Packages with a matching tag.</summary>
         /// <param name="tag">The tag that should be used to look up Packages.</param>
         /// <returns>The Packages that contain the given tag.</returns>
@@ -613,10 +602,10 @@ namespace WebApplication1
             if(_sessionUser == null)
                 throw new NotLoggedInException();
 
-            if(newRight == null 
-                || newRight.UserEmail == null 
-                || !(FileExists(newRight.ItemId) 
-                || PackageExists(newRight.ItemId)) 
+            if(newRight == null
+                || newRight.UserEmail == null
+                || !(FileExists(newRight.ItemId)
+                || PackageExists(newRight.ItemId))
                 || !UserExists(newRight.UserEmail))
                 throw new InadequateObjectException();
 
