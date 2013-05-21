@@ -20,7 +20,7 @@ namespace WebApplication1
                 using (var serv = new ServiceReference1.ServiceClient())
                 {
                     fixSource(true);
-                activeuserLabel.Text = Controller._sessionUser.Email;
+                    activeuserLabel.Text = Controller._sessionUser.Email;
                     InteractivePanelFiles.CssClass = "rightCol";
                     InteractivePanelOther.CssClass = "rightCol";
                     TagPanel.CssClass = "rightCol";
@@ -49,12 +49,12 @@ namespace WebApplication1
                     createUserTypeDD.Items.Add(new ListItem("admin"));
                     createUserTypeDD.Items.Add(new ListItem("student"));
                 
-                /*
-                    if (Controller._sessionUser.Type == "admin")
+                
+                    if (Controller._sessionUser.Type == ServiceReference1.UserType.admin)
                     {
                         adminButton.Visible = true;
                     }
-                 */
+                 
 
                 }
             }
@@ -95,9 +95,14 @@ namespace WebApplication1
             List<ServiceReference1.FileInfo> myList = new List<ServiceReference1.FileInfo>();
             foreach (int i in pack.FileIds)
             {
-                ServiceReference1.FileInfo fi = Controller.GetFileInfoById(i);
-                if (fi!=null)
-                    myList.Add(fi);
+                ServiceReference1.FileInfo fi;
+                try
+                {
+                    fi = Controller.GetFileInfoById(i);
+                    if (fi != null)
+                        myList.Add(fi);
+                }
+                catch (InsufficientRightsException) { }                
             }
             DataList1.DataSource = myList;
             DataList1.DataBind();
@@ -156,7 +161,7 @@ namespace WebApplication1
                 }
                 catch (InsufficientRightsException)
                 {
-                    messageBox("An error has occured, try reloading the page.");
+                    messageBox("You do not have rights to do that, as the file is only shared for you to view it.");
                 }
             }
             else if (e.CommandName == "tag")
@@ -293,7 +298,7 @@ namespace WebApplication1
             }
             catch (InsufficientRightsException)
             {
-                messageBox("An error has occured, try reloading the page.");
+                messageBox("You are not allowed to add a tag to this file as you have only viewing rights to it.");
             }
             updateBulletList(idofchosenfile);
             CreateBox.Text = "";
@@ -312,7 +317,7 @@ namespace WebApplication1
             }
             catch (InadequateObjectException)
             {
-                messageBox("An error has occured, try reloading the page.");
+                messageBox("You do not have rights to delete tags, as you only have viewing rights to the file.");
             }
             catch (ObjectNotFoundException)
             {
@@ -420,21 +425,26 @@ namespace WebApplication1
         protected void SharePackageBut_Click(object sender, EventArgs e)
         {
             string rightType = kindofrightDD.SelectedValue;
+            string days = daysAccess.Text;
             string s = emailToShareWith.Text;
-            
+
             ServiceReference1.Right right = new ServiceReference1.Right();
 
-            int packageId; 
-            packageDictionary.TryGetValue(DropDownList1.SelectedValue, out packageId);
-            right.ItemId = packageId;
-            right.UserEmail = Controller._sessionUser.Email;
+            right.UserEmail = s;
+            right.Until = DateTime.Now.AddDays(double.Parse(days));
+            int packageid;
+            packageDictionary.TryGetValue(DropDownList1.SelectedValue, out packageid);
+            right.ItemId = packageid;
 
-            try 
-            { 
+            if (string.Compare(rightType, "View") == 0)
+                right.Type = ServiceReference1.RightType.view;
+            else
+                right.Type = ServiceReference1.RightType.edit;
+
+            try
+            {
                 Controller.GrantRight(right);
-                hideMidPanels();
-                hideRightPanels();
-                InteractivePanelFiles.Visible = true;
+                returnToFiles(sender, e);
             }
             catch (NotLoggedInException)
             {
@@ -443,11 +453,16 @@ namespace WebApplication1
             }
             catch (InsufficientRightsException)
             {
-                messageBox("An error has occured, please try reloading the page.");
+                messageBox("An error has occured, try reloading the page.");
             }
             catch (ObjectNotFoundException)
             {
-                messageBox("An error has occured, please try reloading the page.");
+                messageBox("An error has occured, try reloading the page.");
+            }
+
+            catch (InadequateObjectException)
+            {
+                messageBox("A user with the given email does not exist");
             }
         }
         protected void confirmdelete_Click(object sender, EventArgs e)
@@ -548,7 +563,7 @@ namespace WebApplication1
             }
             catch (InsufficientRightsException)
             {
-                messageBox("An error has occured, try reloading the page.");
+                messageBox("You do not have rights to do that, as the file is only shared for you to view it.");
             }
             catch (InadequateObjectException)
             {
@@ -610,18 +625,21 @@ namespace WebApplication1
             ServiceReference1.Right right = new ServiceReference1.Right();
 
             right.UserEmail = email;
-            right.Until = DateTime.Now.AddDays(double.Parse(days));
-            right.ItemId = int.Parse(fileI.Value);
+            try 
+            { 
+                right.Until = DateTime.Now.AddDays(double.Parse(days));
+                right.ItemId = int.Parse(fileI.Value);
 
-            if (string.Compare(rightType, "View")==0)
-                right.Type = ServiceReference1.RightType.view;
-            else
-                right.Type = ServiceReference1.RightType.edit;
-
-            try
-            {
+                if (string.Compare(rightType, "View") == 0)
+                    right.Type = ServiceReference1.RightType.view;
+                else
+                    right.Type = ServiceReference1.RightType.edit;
                 Controller.GrantRight(right);
                 returnToFiles(sender, e);
+            }
+            catch (FormatException)
+            {
+                messageBox("You must write a whole number of days (such as '10')");
             }
             catch (NotLoggedInException)
             {
@@ -630,7 +648,7 @@ namespace WebApplication1
             }
             catch (InsufficientRightsException)
             {
-                messageBox("An error has occured, try reloading the page.");
+                messageBox("You do not have rights to share the file, as it is only shared with you for you to view it.");
             }
             catch (ObjectNotFoundException)
             {
@@ -640,33 +658,6 @@ namespace WebApplication1
             catch (InadequateObjectException)
             {
                 messageBox("A user with the given email does not exist");
-            }
-        }
-
-        // THIS IS NOT YET DONE FRONT END
-        protected void createUserSubmit_Click(object sender, EventArgs e)
-        {
-            ServiceReference1.User user = new ServiceReference1.User(); // Set this via fields #Crelde
-            try
-            {
-                Controller.CreateUser(user);
-            }
-            catch (NotLoggedInException)
-            {
-                messageBox("An error has occured, please log in again.");
-                Response.Redirect("LogInForm.aspx");
-            }
-            catch (InsufficientRightsException)
-            {
-                messageBox("An error has occured, try reloading the page.");
-            }
-            catch (InadequateObjectException)
-            {
-                messageBox("Both email and password is required to create a user.");
-            }
-            catch (KeyOccupiedException)
-            {
-                messageBox("A user already exists with the given email.");
             }
         }
 
@@ -696,10 +687,39 @@ namespace WebApplication1
             string email = createUserEmail.Text;
             string pw = createUserPw.Text;
             string type = createUserTypeDD.SelectedValue;
-            // create a new user from dis
-            hideRightPanels();
-        }
 
+            ServiceReference1.User user = new ServiceReference1.User(); // Set this via fields #Crelde
+            user.Email = email;
+            user.Password = pw;
+
+            if (string.Compare(type, "admin") == 0)
+                user.Type = ServiceReference1.UserType.admin;
+            else
+                user.Type = ServiceReference1.UserType.standard;
+
+            try
+            {
+                Controller.CreateUser(user);
+                hideRightPanels();
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (InadequateObjectException)
+            {
+                messageBox("Both email and password is required to create a user.");
+            }
+            catch (KeyOccupiedException)
+            {
+                messageBox("A user already exists with the given email.");
+            }
+        }
         protected void createUserBut_Click(object sender, EventArgs e)
         {
             hideRightPanels();
@@ -713,40 +733,114 @@ namespace WebApplication1
 
         protected void deleteUserBut_Click(object sender, EventArgs e)
         {
-            hideRightPanels();
-            DeleteUserPanel.Visible = true;
+            
+
+            try 
+            { 
+                Controller.GetUserByEmail(userToBeDeleted.Text);
+                hideRightPanels();
+                DeleteUserPanel.Visible = true;
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("No user exists with that email.");
+            }
             
         }
 
         protected void updateUserBut_Click(object sender, EventArgs e)
         {
-            // Get the user by the email. so i can put the fields to the current value of the fields.
-            ServiceReference1.User userToBeUpdated = new ServiceReference1.User();
-            userToBeUpdated.Email = "crelde@er.sej";
-            userToBeUpdated.Password = "123";
-           
-            UpdatedUserEmail.Text = userToBeUpdated.Email;
-            UpdatedUserPw.Text = userToBeUpdated.Password;
+            ServiceReference1.User user;
+            try 
+            { 
+                user = Controller.GetUserByEmail(userToBeUpdated.Text);
+                UpdatedUserPw.Text = user.Password;
+                hideRightPanels();
+                UpdateUserPanel.Visible = true;
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("No user exists with that email.");
+            }
+            
 
-           
-            hideRightPanels();
-            UpdateUserPanel.Visible = true;
+            
         }
 
         protected void confirmDeleteUser_Click(object sender, EventArgs e)
         {
             // delete user
-            string email = userToBeDeleted.Text;
 
-            hideRightPanels();
+            try
+            {
+                Controller.DeleteUserByEmail(userToBeDeleted.Text);
+                hideRightPanels();
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+           
+
+            
         }
 
         protected void submitUpdatedUser_Click(object sender, EventArgs e)
         {
-            string email = UpdatedUserEmail.Text; 
             string pw = UpdatedUserPw.Text;
 
-            hideRightPanels();
+            ServiceReference1.User user = Controller._sessionUser;
+            user.Password = pw;
+
+            try
+            {
+                Controller.UpdateUser(user);
+                hideRightPanels();
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (OriginalNotFoundException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (InadequateObjectException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
         }
 
         protected void DropDownList1_SelectedIndexChanged(object sender, EventArgs e)
@@ -797,7 +891,12 @@ namespace WebApplication1
             int packageId;
             packageDictionary.TryGetValue(PackageDropDownF.SelectedValue, out packageId);
 
-            try { Controller.AddToPackage(asArray, packageId); }
+            try 
+            { 
+                Controller.AddToPackage(asArray, packageId);
+                hideRightPanels();
+                fixSource(true);
+            }
             catch (NotLoggedInException)
             {
                 messageBox("An error has occured, please log in again.");
@@ -813,10 +912,9 @@ namespace WebApplication1
             }
             catch (InsufficientRightsException)
             {
-                messageBox("An error has occured, try reloading the page.");
+                messageBox("You do not have the rights to add this file to a package, as it is only shared with you to view it.");
             }
-            hideRightPanels();
-            fixSource(true);
+            
         }
     }
 }

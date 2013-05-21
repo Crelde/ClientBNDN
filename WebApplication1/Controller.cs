@@ -276,8 +276,7 @@ namespace WebApplication1
 
             using (var client = new ServiceClient())
             {
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
+                if ( !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
                     && !HasEditRights(fileId))
                     throw new InsufficientRightsException();
 
@@ -339,8 +338,7 @@ namespace WebApplication1
                 if (item == null)
                     throw new ObjectNotFoundException();
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                if ( !_sessionUser.Email.Equals(item.OwnerEmail)
                     && !HasEditRights(itemId))
                     throw new InsufficientRightsException();
 

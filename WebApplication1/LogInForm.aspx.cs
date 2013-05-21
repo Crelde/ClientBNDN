@@ -28,16 +28,11 @@ namespace WebApplication1
 
                 try { 
                     Controller.LogIn(email, password);
-
-                   //int[] kage = { 52 };
-                  //  Controller.AddToPackage(kage, 48);
-                    
                     Response.Redirect("Form.aspx"); 
                 }
                 catch (NotLoggedOutException)
                 {
                     Response.Redirect("LogInForm.aspx");
-                    // Shouldn't happen, as the page logs the user out when it loads, but if it does, reload page.
                      
                 }
                 catch (NoSuchUserException)

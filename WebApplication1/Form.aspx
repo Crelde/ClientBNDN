@@ -160,7 +160,7 @@
             <asp:Label ID="Label2" runat="server" Text="Here you can change properties to any user" Font-Size="Larger"></asp:Label>
             <br />
             <br />
-            <asp:Button ID="createUserBut" runat="server" Text="Create a new User" OnClick="createUserBut_Click" />
+            <asp:Button ID="createUserBut" runat="server" Text="Create a new User" OnClick="createUserBut_Click" style="height: 26px" />
             <br />
             <br />
             <asp:Label ID="Label23" runat="server" Text="Enter the email of a user you wish to update:" Font-Size="Larger"></asp:Label>
@@ -269,14 +269,9 @@
             <asp:Button ID="CreateNewUserSubmit" runat="server" Text="Submit" OnClick="CreateNewUserSubmit_Click" />
             <asp:Button ID="cancelNewUser" runat="server" Text="Cancel" OnClick="cancelNewUser_Click" style="margin-left: 12px" />
             &nbsp;</asp:Panel>
-        <asp:Panel ID="UpdateUserPanel" runat="server" Visible="false">
-            <asp:Label ID="Label25" runat="server" Text="Please fill out all the fields" Font-Size="Larger"></asp:Label>
+        <asp:Panel ID="UpdateUserPanel" runat="server" Visible="false" Height="121px">
+            <asp:Label ID="Label25" runat="server" Text="Fill out what the users password should be:" Font-Size="Larger"></asp:Label>
             <br />
-            <asp:Label ID="Label26" runat="server" Text="Email:" Font-Size="Larger"></asp:Label>
-            <br />
-            <asp:TextBox ID="UpdatedUserEmail" runat="server"></asp:TextBox>
-            <br />
-            <asp:Label ID="Label27" runat="server" Text="Password:" Font-Size="Larger"></asp:Label>
             <br />
             <asp:TextBox ID="UpdatedUserPw" runat="server"></asp:TextBox>
             <br />
