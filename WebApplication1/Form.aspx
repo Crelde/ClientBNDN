@@ -58,7 +58,7 @@
              <asp:Button ID="DeletePackage" runat="server" Text="Delete this package" OnClick="DeletePackage_Click" style="margin-top: 19px" Width="178px"  />
              <asp:Button ID="SharePackage" runat="server" Text="Share this package" style="margin-top: 19px" OnClick="SharePackage_Click"  Width="178px" />
              <br />
-             <asp:Button ID="adminButton" runat="server" Text="Admin Controls" OnClick="adminButton_Click" style="margin-top: 11px"  Width="178px" />
+             <asp:Button ID="adminButton" runat="server" Text="Admin Controls" OnClick="adminButton_Click" style="margin-top: 11px"  Width="178px" Visible="False" />
         </div>
 
         <asp:Panel ID="InteractivePanelFiles" runat="server" ScrollBars="Vertical" >
@@ -157,16 +157,25 @@
 
             &nbsp;</asp:Panel>
         <asp:Panel ID="InteractivePanelAdmin" runat="server" Visible="false">
-            <asp:Label ID="Label2" runat="server" Text="Here goes all that is admin related, only visible to admins" Font-Size="Larger"></asp:Label>
-            <br />
-            <asp:Button ID="Button3" runat="server" Text="Create a new User" />
-            <asp:Button ID="Button4" runat="server" Text="Update existing user" />
-            <asp:Button ID="Button5" runat="server" Text="Button" />
-            <br />
-            <asp:Button ID="Button2" runat="server" Text="Delete existing user" />
+            <asp:Label ID="Label2" runat="server" Text="Here you can change properties to any user" Font-Size="Larger"></asp:Label>
             <br />
             <br />
-            <asp:Button ID="canceladmin" runat="server" Text="Cancel" OnClick="returnToFiles" />
+            <asp:Button ID="createUserBut" runat="server" Text="Create a new User" OnClick="createUserBut_Click" />
+            <br />
+            <br />
+            <asp:Label ID="Label23" runat="server" Text="Enter the email of a user you wish to update:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="userToBeUpdated" runat="server"></asp:TextBox>
+            <asp:Button ID="updateUserBut" runat="server" Text="Update existing user" style="margin-left: 30px" OnClick="updateUserBut_Click" />
+            <br />
+            <br />
+            <asp:Label ID="Label24" runat="server" Text="Enter the email of a user you wish to delete:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="userToBeDeleted" runat="server"></asp:TextBox>
+            <asp:Button ID="deleteUserBut" runat="server" Text="Delete existing user" style="margin-left: 35px" OnClick="deleteUserBut_Click" />
+            <br />
+            <br />
+            <asp:Button ID="canceladmin" runat="server" Text="Back" OnClick="returnToFiles" style="margin-left: 142px" />
             &nbsp;</asp:Panel>
         <asp:Panel ID="sharePackagePanel" runat="server" Visible="false">
             <asp:Label ID="Label7" runat="server" Text="Enter the email of a user you wish to share this package with:" Font-Size="Larger"></asp:Label>
@@ -210,13 +219,7 @@
             <asp:Label ID="Label12" runat="server" Text="Choose a file to upload" Font-Size="Larger"></asp:Label>
             <br />
             <asp:FileUpload ID="FileUpload1" runat="server" />
-            <br />
-            <asp:Label ID="Label14" runat="server" Text="File Name:"></asp:Label>
-            <br />
-            <asp:TextBox ID="FileNamebox" runat="server"></asp:TextBox>
-            <br />
-            
-            
+            <br />            
             <asp:Label ID="Label13" runat="server" Text="Origin:"></asp:Label>
             <br />
             <asp:TextBox ID="originText" runat="server"></asp:TextBox>
@@ -246,6 +249,48 @@
             &nbsp;<asp:Button ID="submitShareFile" runat="server" Text="Share File" OnClick="submitShareFile_Click" />
             <asp:Button ID="Button6" runat="server" Text="Cancel" style="margin-left: 50px" OnClick="returnToFiles" />
             <br />
+            &nbsp;</asp:Panel>
+        <asp:Panel ID="CreateNewUserPanel" runat="server" Visible="false">
+            <asp:Label ID="Label19" runat="server" Text="Please fill out all the fields" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:Label ID="Label20" runat="server" Text="Email:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="createUserEmail" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="Label21" runat="server" Text="Password:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="createUserPw" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="Label22" runat="server" Text="Type:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:DropDownList ID="createUserTypeDD" runat="server" />
+            <br />
+            <br />
+            <asp:Button ID="CreateNewUserSubmit" runat="server" Text="Submit" OnClick="CreateNewUserSubmit_Click" />
+            <asp:Button ID="cancelNewUser" runat="server" Text="Cancel" OnClick="cancelNewUser_Click" style="margin-left: 12px" />
+            &nbsp;</asp:Panel>
+        <asp:Panel ID="UpdateUserPanel" runat="server" Visible="false">
+            <asp:Label ID="Label25" runat="server" Text="Please fill out all the fields" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:Label ID="Label26" runat="server" Text="Email:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="UpdatedUserEmail" runat="server"></asp:TextBox>
+            <br />
+            <asp:Label ID="Label27" runat="server" Text="Password:" Font-Size="Larger"></asp:Label>
+            <br />
+            <asp:TextBox ID="UpdatedUserPw" runat="server"></asp:TextBox>
+            <br />
+            <br />
+            <asp:Button ID="submitUpdatedUser" runat="server" Text="Submit" OnClick="submitUpdatedUser_Click"  />
+            <asp:Button ID="Button2" runat="server" Text="Cancel" OnClick="cancelNewUser_Click" style="margin-left: 12px" />
+            &nbsp;</asp:Panel>
+        <asp:Panel ID="DeleteUserPanel" runat="server" Visible="false">
+            <asp:Label ID="Label29" runat="server" Text="Are you sure you wish to delete the user?" Font-Size="Larger"></asp:Label>
+            <br />
+            <br />
+            
+            <asp:Button ID="confirmDeleteUser" runat="server" Text="Yes" OnClick="confirmDeleteUser_Click" />
+            <asp:Button ID="cancelDeleteUser" runat="server" Text="Cancel" OnClick="cancelNewUser_Click" style="margin-left: 12px" />
             &nbsp;</asp:Panel>
             <br />
             <br />
@@ -287,7 +332,7 @@
 <div id="dialog-form" style="display:none"; title="Upload a new File">
     Please fill in all the fields!
            Please write where the files originates:
-         <td> Origin: <input id="fOrigin" type="text" /> </td> </tr>    
+         n" type="text" /> </td> </tr>    
           <tr>   
           Please provide a description of the file:
          <td> File Description: <input id="fDesc" type="text" /> </td> </tr>       >    
