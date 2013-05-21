@@ -149,7 +149,13 @@ namespace WebApplication1
 
             else if (e.CommandName == "delete")
             {
-                try { Controller.DeleteFileById(id); }
+                try 
+                { 
+                    int previndex = DropDownList1.SelectedIndex;
+                    Controller.DeleteFileById(id); 
+                    fixSource(true, previndex);
+
+                }
                 catch (NotLoggedInException)
                 {
                     messageBox("An error has occured, please log in again.");
@@ -189,9 +195,7 @@ namespace WebApplication1
                 hideRightPanels();
                 shareFilePanel.Visible = true;
                 fileI.Value = id.ToString();
-
-            }
-            
+                       
         }
 
         protected void ChangeUserButton_Click(object sender, EventArgs e)
@@ -201,8 +205,7 @@ namespace WebApplication1
             {
                 messageBox("An error has occured, please log in again.");
             }
-            finally { Response.Redirect("LogInForm.aspx"); }
-            
+            finally { Response.Redirect("LogInForm.aspx");            
         }
 
         protected void CreatePackageButton_Click(object sender, EventArgs e)
@@ -343,8 +346,6 @@ namespace WebApplication1
             InteractivePanelOther.Visible = true;
         }
 
-        
-
         protected void submitpackage_Click(object sender, EventArgs e)
         {
             string pName = packageName.Text;
@@ -411,7 +412,6 @@ namespace WebApplication1
         protected void DeletePackage_Click(object sender, EventArgs e)
         {
             string s = DropDownList1.SelectedValue;
-            // Kewin do you stuff, s is the name of the package to be deleted.
             hideMidPanels();
             hideRightPanels();
             deletePackagePanel.Visible = true;
@@ -542,7 +542,7 @@ namespace WebApplication1
             hideRightPanels();
             InteractivePanelFiles.Visible = true;
         }
-        // This is the method that edits the file
+
         protected void updatefilebut_Click(object sender, EventArgs e)
         {
             int id = int.Parse(fileI2.Value);
@@ -663,7 +663,7 @@ namespace WebApplication1
 
         protected void GetUserByEmail_Click(object sender, EventArgs e)
         {
-            string email = null; // Set this via field #Crelde
+            string email = null; 
             ServiceReference1.User user = null;
             try { user = Controller.GetUserByEmail(email); }
             catch (NotLoggedInException)
@@ -733,8 +733,6 @@ namespace WebApplication1
 
         protected void deleteUserBut_Click(object sender, EventArgs e)
         {
-            
-
             try 
             { 
                 Controller.GetUserByEmail(userToBeDeleted.Text);
@@ -753,8 +751,7 @@ namespace WebApplication1
             catch (ObjectNotFoundException)
             {
                 messageBox("No user exists with that email.");
-            }
-            
+            }    
         }
 
         protected void updateUserBut_Click(object sender, EventArgs e)
@@ -780,15 +777,10 @@ namespace WebApplication1
             {
                 messageBox("No user exists with that email.");
             }
-            
-
-            
         }
 
         protected void confirmDeleteUser_Click(object sender, EventArgs e)
         {
-            // delete user
-
             try
             {
                 Controller.DeleteUserByEmail(userToBeDeleted.Text);
@@ -807,15 +799,11 @@ namespace WebApplication1
             {
                 messageBox("An error has occured, try reloading the page.");
             }
-           
-
-            
         }
 
         protected void submitUpdatedUser_Click(object sender, EventArgs e)
         {
             string pw = UpdatedUserPw.Text;
-
             ServiceReference1.User user = Controller._sessionUser;
             user.Password = pw;
 
@@ -882,7 +870,6 @@ namespace WebApplication1
             {
                 messageBox("An error has occured, try reloading the page.");
             }
-
         }
 
         protected void addfiletoP_Click(object sender, EventArgs e)
