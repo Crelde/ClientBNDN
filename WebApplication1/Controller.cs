@@ -370,8 +370,7 @@ namespace WebApplication1
                 if (item == null)
                     throw new ObjectNotFoundException();
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                if ( !_sessionUser.Email.Equals(item.OwnerEmail)
                     && !HasEditRights(itemId))
                     throw new InsufficientRightsException();
 
