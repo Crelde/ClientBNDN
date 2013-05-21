@@ -334,6 +334,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.confirmdelete_ClickObjectEventArgs">
             <summary>Sets the shim of Form.confirmdelete_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.createPackage0_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createPackage0_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
         </member>
@@ -352,8 +355,16 @@
         <member name="P:WebApplication1.Fakes.ShimForm.hideRightPanels">
             <summary>Sets the shim of Form.hideRightPanels()</summary>
         </member>
+<<<<<<< HEAD
         <member name="P:WebApplication1.Fakes.ShimForm.messageBoxString">
             <summary>Sets the shim of Form.messageBox(String message)</summary>
+=======
+        <member name="P:WebApplication1.Fakes.ShimForm.submitFileBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitFileBut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.submitShareFile_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitShareFile_Click(Object sender, EventArgs e)</summary>
+>>>>>>> origin/noServBranch
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
@@ -363,6 +374,9 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.updatefilebut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.updatefilebut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.uploadFileBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.uploadFileBut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="T:WebApplication1.Fakes.ShimForm.AllInstances">
             <summary>Define shims for all instances members</summary>
@@ -424,6 +438,9 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.confirmdelete_ClickObjectEventArgs">
             <summary>Sets the shim of Form.confirmdelete_Click(Object sender, EventArgs e)</summary>
         </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createPackage0_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.createPackage0_Click(Object sender, EventArgs e)</summary>
+        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.createPackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.createPackage_Click(Object sender, EventArgs e)</summary>
         </member>
@@ -442,8 +459,16 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.hideRightPanels">
             <summary>Sets the shim of Form.hideRightPanels()</summary>
         </member>
+<<<<<<< HEAD
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.messageBoxString">
             <summary>Sets the shim of Form.messageBox(String message)</summary>
+=======
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitFileBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitFileBut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitShareFile_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.submitShareFile_Click(Object sender, EventArgs e)</summary>
+>>>>>>> origin/noServBranch
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.submitpackage_ClickObjectEventArgs">
             <summary>Sets the shim of Form.submitpackage_Click(Object sender, EventArgs e)</summary>
@@ -453,6 +478,9 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.updatefilebut_ClickObjectEventArgs">
             <summary>Sets the shim of Form.updatefilebut_Click(Object sender, EventArgs e)</summary>
+        </member>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.uploadFileBut_ClickObjectEventArgs">
+            <summary>Sets the shim of Form.uploadFileBut_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="T:WebApplication1.Fakes.ShimInadequateObjectException">
             <summary>Shim type of WebApplication1.InadequateObjectException</summary>

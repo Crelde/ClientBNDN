@@ -30,10 +30,17 @@ namespace WebApplication1
                     sharePackagePanel.CssClass = "rightCol";
                     editFilePanel.CssClass = "rightCol";
                     InteractivePanelAdmin.CssClass = "rightCol";
+                    CreateNewFilePanel.CssClass = "rightCol";
+                    shareFilePanel.CssClass = "rightCol";
+                    shareFilePanel.Style["width"] = "350px";
                     editFilePanel.Style["width"] = "350px";
                     TagPanel.Style["width"] = "350px";
                     addFiletoPackagePanel.Style["width"] = "350px";
-                    newDesc.Text = Description.Value;
+                    kindofrightDD.Items.Add(new ListItem("View"));
+                    kindofrightDD.Items.Add(new ListItem("Edit"));
+                    kindofrightddF.Items.Add(new ListItem("View"));
+                    kindofrightddF.Items.Add(new ListItem("Edit"));
+
                 }
             }
         }
@@ -154,6 +161,14 @@ namespace WebApplication1
                     if (package.Id > 0)
                         PackageDropDownF.Items.Add(package.Name);
                 }
+                fileI.Value = id.ToString();
+
+            }
+            else if (e.CommandName == "shareFile")
+            {
+                hideRightPanels();
+                shareFilePanel.Visible = true;
+                fileI.Value = id.ToString();
 
             }
             
@@ -351,6 +366,7 @@ namespace WebApplication1
             TagPanel.Visible = false;
             passwordPanel.Visible = false;
             addFiletoPackagePanel.Visible = false;
+            shareFilePanel.Visible = false;
         }
         protected void hideMidPanels()
         {
@@ -359,6 +375,7 @@ namespace WebApplication1
             InteractivePanelAdmin.Visible = false;
             deletePackagePanel.Visible = false;
             sharePackagePanel.Visible = false;
+            CreateNewFilePanel.Visible = false;
 
         }
         protected void changepw_Click(object sender, EventArgs e)
@@ -384,6 +401,7 @@ namespace WebApplication1
         }
         protected void SharePackageBut_Click(object sender, EventArgs e)
         {
+            string right = kindofrightDD.SelectedValue;
             string s = emailToShareWith.Text;
             
             ServiceReference1.Right right = new ServiceReference1.Right();
@@ -523,6 +541,46 @@ namespace WebApplication1
                 messageBox("An error has occured, try reloading the page.");
             }
         }
+
+        }
+
+        protected void uploadFileBut_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void submitFileBut_Click(object sender, EventArgs e)
+        {
+
+            byte[] filebytes = FileUpload1.FileBytes;
+            string filename = FileNamebox.Text;
+            string origin = originText.Text;
+            string desc = descBox.Text;
+
+
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+            // maybe update so new file appears
+            
+        }
+
+        protected void createPackage0_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            CreateNewFilePanel.Visible = true;
+        }
+
+        protected void submitShareFile_Click(object sender, EventArgs e)
+        {
+            hideMidPanels();
+            hideRightPanels();
+            InteractivePanelFiles.Visible = true;
+            // SHARE THIS SHIIIEEET
+            string email = fileShareEmail.Text;
+            string days = daysOfAccessFile.Text;
+            string right = kindofrightddF.SelectedValue;
 
         // THIS IS NOT YET DONE FRONT END
         protected void createUserSubmit_Click(object sender, EventArgs e)
