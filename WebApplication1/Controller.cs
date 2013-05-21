@@ -101,7 +101,7 @@ namespace WebApplication1
                 throw new NotLoggedInException();
 
             if (_sessionUser.Type != UserType.admin
-                && !(_sessionUser.Email.Equals(updatedUser.Email) && _sessionUser.Type == updatedUser.Type))
+                && (!(_sessionUser.Email.Equals(updatedUser.Email) && _sessionUser.Type == updatedUser.Type)))
                 throw new InsufficientRightsException();
 
             if (updatedUser == null
@@ -176,8 +176,7 @@ namespace WebApplication1
 
             using (var client = new ServiceClient())
             {
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
+                if (!_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
                     && !HasViewRights(fileId))
                     throw new InsufficientRightsException();
 
@@ -204,8 +203,7 @@ namespace WebApplication1
             {
                 var info = client.GetFileInfoById(fileId);
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(info.OwnerEmail)
+                if (!_sessionUser.Email.Equals(info.OwnerEmail)
                     && !HasViewRights(fileId))
                     throw new InsufficientRightsException();
 
@@ -220,18 +218,17 @@ namespace WebApplication1
             if (_sessionUser == null)
                 throw new NotLoggedInException();
 
-            if (updatedInfo.Name == null
-                || updatedInfo.Name.Length < 3
-                || !updatedInfo.OwnerEmail.Equals(_sessionUser.Email))
-                throw new InadequateObjectException();
-
             if(!FileExists(updatedInfo.Id))
                 throw new OriginalNotFoundException();
 
+            if (updatedInfo.Name == null
+                || updatedInfo.Name.Length < 3
+                || !updatedInfo.OwnerEmail.Equals(GetFileInfoById(updatedInfo.Id).OwnerEmail))
+                throw new InadequateObjectException();
+
             using (var client = new ServiceClient())
             {
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(client.GetFileInfoById(updatedInfo.Id).OwnerEmail)
+                if (!_sessionUser.Email.Equals(client.GetFileInfoById(updatedInfo.Id).OwnerEmail)
                     && !HasEditRights(updatedInfo.Id))
                     throw new InsufficientRightsException();
 
@@ -255,8 +252,7 @@ namespace WebApplication1
 
             using (var client = new ServiceClient())
             {
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
+                if (!_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
                     && !HasEditRights(fileId))
                     throw new InsufficientRightsException();
 
@@ -276,7 +272,7 @@ namespace WebApplication1
 
             using (var client = new ServiceClient())
             {
-                if ( !_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
+                if (!_sessionUser.Email.Equals(client.GetFileInfoById(fileId).OwnerEmail)
                     && !HasEditRights(fileId))
                     throw new InsufficientRightsException();
 
@@ -287,20 +283,16 @@ namespace WebApplication1
         /// <summary>Returns the FileInfos of the Files owned by the User with the given email.</summary>
         /// <param name="email">The email of the User in question.</param>
         /// <returns>The FileInfos of the files owned by the User.</returns>
-        public static FileInfo[] GetOwnedFileInfosByEmail(string email)
+        public static FileInfo[] GetOwnedFileInfos()
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
-
-            if (_sessionUser.Type != UserType.admin
-                && !_sessionUser.Email.Equals(email))
-                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
                 try
                 {
-                    var infos = client.GetOwnedFileInfosByEmail(email);
+                    var infos = client.GetOwnedFileInfosByEmail(_sessionUser.Email);
 
                     if (infos == null)
                         throw new ObjectNotFoundException();
@@ -399,8 +391,7 @@ namespace WebApplication1
                 if (item == null)
                     throw new ObjectNotFoundException();
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                if (!_sessionUser.Email.Equals(item.OwnerEmail)
                     && !HasViewRights(itemId))
                     throw new InsufficientRightsException();
 
@@ -420,7 +411,7 @@ namespace WebApplication1
             {
                 var infos = client.GetFileInfosByTag(tag);
 
-                return _sessionUser.Type == UserType.admin ? infos : infos.Where(info => info.OwnerEmail.Equals(_sessionUser.Email) || HasViewRights(info.Id)).ToArray();
+                return infos.Where(info => info.OwnerEmail.Equals(_sessionUser.Email) || HasViewRights(info.Id)).ToArray();
             }
         }
 
@@ -437,6 +428,9 @@ namespace WebApplication1
                 || newPackage.Name.Length < 3
                 )             
                 throw new InadequateObjectException();
+
+            if (newPackage.FileIds.Any(id => !HasEditRights(id)))
+                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
@@ -463,8 +457,7 @@ namespace WebApplication1
             {
                 var package = client.GetPackageById(packageId);
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(package.OwnerEmail)
+                if (!_sessionUser.Email.Equals(package.OwnerEmail)
                     && !HasViewRights(packageId))
                     throw new InsufficientRightsException();
 
@@ -490,8 +483,7 @@ namespace WebApplication1
             {
                 var package = client.GetPackageById(packageId);
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(package.OwnerEmail)
+                if (!_sessionUser.Email.Equals(package.OwnerEmail)
                     && !HasEditRights(packageId)
                     || fileIds.Any(fileId => !HasEditRights(fileId) && !IsOwnerOf(fileId)))
                     throw new InsufficientRightsException();
@@ -518,8 +510,7 @@ namespace WebApplication1
             {
                 var package = client.GetPackageById(packageId);
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(package.OwnerEmail)
+                if (!_sessionUser.Email.Equals(package.OwnerEmail)
                     && !HasEditRights(packageId))
                     throw new InsufficientRightsException();
 
@@ -539,8 +530,7 @@ namespace WebApplication1
 
             using (var client = new ServiceClient())
             {
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(client.GetPackageById(packageId).OwnerEmail)
+                if (!_sessionUser.Email.Equals(client.GetPackageById(packageId).OwnerEmail)
                     && !HasEditRights(packageId))
                     throw new InsufficientRightsException();
 
@@ -551,20 +541,16 @@ namespace WebApplication1
         /// <summary>Returns the Packages owned by the User with the given email.</summary>
         /// <param name="email">The email of the User in question.</param>
         /// <returns>The Packages owned by the User.</returns>
-        public static Package[] GetOwnedPackagesByEmail(string email)
+        public static Package[] GetOwnedPackages()
         {
             if (_sessionUser == null)
                 throw new NotLoggedInException();
-
-            if (_sessionUser.Type != UserType.admin
-                && !_sessionUser.Email.Equals(email))
-                throw new InsufficientRightsException();
 
             using (var client = new ServiceClient())
             {
                 try
                 {
-                    var packages = client.GetOwnedPackagesByEmail(email);
+                    var packages = client.GetOwnedPackagesByEmail(_sessionUser.Email);
 
                     if (packages == null)
                         throw new ObjectNotFoundException();
@@ -590,7 +576,7 @@ namespace WebApplication1
             {
                 var packages = client.GetPackagesByTag(tag);
 
-                return _sessionUser.Type == UserType.admin ? packages : packages.Where(package => package.OwnerEmail.Equals(_sessionUser.Email) || HasViewRights(package.Id)).ToArray();
+                return packages.Where(package => package.OwnerEmail.Equals(_sessionUser.Email) || HasViewRights(package.Id)).ToArray();
             }
         }
 
@@ -621,8 +607,7 @@ namespace WebApplication1
                 if(item == null)
                     throw new ObjectNotFoundException();
 
-                if(_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                if(!_sessionUser.Email.Equals(item.OwnerEmail)
                     && !HasEditRights(newRight.ItemId))
                     throw new InsufficientRightsException();
 
@@ -682,8 +667,7 @@ namespace WebApplication1
                 if(item == null)
                     throw new ObjectNotFoundException();
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                if (!_sessionUser.Email.Equals(item.OwnerEmail)
                     && !HasEditRights(updatedRight.ItemId))
                     throw new InsufficientRightsException();
 
@@ -730,8 +714,7 @@ namespace WebApplication1
                 if (item == null)
                     throw new ObjectNotFoundException();
 
-                if (_sessionUser.Type != UserType.admin
-                    && !_sessionUser.Email.Equals(item.OwnerEmail)
+                if (!_sessionUser.Email.Equals(item.OwnerEmail)
                     && !HasEditRights(itemId))
                     throw new InsufficientRightsException();
 
@@ -744,6 +727,9 @@ namespace WebApplication1
         /// <returns>The Files that contain the given text somewhere in their details.</returns>
         public static FileInfo[] SearchFileInfos(string text)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             if (text == null)
                 throw new InadequateObjectException();
 
@@ -770,6 +756,9 @@ namespace WebApplication1
         /// <returns>The Packages that contain the given text somewhere in their details.</returns>
         public static Package[] SearchPackages(string text)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             if (text == null)
                 throw new InadequateObjectException();
 
@@ -804,6 +793,9 @@ namespace WebApplication1
         /// <returns>True of the current user can view the item, false if not.</returns>
         public static bool HasViewRights(int itemId)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             using (var client = new ServiceClient())
             {
                 var right = client.GetRight(_sessionUser.Email, itemId);
@@ -824,6 +816,9 @@ namespace WebApplication1
         /// <returns>True of the current user can edit the item, false if not.</returns>
         public static bool HasEditRights(int itemId)
         {
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
             using (var client = new ServiceClient())
             {
                 var right = client.GetRight(_sessionUser.Email, itemId);
@@ -838,8 +833,11 @@ namespace WebApplication1
         /// <returns>True if the user owns the item, false if not.</returns>
         public static bool IsOwnerOf(int itemId)
         {
-            List<Item> items = new List<Item>(GetOwnedFileInfosByEmail(_sessionUser.Email));
-            items.AddRange(GetOwnedPackagesByEmail(_sessionUser.Email));
+            if (_sessionUser == null)
+                throw new NotLoggedInException();
+
+            List<Item> items = new List<Item>(GetOwnedFileInfos());
+            items.AddRange(GetOwnedPackages());
             return items.Any<Item>(item => item.Id == itemId);
         }
 
