@@ -38,7 +38,7 @@ namespace WebApplication1
             }
         }
 
-        protected void fixSource(bool redo = false)
+        protected void fixSource(bool redo = false, int index =0)
         {
             if (redo)
             {
@@ -52,19 +52,25 @@ namespace WebApplication1
                 }
             }
 
-            int packageId; 
-            packageDictionary.TryGetValue(DropDownList1.SelectedValue, out packageId);
-
             ServiceReference1.Package pack = null;
-
-            foreach(ServiceReference1.Package package in packageList)
+            if (index == 0)
             {
-                if (package.Id == packageId)
-                    pack = package;
+                int packageId;
+                packageDictionary.TryGetValue(DropDownList1.SelectedValue, out packageId);
+
+                foreach (ServiceReference1.Package package in packageList)
+                {
+                    if (package.Id == packageId)
+                        pack = package;
+                }
+            }
+            else
+            {
+                pack = packageList[index];
+                DropDownList1.SelectedIndex = index;
             }
 
             List<ServiceReference1.FileInfo> myList = new List<ServiceReference1.FileInfo>();
-            myList.Clear();
             foreach (int i in pack.FileIds)
             {
                 ServiceReference1.FileInfo fi = Controller.GetFileInfoById(i);
@@ -108,6 +114,7 @@ namespace WebApplication1
             }
             else if (e.CommandName == "edit")
             {
+                fileI2.Value = id.ToString();
                 string desc = commandarg[2];
                 newDesc.Text = desc;
                 editFilePanel.Visible = true;
@@ -328,9 +335,7 @@ namespace WebApplication1
                 messageBox("An error has occured, please try reloading the page.");
             }
 
-            fixSource(true);
-
-            DropDownList1.SelectedIndex = DropDownList1.Items.Count - 4;
+            fixSource(true, DropDownList1.Items.Count - 3);
             InteractivePanelFiles.Visible = true;
         }
 
@@ -489,14 +494,35 @@ namespace WebApplication1
         // This is the method that edits the file
         protected void updatefilebut_Click(object sender, EventArgs e)
         {
-            // this is the new desc---v
+            int id = int.Parse(fileI2.Value);
             string s = newDesc.Text;
-
+            try 
+            { 
+                int prevIndex = DropDownList1.SelectedIndex;
+                ServiceReference1.FileInfo fi = Controller.GetFileInfoById(id);
+                fi.Description = s;
+                Controller.UpdateFileInfo(fi);
+                cancelAndReturnToFiles(sender, e);
+                fixSource(true, prevIndex);
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (InadequateObjectException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (OriginalNotFoundException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
         }
-
-
-
-
 
         // THIS IS NOT YET DONE FRONT END
         protected void createUserSubmit_Click(object sender, EventArgs e)

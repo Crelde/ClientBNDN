@@ -343,8 +343,8 @@
         <member name="P:WebApplication1.Fakes.ShimForm.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.fixSourceBoolean">
-            <summary>Sets the shim of Form.fixSource(Boolean redo)</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.fixSourceBooleanInt32">
+            <summary>Sets the shim of Form.fixSource(Boolean redo, Int32 index)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.hideMidPanels">
             <summary>Sets the shim of Form.hideMidPanels()</summary>
@@ -433,8 +433,8 @@
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.finalUpload_ClickObjectEventArgs">
             <summary>Sets the shim of Form.finalUpload_Click(Object sender, EventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSourceBoolean">
-            <summary>Sets the shim of Form.fixSource(Boolean redo)</summary>
+        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.fixSourceBooleanInt32">
+            <summary>Sets the shim of Form.fixSource(Boolean redo, Int32 index)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.hideMidPanels">
             <summary>Sets the shim of Form.hideMidPanels()</summary>
