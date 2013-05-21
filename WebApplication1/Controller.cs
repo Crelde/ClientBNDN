@@ -5,7 +5,7 @@ using WebApplication1.ServiceReference1;
 
 namespace WebApplication1
 {
-    public class Controller
+    public static class Controller
     {
         /// <summary>
         /// The controller acts as a session in which actions

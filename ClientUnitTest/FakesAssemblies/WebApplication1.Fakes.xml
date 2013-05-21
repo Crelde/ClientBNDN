@@ -283,9 +283,6 @@
         <member name="P:WebApplication1.Fakes.ShimForm.CreateNewUserSubmit_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreateNewUserSubmit_Click(Object sender, EventArgs e)</summary>
         </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.CreatePackageButton_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.CreatePackageButton_Click(Object sender, EventArgs e)</summary>
-        </member>
         <member name="P:WebApplication1.Fakes.ShimForm.CreateTag_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreateTag_Click(Object sender, EventArgs e)</summary>
         </member>
@@ -402,9 +399,6 @@
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreateNewUserSubmit_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreateNewUserSubmit_Click(Object sender, EventArgs e)</summary>
-        </member>
-        <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreatePackageButton_ClickObjectEventArgs">
-            <summary>Sets the shim of Form.CreatePackageButton_Click(Object sender, EventArgs e)</summary>
         </member>
         <member name="P:WebApplication1.Fakes.ShimForm.AllInstances.CreateTag_ClickObjectEventArgs">
             <summary>Sets the shim of Form.CreateTag_Click(Object sender, EventArgs e)</summary>
