@@ -604,10 +604,10 @@ namespace WebApplication1
             if(_sessionUser == null)
                 throw new NotLoggedInException();
 
-            if(newRight == null 
-                || newRight.UserEmail == null 
-                || !(FileExists(newRight.ItemId) 
-                || PackageExists(newRight.ItemId)) 
+            if(newRight == null
+                || newRight.UserEmail == null
+                || !(FileExists(newRight.ItemId)
+                || PackageExists(newRight.ItemId))
                 || !UserExists(newRight.UserEmail))
                 throw new InadequateObjectException();
 

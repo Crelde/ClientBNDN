@@ -112,7 +112,7 @@
                     <asp:Button ID="DeleteTag" runat="server" Text="Delete tag" Width="158px" OnClick="DeleteTag_Click" />
                     <asp:TextBox ID="DeleteBox" runat="server" style="margin-left: 25px" Enabled="False"></asp:TextBox>
                     <br />
-            <asp:Button ID="cancelTag" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" />
+            <asp:Button ID="cancelTag" runat="server" Text="Cancel" OnClick="returnToFiles" />
                     <asp:HiddenField ID="fileI" runat="server" />
                     <asp:HiddenField ID="fileN" runat="server" />
                 </asp:Panel>
@@ -124,7 +124,7 @@
                     <br />
                     <asp:Button ID="addfiletoP" runat="server" Text="Add File" OnClick="addfiletoP_Click" />
                     <br />
-                    <asp:Button ID="canceladdpack" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" />
+                    <asp:Button ID="canceladdpack" runat="server" Text="Cancel" OnClick="returnToFiles" />
                     <asp:HiddenField ID="fileI2" runat="server" />
        </asp:Panel>
         <asp:Panel ID="InteractivePanelOther" runat="server" Visible="false">
@@ -132,7 +132,7 @@
             <br />
             <asp:TextBox ID="packageName" runat="server" Width="199px"></asp:TextBox>
             <asp:Button ID="submitpackage" runat="server" Text="Create Package" OnClick="submitpackage_Click" style="margin-left: 41px" />
-            <asp:Button ID="cancelcreatepacakge" runat="server" Text="Cancel" style="margin-left: 46px" OnClick="cancelAndReturnToFiles" />
+            <asp:Button ID="cancelcreatepacakge" runat="server" Text="Cancel" style="margin-left: 46px" OnClick="returnToFiles" />
 
         </asp:Panel>
         <asp:Panel ID="passwordPanel" runat="server" Visible="false">
@@ -152,7 +152,7 @@
             <asp:Button ID="confirmchange" runat="server" Text="Change Password" OnClick="confirmchange_Click" />
 
 
-            <asp:Button ID="cancelpw" runat="server" OnClick="cancelAndReturnToFiles" style="margin-left: 57px" Text="Cancel" />
+            <asp:Button ID="cancelpw" runat="server" OnClick="returnToFiles" style="margin-left: 57px" Text="Cancel" />
 
 
             &nbsp;</asp:Panel>
@@ -166,7 +166,7 @@
             <asp:Button ID="Button2" runat="server" Text="Delete existing user" />
             <br />
             <br />
-            <asp:Button ID="canceladmin" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" />
+            <asp:Button ID="canceladmin" runat="server" Text="Cancel" OnClick="returnToFiles" />
             &nbsp;</asp:Panel>
         <asp:Panel ID="sharePackagePanel" runat="server" Visible="false">
             <asp:Label ID="Label7" runat="server" Text="Enter the email of a user you wish to share this package with:" Font-Size="Larger"></asp:Label>
@@ -182,7 +182,7 @@
             <asp:DropDownList ID="kindofrightDD" runat="server" style="margin-left: 10px" ></asp:DropDownList>
             <br />
             &nbsp;<asp:Button ID="SharePackageBut" runat="server" Text="Share Package" OnClick="SharePackageBut_Click" />
-            <asp:Button ID="CancelShare" runat="server" Text="Cancel" style="margin-left: 50px" OnClick="cancelAndReturnToFiles" />
+            <asp:Button ID="CancelShare" runat="server" Text="Cancel" style="margin-left: 50px" OnClick="returnToFiles" />
             <br />
             &nbsp;</asp:Panel>
         <asp:Panel ID="deletePackagePanel" runat="server" Visible="false">
@@ -190,7 +190,7 @@
             <br />
             <br />
             <asp:Button ID="confirmdelete" runat="server" Text="Yes" OnClick="confirmdelete_Click" />
-            <asp:Button ID="canceldelete" runat="server" Text="Cancel" style="margin-left: 70px" OnClick="cancelAndReturnToFiles" />
+            <asp:Button ID="canceldelete" runat="server" Text="Cancel" style="margin-left: 70px" OnClick="returnToFiles" />
             <br />
             <br />
             &nbsp;</asp:Panel>
@@ -204,7 +204,7 @@
             <br />
             <br />
             <asp:Button ID="updatefilebut" runat="server" OnClick="updatefilebut_Click" Text="Update file" />
-            <asp:Button ID="cancelEdit" runat="server" OnClick="cancelAndReturnToFiles" style="margin-left: 38px" Text="Cancel" />
+            <asp:Button ID="cancelEdit" runat="server" OnClick="returnToFiles" style="margin-left: 38px" Text="Cancel" />
             &nbsp;</asp:Panel>
         <asp:Panel ID="CreateNewFilePanel" runat="server" Visible="false">
             <asp:Label ID="Label12" runat="server" Text="Choose a file to upload" Font-Size="Larger"></asp:Label>
@@ -228,7 +228,7 @@
             <br />
             <br />
             <asp:Button ID="submitFileBut" runat="server" Text="Upload" OnClick="submitFileBut_Click"/>
-            <asp:Button ID="Button9" runat="server" Text="Cancel" OnClick="cancelAndReturnToFiles" style="margin-left: 17px" />
+            <asp:Button ID="Button9" runat="server" Text="Cancel" OnClick="returnToFiles" style="margin-left: 17px" />
             &nbsp;</asp:Panel>
         <asp:Panel ID="shareFilePanel" runat="server" Visible="false">
             <asp:Label ID="Label16" runat="server" Text="Enter the email of a user you wish to share this file with:" Font-Size="Larger"></asp:Label>
@@ -244,7 +244,7 @@
             <asp:DropDownList ID="kindofrightddF" runat="server" style="margin-left: 10px" ></asp:DropDownList>
             <br />
             &nbsp;<asp:Button ID="submitShareFile" runat="server" Text="Share File" OnClick="submitShareFile_Click" />
-            <asp:Button ID="Button6" runat="server" Text="Cancel" style="margin-left: 50px" OnClick="cancelAndReturnToFiles" />
+            <asp:Button ID="Button6" runat="server" Text="Cancel" style="margin-left: 50px" OnClick="returnToFiles" />
             <br />
             &nbsp;</asp:Panel>
             <br />

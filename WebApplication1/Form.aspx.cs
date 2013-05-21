@@ -401,7 +401,7 @@ namespace WebApplication1
         }
         protected void SharePackageBut_Click(object sender, EventArgs e)
         {
-            string right = kindofrightDD.SelectedValue;
+            string rightType = kindofrightDD.SelectedValue;
             string s = emailToShareWith.Text;
             
             ServiceReference1.Right right = new ServiceReference1.Right();
@@ -503,7 +503,7 @@ namespace WebApplication1
                 }
             }
         }
-        protected void cancelAndReturnToFiles(object sender, EventArgs e)
+        protected void returnToFiles(object sender, EventArgs e)
         {
             hideMidPanels();
             hideRightPanels();
@@ -520,7 +520,7 @@ namespace WebApplication1
                 ServiceReference1.FileInfo fi = Controller.GetFileInfoById(id);
                 fi.Description = s;
                 Controller.UpdateFileInfo(fi);
-                cancelAndReturnToFiles(sender, e);
+                returnToFiles(sender, e);
                 fixSource(true, prevIndex);
             }
             catch (NotLoggedInException)
@@ -542,27 +542,38 @@ namespace WebApplication1
             }
         }
 
-        }
-
-        protected void uploadFileBut_Click(object sender, EventArgs e)
-        {
-
-        }
-
         protected void submitFileBut_Click(object sender, EventArgs e)
         {
-
+            int previndex = DropDownList1.SelectedIndex;
             byte[] filebytes = FileUpload1.FileBytes;
-            string filename = FileNamebox.Text;
             string origin = originText.Text;
             string desc = descBox.Text;
 
+            ServiceReference1.FileTransfer filetrans = new ServiceReference1.FileTransfer();
+            ServiceReference1.FileInfo fileinfo = new ServiceReference1.FileInfo();
+            filetrans.Data = filebytes;
+            filetrans.Info = fileinfo;
 
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
-            // maybe update so new file appears
-            
+            fileinfo.Date = DateTime.Now;
+            fileinfo.Description = desc;
+            fileinfo.Name = FileUpload1.FileName;
+            fileinfo.Origin = origin;
+
+            try
+            {
+                Controller.UploadFile(filetrans);
+                returnToFiles(sender, e);
+                fixSource(true, previndex);
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InadequateObjectException)
+            {
+                messageBox("You have to choose a file.");
+            }
         }
 
         protected void createPackage0_Click(object sender, EventArgs e)
@@ -574,13 +585,45 @@ namespace WebApplication1
 
         protected void submitShareFile_Click(object sender, EventArgs e)
         {
-            hideMidPanels();
-            hideRightPanels();
-            InteractivePanelFiles.Visible = true;
-            // SHARE THIS SHIIIEEET
             string email = fileShareEmail.Text;
             string days = daysOfAccessFile.Text;
-            string right = kindofrightddF.SelectedValue;
+            string rightType = kindofrightddF.SelectedValue;
+
+            ServiceReference1.Right right = new ServiceReference1.Right();
+
+            right.UserEmail = email;
+            right.Until = DateTime.Now.AddDays(double.Parse(days));
+            right.ItemId = int.Parse(fileI.Value);
+
+            if (string.Compare(rightType, "View")==0)
+                right.Type = ServiceReference1.RightType.view;
+            else
+                right.Type = ServiceReference1.RightType.edit;
+
+            try
+            {
+                Controller.GrantRight(right);
+                returnToFiles(sender, e);
+            }
+            catch (NotLoggedInException)
+            {
+                messageBox("An error has occured, please log in again.");
+                Response.Redirect("LogInForm.aspx");
+            }
+            catch (InsufficientRightsException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+            catch (ObjectNotFoundException)
+            {
+                messageBox("An error has occured, try reloading the page.");
+            }
+
+            catch (InadequateObjectException)
+            {
+                messageBox("A user with the given email does not exist");
+            }
+        }
 
         // THIS IS NOT YET DONE FRONT END
         protected void createUserSubmit_Click(object sender, EventArgs e)
