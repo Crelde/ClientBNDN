@@ -20,27 +20,7 @@ namespace WebApplication1
                 {
                     fixSource(true);
                     activeuserLabel.Text = Controller._sessionUser.Email;
-                    InteractivePanelFiles.CssClass = "rightCol";
-                    InteractivePanelOther.CssClass = "rightCol";
-                    TagPanel.CssClass = "rightCol";
-                    addFiletoPackagePanel.CssClass = "rightCol";
-                    passwordPanel.CssClass = "rightCol";
-                    deletePackagePanel.CssClass = "rightCol";
-                    sharePackagePanel.CssClass = "rightCol";
-                    editFilePanel.CssClass = "rightCol";
-                    InteractivePanelAdmin.CssClass = "rightCol";
-                    CreateNewFilePanel.CssClass = "rightCol";
-                    shareFilePanel.CssClass = "rightCol";
-                    CreateNewUserPanel.CssClass = "rightCol";
-                    DeleteUserPanel.CssClass = "rightCol";
-                    UpdateUserPanel.CssClass = "rightCol";
-                    shareFilePanel.Style["width"] = "350px";
-                    editFilePanel.Style["width"] = "350px";
-                    TagPanel.Style["width"] = "350px";
-                    addFiletoPackagePanel.Style["width"] = "350px";
-                    CreateNewUserPanel.Style["width"] = "350px";
-                    DeleteUserPanel.Style["width"] = "350px";
-                    UpdateUserPanel.Style["width"] = "350px";
+
                     kindofrightDD.Items.Add(new ListItem("View"));
                     kindofrightDD.Items.Add(new ListItem("Edit"));
                     kindofrightddF.Items.Add(new ListItem("View"));
@@ -556,7 +536,9 @@ namespace WebApplication1
             {
                 Controller.UploadFile(filetrans);
                 returnToFiles(sender, e);
-                fixSource(true, previndex);
+                fixSource(true, DropDownList1.Items.Count -1);
+                returnToFiles(sender, e);
+                
             }
             catch (NotLoggedInException)
             {
