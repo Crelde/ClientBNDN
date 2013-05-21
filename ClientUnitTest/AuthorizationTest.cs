@@ -298,7 +298,7 @@ namespace ClientUnitTest
 
                 CollectionAssert.AreEqual(
                     new FileInfo[] { fileInfo },
-                    Controller.GetOwnedFileInfosByEmail(user.Email));
+                    Controller.GetOwnedFileInfos());
             }
         }
 
@@ -816,7 +816,7 @@ namespace ClientUnitTest
 
                 CollectionAssert.AreEqual(
                     new Package[] { package },
-                    Controller.GetOwnedPackagesByEmail(user.Email)
+                    Controller.GetOwnedPackages()
 
                 );
             }
@@ -1307,51 +1307,6 @@ namespace ClientUnitTest
                 catch (InsufficientRightsException)
                 {
 
-                }
-            }
-        }
-
-        [TestMethod]
-        public void GetOwnedFileInfosDeniedTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? new FileInfo[] { fileInfo } : null);
-
-                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
-                    (a, b) => new FileInfo[] { fileInfo };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                try
-                {
-                    Controller.GetOwnedFileInfosByEmail(anotherUser.Email);
-
-                    // If we're down here, something is wrong
-                    Assert.Fail();
-                }
-                catch (InsufficientRightsException)
-                {
-                    // All is good
                 }
             }
         }
@@ -1886,7 +1841,7 @@ namespace ClientUnitTest
 
                 CollectionAssert.AreEqual(
                     new Package[] { },
-                    Controller.GetOwnedPackagesByEmail(user.Email)
+                    Controller.GetOwnedPackages()
 
                 );
             }
@@ -2130,6 +2085,924 @@ namespace ClientUnitTest
         }
 
         /**
+         * Checking if access is denied for admin users without required rights
+         */
+        [TestMethod]
+        public void DownloadFileByIdAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+
+            byte[] file = new byte[] { 1, 2, 3, 5, 10 };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 =
+                    (a, b) => file;
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.DownloadFileById(100);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void UpdateFileInfoAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            FileInfo updatedFileInfo = new FileInfo();
+            updatedFileInfo.Id = 100;
+            updatedFileInfo.OwnerEmail = anotherUser.Email;
+            updatedFileInfo.Name = "filename2";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : anotherUser);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo =
+                    (a, b) => { Assert.AreEqual(updatedFileInfo, b); };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.UpdateFileInfo(updatedFileInfo);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void UpdateFileDataAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            byte[] file = new byte[] { 1, 2, 3, 5, 10 };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 =
+                    (a, b, c) => { Assert.AreEqual(file, b); Assert.AreEqual(fileInfo.Id, c); };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.UpdateFileData(file, fileInfo.Id);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DeleteFileByIdAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.DeleteFileByIdInt32 =
+                    (a, b) => { Assert.AreEqual(fileInfo.Id, b); };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.DeleteFileById(fileInfo.Id);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetOwnedFileInfosAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
+                    (a, b) => ((b.Equals(anotherUser.Email)) ? new FileInfo[] { fileInfo } : null);
+
+                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
+                    (a, b) => new FileInfo[] { };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                CollectionAssert.AreEqual(
+                    new FileInfo[] { },
+                    Controller.GetOwnedFileInfos());
+            }
+        }
+
+        [TestMethod]
+        public void AddTagAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => null; // not actually used here
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.AddTagStringInt32 =
+                    (a, b, c) => { Assert.AreEqual("testTag", b); Assert.AreEqual(fileInfo.Id, c); };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.AddTag("testTag", 100);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DropTagAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => null; // not actually used here
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.DropTagStringInt32 =
+                    (a, b, c) => { Assert.AreEqual("testTag", b); Assert.AreEqual(fileInfo.Id, c); };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.DropTag("testTag", fileInfo.Id);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetTagsByItemIdAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => null; // not actually used here
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.GetTagsByItemIdInt32 =
+                    (a, b) => new String[] { "testTag1", "secondTag" };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.GetTagsByItemId(fileInfo.Id);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void GetFileInfosByTagAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.GetFileInfosByTagString =
+                    (a, b) => new FileInfo[] { };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                // Empty Array should be returned
+                CollectionAssert.AreEqual(
+                    new FileInfo[] { },
+                    Controller.GetFileInfosByTag("testTag"));
+            }
+        }
+
+        [TestMethod]
+        public void GetPackageByIdAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { 100 };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => ((b == package.Id) ? package : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.GetPackageById(package.Id);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void AddToPackageAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => ((b == package.Id) ? package : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
+                    (a, b) => new FileInfo[] { fileInfo };
+
+                ShimServiceClient.AllInstances.GetOwnedPackagesByEmailString =
+                    (a, b) => new Package[] { package };
+
+                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 =
+                    (a, b, c) =>
+                    {
+                        CollectionAssert.AreEqual(new int[] { fileInfo.Id }, b);
+                        Assert.AreEqual(package.Id, c);
+                    };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.AddToPackage(new int[] { fileInfo.Id }, package.Id);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void RemoveFromPackageAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { 100 };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => ((b == package.Id) ? package : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.RemoveFromPackageInt32ArrayInt32 =
+                    (a, b, c) =>
+                    {
+                        CollectionAssert.AreEqual(
+                            new int[] { fileInfo.Id },
+                            b);
+                        Assert.AreEqual(package.Id, c);
+                    };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.RemoveFromPackage(new int[] { fileInfo.Id }, package.Id);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DeletePackageByIdAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { 100 };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => ((b == package.Id) ? package : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.DeletePackageByIdInt32 =
+                    (a, b) => { Assert.AreEqual(package.Id, b); };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                     Controller.DeletePackageById(package.Id);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+
+               
+            }
+        }
+
+        [TestMethod]
+        public void GetPackagesByTagAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { 100 };
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.GetPackagesByTagString =
+                    (a, b) => new Package[] { };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                CollectionAssert.AreEqual(
+                    new Package[] { },
+                    Controller.GetPackagesByTag("testTag")
+                    );
+            }
+        }
+
+        [TestMethod]
+        public void GrantRightAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { 100 };
+
+            Right right = new Right();
+            right.UserEmail = anotherUser.Email;
+            right.Type = RightType.edit;
+            right.Until = DateTime.Now.AddDays(1);
+            right.ItemId = 100;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : anotherUser);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => ((b == 99) ? package : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == 100) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => null;
+
+                ShimServiceClient.AllInstances.GrantRightRight =
+                    (a, b) => { Assert.AreEqual(right, b); };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.GrantRight(right);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+
+                
+            }
+        }
+
+        [TestMethod]
+        public void UpdateRightAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { 100 };
+
+            Right right = new Right();
+            right.UserEmail = anotherUser.Email;
+            right.Type = RightType.edit;
+            right.Until = DateTime.Now.AddDays(1);
+            right.ItemId = 100;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => ((b == 99) ? package : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == 100) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => ((b.Equals(right.UserEmail) && c == 100) ? right : null);
+
+                ShimServiceClient.AllInstances.UpdateRightRight =
+                    (a, b) => { Assert.AreEqual(right, b); };
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.UpdateRight(right);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+
+                
+            }
+        }
+
+        [TestMethod]
+        public void DropRightAdminTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.admin;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = anotherUser.Email;
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { 100 };
+
+            Right right = new Right();
+            right.UserEmail = anotherUser.Email;
+            right.Type = RightType.edit;
+            right.Until = DateTime.Now.AddDays(1);
+            right.ItemId = 100;
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : anotherUser);
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => ((b == 99) ? package : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == 100) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) => ((b.Equals(right.UserEmail) && c == 100) ? right : null);
+
+                ShimServiceClient.AllInstances.DropRightStringInt32 =
+                    (a, b, c) =>
+                    {
+                        Assert.AreEqual(right.UserEmail, b);
+                        Assert.AreEqual(right.ItemId, c);
+                    };
+
+
+                Controller.LogIn("test@123.com", "drowssap");
+
+                try
+                {
+                    Controller.DropRight(right.UserEmail, right.ItemId);
+
+                    // If we're here, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good!
+                }
+
+                
+            }
+        }
+
+        /**
          * Checking if admin-specific methods allows access for admins
          */
         [TestMethod]
@@ -2241,815 +3114,6 @@ namespace ClientUnitTest
                 Controller.LogIn("test@123.com", "drowssap");
 
                 Controller.DeleteUserByEmail(anotherUser.Email);
-            }
-        }
-
-        [TestMethod]
-        public void DownloadFileByIdAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-
-            byte[] file = new byte[] { 1, 2, 3, 5, 10 };
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.DownloadFileByIdInt32 =
-                    (a, b) => file;
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Assert.AreEqual(file, Controller.DownloadFileById(100));
-            }
-        }
-
-        [TestMethod]
-        public void UpdateFileInfoAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            FileInfo updatedFileInfo = new FileInfo();
-            updatedFileInfo.Id = 100;
-            updatedFileInfo.OwnerEmail = anotherUser.Email;
-            updatedFileInfo.Name = "filename2";
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : anotherUser);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.UpdateFileInfoFileInfo =
-                    (a, b) => { Assert.AreEqual(updatedFileInfo, b); };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.UpdateFileInfo(updatedFileInfo);
-            }
-        }
-
-        [TestMethod]
-        public void UpdateFileDataAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            byte[] file = new byte[] { 1, 2, 3, 5, 10 };
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 =
-                    (a, b, c) => { Assert.AreEqual(file, b); Assert.AreEqual(fileInfo.Id, c); };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.UpdateFileData(file, fileInfo.Id);
-            }
-        }
-
-        [TestMethod]
-        public void DeleteFileByIdAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.DeleteFileByIdInt32 =
-                    (a, b) => { Assert.AreEqual(fileInfo.Id, b); };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.DeleteFileById(fileInfo.Id);
-            }
-        }
-
-        [TestMethod]
-        public void GetOwnedFileInfosAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
-                    (a, b) => ((b.Equals(anotherUser.Email)) ? new FileInfo[] { fileInfo } : null);
-
-                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
-                    (a, b) => new FileInfo[]{fileInfo};
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                CollectionAssert.AreEqual(
-                    new FileInfo[]{fileInfo}, 
-                    Controller.GetOwnedFileInfosByEmail(anotherUser.Email));
-            }
-        }
-
-        [TestMethod]
-        public void AddTagAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => null; // not actually used here
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.AddTagStringInt32 =
-                    (a, b, c) => { Assert.AreEqual("testTag", b); Assert.AreEqual(fileInfo.Id, c); };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.AddTag("testTag", 100);
-            }
-        }
-
-        [TestMethod]
-        public void DropTagAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => null; // not actually used here
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.DropTagStringInt32 =
-                    (a, b, c) => { Assert.AreEqual("testTag", b); Assert.AreEqual(fileInfo.Id, c); };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.DropTag("testTag", fileInfo.Id);
-            }
-        }
-
-        [TestMethod]
-        public void GetTagsByItemIdAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => null; // not actually used here
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.GetTagsByItemIdInt32 =
-                    (a, b) => new String[] { "testTag1", "secondTag" };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                CollectionAssert.AreEqual(
-                    new String[] { "testTag1", "secondTag" },
-                    Controller.GetTagsByItemId(fileInfo.Id));
-            }
-        }
-
-        [TestMethod]
-        public void GetFileInfosByTagAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.GetFileInfosByTagString =
-                    (a, b) => new FileInfo[] { fileInfo };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                // Empty Array should be returned
-                CollectionAssert.AreEqual(
-                    new FileInfo[] { fileInfo },
-                    Controller.GetFileInfosByTag("testTag"));
-            }
-        }
-
-        [TestMethod]
-        public void GetPackageByIdAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => ((b == package.Id) ? package : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Assert.AreEqual(package, Controller.GetPackageById(package.Id));
-            }
-        }
-
-        [TestMethod]
-        public void AddToPackageAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { };
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => ((b == package.Id) ? package : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
-                    (a, b) => new FileInfo[] { fileInfo };
-
-                ShimServiceClient.AllInstances.GetOwnedPackagesByEmailString =
-                    (a, b) => new Package[] { package };
-
-                ShimServiceClient.AllInstances.AddToPackageInt32ArrayInt32 =
-                    (a, b, c) => {
-                        CollectionAssert.AreEqual(new int[]{fileInfo.Id}, b);
-                        Assert.AreEqual(package.Id, c);
-                    };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.AddToPackage(new int[] { fileInfo.Id }, package.Id); 
-            }
-        }
-
-        [TestMethod]
-        public void RemoveFromPackageAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == fileInfo.Id) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => ((b == package.Id) ? package : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.RemoveFromPackageInt32ArrayInt32 =
-                    (a, b, c) =>
-                    {
-                        CollectionAssert.AreEqual(
-                            new int[] { fileInfo.Id },
-                            b);
-                        Assert.AreEqual(package.Id, c);
-                    };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.RemoveFromPackage(new int[] { fileInfo.Id }, package.Id);
-            }
-        }
-
-        [TestMethod]
-        public void DeletePackageByIdAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => ((b == package.Id) ? package : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.DeletePackageByIdInt32 =
-                    (a, b) => { Assert.AreEqual(package.Id, b); };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.DeletePackageById(package.Id);
-            }
-        }
-
-        [TestMethod]
-        public void GetOwnedPackagesByEmailAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetOwnedPackagesByEmailString =
-                    (a, b) => new Package[] { package };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                CollectionAssert.AreEqual(
-                    new Package[] { package },
-                    Controller.GetOwnedPackagesByEmail(anotherUser.Email)
-                    
-                );
-            }
-        }
-
-        [TestMethod]
-        public void GetPackagesByTagAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.GetPackagesByTagString =
-                    (a, b) => new Package[] { package };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                CollectionAssert.AreEqual(
-                    new Package[] { package },
-                    Controller.GetPackagesByTag("testTag")
-                    );
-            }
-        }
-
-        [TestMethod]
-        public void GrantRightAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            Right right = new Right();
-            right.UserEmail = anotherUser.Email;
-            right.Type = RightType.edit;
-            right.Until = DateTime.Now.AddDays(1);
-            right.ItemId = 100;
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : anotherUser);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => ((b == 99) ? package : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == 100) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => null;
-
-                ShimServiceClient.AllInstances.GrantRightRight =
-                    (a, b) => { Assert.AreEqual(right, b); };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.GrantRight(right);
-            }
-        }
-
-        [TestMethod]
-        public void UpdateRightAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            Right right = new Right();
-            right.UserEmail = anotherUser.Email;
-            right.Type = RightType.edit;
-            right.Until = DateTime.Now.AddDays(1);
-            right.ItemId = 100;
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => ((b == 99) ? package : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == 100) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => ((b.Equals(right.UserEmail) && c == 100) ? right : null);
-
-                ShimServiceClient.AllInstances.UpdateRightRight =
-                    (a, b) => { Assert.AreEqual(right, b); };
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.UpdateRight(right);
-            }
-        }
-
-        [TestMethod]
-        public void DropRightAdminTest()
-        {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.admin;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            Right right = new Right();
-            right.UserEmail = anotherUser.Email;
-            right.Type = RightType.edit;
-            right.Until = DateTime.Now.AddDays(1);
-            right.ItemId = 100;
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : anotherUser);
-
-                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
-                    (a, b) => ((b == 99) ? package : null);
-
-                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
-                    (a, b) => ((b == 100) ? fileInfo : null);
-
-                ShimServiceClient.AllInstances.GetRightStringInt32 =
-                    (a, b, c) => ((b.Equals(right.UserEmail) && c == 100) ? right : null);
-
-                ShimServiceClient.AllInstances.DropRightStringInt32 =
-                    (a, b, c) => {
-                        Assert.AreEqual(right.UserEmail, b);
-                        Assert.AreEqual(right.ItemId, c);
-                    };
-
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                Controller.DropRight(right.UserEmail, right.ItemId);
             }
         }
 
@@ -3266,34 +3330,6 @@ namespace ClientUnitTest
                 try
                 {
                     Controller.DeleteFileById(100);
-
-                    // If we get this far, something is wrong
-                    Assert.Fail();
-                }
-                catch (InsufficientRightsException){}
-            }
-        }
-
-        [TestMethod]
-        public void GetOwnedFileInfosNonAdminDeniedTest()
-        {
-            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
-            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
-            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
-
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
-                    (a, b) => ((b.Equals(anotherUser.Email)) ? new[] {fileInfo} : null);
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                try
-                {
-                    Controller.GetOwnedFileInfosByEmail(anotherUser.Email);
 
                     // If we get this far, something is wrong
                     Assert.Fail();
@@ -3567,29 +3603,6 @@ namespace ClientUnitTest
                 try
                 {
                     Controller.DeletePackageById(99);
-
-                    // If we get this far, something is wrong
-                    Assert.Fail();
-                }
-                catch (InsufficientRightsException){}
-            }
-        }
-
-        [TestMethod]
-        public void GetOwnedPackagesByIdNonAdminDeniedTest()
-        {
-            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
-            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
-            
-            using (ShimsContext.Create())
-            {
-                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => ((b.Equals(user.Email)) ? user : null);
-
-                Controller.LogIn("test@123.com", "drowssap");
-
-                try
-                {
-                    Controller.GetOwnedPackagesByEmail(anotherUser.Email);
 
                     // If we get this far, something is wrong
                     Assert.Fail();
@@ -4016,10 +4029,9 @@ namespace ClientUnitTest
         {
             using (ShimsContext.Create())
             {
-
                 try
                 {
-                    Controller.GetOwnedFileInfosByEmail("");
+                    Controller.GetOwnedFileInfos();
 
                     // If we get this far, something is wrong
                     Assert.Fail();
@@ -4039,7 +4051,7 @@ namespace ClientUnitTest
 
                 try
                 {
-                    Controller.GetOwnedPackagesByEmail("");
+                    Controller.GetOwnedPackages();
 
                     // If we get this far, something is wrong
                     Assert.Fail();

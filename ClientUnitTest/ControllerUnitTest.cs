@@ -334,7 +334,7 @@ namespace ClientUnitTest
         private static Dictionary<int, byte[]> AuthDatasDB()
         {
             var dat1 = new byte[] { 1 };
-            return new Dictionary<int, byte[]> { { 1, dat1} };
+            return new Dictionary<int, byte[]> { { 1, dat1 } };
         }
 
         /// <summary>
@@ -356,17 +356,18 @@ namespace ClientUnitTest
                 ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => files[b.Id] = b;
                 ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 = (a, b, c) => datas[c] = b;
                 ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { files.Remove(b); datas.Remove(b); };
-                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => rights[b][c];
                 ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) =>
                 {
-                    Dictionary<int,Right> val = null;
+                    Dictionary<int, Right> val = null;
                     if (rights.TryGetValue(b, out val))
                     {
                         Right value = null;
 
                         val.TryGetValue(c, out value);
                         return value;
-                    } else {
+                    }
+                    else
+                    {
                         return null;
                     }
                 };
@@ -442,7 +443,7 @@ namespace ClientUnitTest
             var datas = AuthDatasDB();
 
             var rit1 = new Right() { ItemId = 1, UserEmail = "std2@users.com", Type = RightType.view, Until = DateTime.Today.AddDays(1) };
-            var rights = new Dictionary<string, Dictionary<int, Right>> { {"std2@users.com", new Dictionary<int,Right> {{1, rit1}}} };
+            var rights = new Dictionary<string, Dictionary<int, Right>> { { "std2@users.com", new Dictionary<int, Right> { { 1, rit1 } } } };
 
             using (ShimsContext.Create())
             {
@@ -537,7 +538,7 @@ namespace ClientUnitTest
                 var upd1 = new byte[] { 11 };
                 Controller.UpdateFileData(upd1, 1);
                 Assert.AreEqual(upd1, datas[1]);
-                
+
                 // Attempt to delete fin1 - should succeed
                 Controller.DeleteFileById(1);
                 Assert.IsFalse(files.ContainsKey(1));
@@ -555,7 +556,7 @@ namespace ClientUnitTest
             var users = AuthUsersDB();
             var files = AuthFilesDB();
             var datas = AuthDatasDB();
-            var rights = new Dictionary<string, Dictionary<int, Right>> {};
+            var rights = new Dictionary<string, Dictionary<int, Right>> { };
 
             using (ShimsContext.Create())
             {
@@ -584,7 +585,7 @@ namespace ClientUnitTest
                 var upd1 = new byte[] { 11 };
                 Controller.UpdateFileData(upd1, 1);
                 Assert.AreEqual(upd1, datas[1]);
-                
+
                 // Attempt to delete fin1 - should succeed
                 Controller.DeleteFileById(1);
                 Assert.IsFalse(files.ContainsKey(1));
@@ -603,10 +604,10 @@ namespace ClientUnitTest
             var files = AuthFilesDB();
             var datas = AuthDatasDB();
 
-            var adm = new User {Email = "adm@users.com", Password = "unguessable", Type = UserType.admin};
+            var adm = new User { Email = "adm@users.com", Password = "unguessable", Type = UserType.admin };
             users.Add(adm.Email, adm);
 
-            var rights = new Dictionary<string, Dictionary<int, Right>> {};
+            var rights = new Dictionary<string, Dictionary<int, Right>> { };
 
             using (ShimsContext.Create())
             {
@@ -615,31 +616,66 @@ namespace ClientUnitTest
                 ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => files[b.Id] = b;
                 ShimServiceClient.AllInstances.UpdateFileDataByteArrayInt32 = (a, b, c) => datas[c] = b;
                 ShimServiceClient.AllInstances.DeleteFileByIdInt32 = (a, b) => { files.Remove(b); datas.Remove(b); };
-                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) => rights[b][c];
+                ShimServiceClient.AllInstances.GetRightStringInt32 = (a, b, c) =>
+                {
+                    Dictionary<int, Right> val = null;
+                    if (rights.TryGetValue(b, out val))
+                    {
+                        Right value = null;
+
+                        val.TryGetValue(c, out value);
+                        return value;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                };
                 ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => users[b];
 
                 Controller.LogIn("adm@users.com", "unguessable");
 
-                // Attempt to view fin1 - should succeed
-                var fut1 = Controller.GetFileInfoById(1);
-                Assert.AreEqual(fut1, files[1]);
+                // Attempt to view fin1 - should fail
+                try
+                {
+                    var fut1 = Controller.GetFileInfoById(1);
+                    var dut1 = Controller.DownloadFileById(1);
 
-                var dut1 = Controller.DownloadFileById(1);
-                Assert.AreEqual(dut1, datas[1]);
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good
+                }
 
-                // Attempt to edit fin1 - should succeed
-                var upf1 = new FileInfo() { Id = 1, Name = "upd1", OwnerEmail = "std1@users.com", Type = FileType.text };
-                Controller.UpdateFileInfo(upf1);
-                Assert.AreEqual(upf1, files[1]);
+                // Attempt to edit fin1 - should fail
+                try
+                {
+                    var upf1 = new FileInfo() { Id = 1, Name = "upd1", OwnerEmail = "std1@users.com", Type = FileType.text };
+                    Controller.UpdateFileInfo(upf1);
 
-                var upd1 = new byte[] { 11 };
-                Controller.UpdateFileData(upd1, 1);
-                Assert.AreEqual(upd1, datas[1]);
-                
+                    var upd1 = new byte[] { 11 };
+                    Controller.UpdateFileData(upd1, 1);
+
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good
+                }
+
+
                 // Attempt to delete fin1 - should succeed
-                Controller.DeleteFileById(1);
-                Assert.IsFalse(files.ContainsKey(1));
-                Assert.IsFalse(datas.ContainsKey(1));
+                try
+                {
+                    Controller.DeleteFileById(1);
+
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All good
+                }
             }
         }
 
@@ -668,7 +704,9 @@ namespace ClientUnitTest
                 ShimServiceClient.AllInstances.UpdateFileInfoFileInfo = (a, b) => { };
                 ShimServiceClient.AllInstances.CreateUserUser = (a, b) => db.Add(b.Email, b);
 
-                Controller.LogIn("u1@mail.com", "user1");
+                Controller.LogIn("u1@mail.com", "user1"
+
+                    );
                 Controller.CreateUser(user5);
                 Controller.CreatePackage(p);
                 Controller.AddToPackage(new[] { 002 }, 1002);
@@ -806,7 +844,15 @@ namespace ClientUnitTest
 
                 //User3 who is an admin tries the same as user2:
                 Controller.LogIn("ua@mail.com", "usera");
-                Controller.UpdateFileInfo(update);
+                try
+                {
+                    Controller.UpdateFileInfo(update);
+                    Assert.Fail();
+                }
+                catch (Exception)
+                {
+                    // All is good
+                }
 
             }
         }
@@ -988,6 +1034,112 @@ namespace ClientUnitTest
                 Controller.LogIn("eusers@mail.com", "pw");
             }
 
+        }
+
+        [TestMethod]
+        public void EditRightTest()
+        {
+            User user = new User();
+            user.Email = "test@123.com";
+            user.Password = "drowssap";
+            user.Type = UserType.standard;
+
+            User anotherUser = new User();
+            anotherUser.Email = "another@email.com";
+            anotherUser.Type = UserType.standard;
+            anotherUser.Password = "second";
+
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.Id = 100;
+            fileInfo.OwnerEmail = "thirdmail@test.com";
+            fileInfo.Name = "filename";
+
+            Package package = new Package();
+            package.Id = 99;
+            package.OwnerEmail = anotherUser.Email;
+            package.Name = "packagename";
+            package.FileIds = new int[] { 100 };
+
+            Right right = new Right();
+            right.UserEmail = user.Email;
+            right.Type = RightType.edit;
+            right.Until = DateTime.Now.AddDays(1);
+            right.ItemId = 100;
+
+            Right anotherRight = new Right();
+            anotherRight.UserEmail = anotherUser.Email;
+            anotherRight.Type = RightType.view;
+            anotherRight.Until = DateTime.Now.AddDays(1);
+            anotherRight.ItemId = 100;
+
+            Dictionary<string, Dictionary<int, Right>> rights = new Dictionary<string, Dictionary<int, Right>>();
+            rights.Add(right.UserEmail, new Dictionary<int,Right>());
+            rights[right.UserEmail].Add(right.ItemId, right);
+
+            rights.Add(anotherRight.UserEmail, new Dictionary<int,Right>());
+            rights[anotherRight.UserEmail].Add(anotherRight.ItemId, anotherRight);
+
+            using (ShimsContext.Create())
+            {
+                ShimServiceClient.AllInstances.GetUserByEmailString =
+                    (a, b) => ((b.Equals(user.Email)) ? user : anotherUser);
+
+                ShimServiceClient.AllInstances.DownloadFileByIdInt32 =
+                    (a, b) => null;
+
+                ShimServiceClient.AllInstances.GetPackageByIdInt32 =
+                    (a, b) => ((b == 99) ? package : null);
+
+                ShimServiceClient.AllInstances.GetFileInfoByIdInt32 =
+                    (a, b) => ((b == 100) ? fileInfo : null);
+
+                ShimServiceClient.AllInstances.GetRightStringInt32 =
+                    (a, b, c) =>
+                    {
+                        try
+                        {
+                            return rights[b][c];
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            return null;
+                        }
+                    };
+
+                ShimServiceClient.AllInstances.DropRightStringInt32 =
+                    (a, b, c) => {
+                        if (b != rights[b][c].UserEmail
+                            || c != rights[b][c].ItemId)
+                            Assert.Fail();
+
+                        rights[b].Remove(c);
+                    };
+
+                // Anotheruser currently had rights to view file, should succeed
+                Controller.LogIn(anotherUser.Email, anotherUser.Password);
+                Controller.DownloadFileById(fileInfo.Id);
+                Controller.LogOut();
+
+                // Removing anotherUsers rights to file
+                Controller.LogIn("test@123.com", "drowssap");
+                Controller.DropRight(anotherUser.Email, fileInfo.Id);
+                Controller.LogOut();
+
+                try
+                {
+                    // Now that rights are gone, should fail
+                    Controller.LogIn(anotherUser.Email, anotherUser.Password);
+                    Controller.DownloadFileById(fileInfo.Id);
+                    Controller.LogOut();
+
+                    // If we proceed so far, something is wrong
+                    Assert.Fail();
+                }
+                catch (InsufficientRightsException)
+                {
+                    // All is good :)
+                }
+            }
         }
     }
 }
