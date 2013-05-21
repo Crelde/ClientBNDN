@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using WebApplication1.ServiceReference1.Fakes;
 using WebApplication1.ServiceReference1;
 using WebApplication1;
-using System.Diagnostics;
 using Microsoft.QualityTools.Testing.Fakes;
 
 namespace ClientUnitTest
@@ -12,18 +11,18 @@ namespace ClientUnitTest
     public class AuthorizationTest
     {
         [TestInitialize]
-        public void beforeEach()
+        public void BeforeEach()
         {
             // Inserting blank methods instead of connecting to service
             ShimsContext.Create();
             ShimServiceClient.Constructor = (a) => { };
             System.ServiceModel.Fakes.
-                ShimClientBase<WebApplication1.ServiceReference1.IService>.
+                ShimClientBase<IService>.
                 AllInstances.Close = (a) => { };
         }
 
         [TestCleanup]
-        public void afterEach()
+        public void AfterEach()
         {
             // Making sure that the controller is reset after each test
             try
@@ -3060,10 +3059,7 @@ namespace ClientUnitTest
         [TestMethod]
         public void CreateUserNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
 
             using (ShimsContext.Create())
             {
@@ -3079,20 +3075,14 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void GetUserByEmailNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
 
             using (ShimsContext.Create())
             {
@@ -3108,25 +3098,15 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void UpdateUserNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
 
             using (ShimsContext.Create())
             {
@@ -3142,25 +3122,15 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void DeleteUserByEmailNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
 
             using (ShimsContext.Create())
             {
@@ -3176,29 +3146,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void DownloadFileByIdNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email};
 
             using (ShimsContext.Create())
             {
@@ -3220,30 +3177,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void UpdateFileInfoNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
             using (ShimsContext.Create())
             {
@@ -3265,30 +3208,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void UpdateFileDataNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
             using (ShimsContext.Create())
             {
@@ -3310,30 +3239,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void DeleteFileByIdNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
             using (ShimsContext.Create())
             {
@@ -3355,30 +3270,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void GetOwnedFileInfosNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
             using (ShimsContext.Create())
             {
@@ -3386,7 +3287,7 @@ namespace ClientUnitTest
                     (a, b) => ((b.Equals(user.Email)) ? user : null);
 
                 ShimServiceClient.AllInstances.GetOwnedFileInfosByEmailString =
-                    (a, b) => ((b.Equals(anotherUser.Email)) ? new FileInfo[] { fileInfo } : null);
+                    (a, b) => ((b.Equals(anotherUser.Email)) ? new[] {fileInfo} : null);
 
                 Controller.LogIn("test@123.com", "drowssap");
 
@@ -3397,30 +3298,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void AddTagNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
             using (ShimsContext.Create())
             {
@@ -3445,30 +3332,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException) {}
             }
         }
 
         [TestMethod]
         public void DropTagNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
             using (ShimsContext.Create())
             {
@@ -3503,20 +3376,9 @@ namespace ClientUnitTest
         [TestMethod]
         public void GetTagsByItemIdNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
             using (ShimsContext.Create())
             {
@@ -3541,30 +3403,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void GetFileInfosByTagNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
             using (ShimsContext.Create())
             {
@@ -3578,7 +3426,7 @@ namespace ClientUnitTest
                     (a, b, c) => null;
 
                 ShimServiceClient.AllInstances.GetFileInfosByTagString =
-                    (a, b) => new FileInfo[] { fileInfo };
+                    (a, b) => new[] { fileInfo };
 
                 Controller.LogIn("test@123.com", "drowssap");
 
@@ -3591,26 +3439,10 @@ namespace ClientUnitTest
         [TestMethod]
         public void GetPackageByIdNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
+            var package = new Package {Id = 99, OwnerEmail = anotherUser.Email, Name = "packagename", FileIds = new[] {100} };
 
             using (ShimsContext.Create())
             {
@@ -3635,35 +3467,19 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void AddToPackageNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
 
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
+            var package = new Package { Id = 99, OwnerEmail = anotherUser.Email, Name = "packagename", FileIds = new int[] {} };
             package.FileIds = new int[] { };
 
             using (ShimsContext.Create())
@@ -3684,41 +3500,22 @@ namespace ClientUnitTest
 
                 try
                 {
-                    Controller.AddToPackage(new int[] { 100 }, 99);
+                    Controller.AddToPackage(new[] { 100 }, 99);
 
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException) {}
             }
         }
 
         [TestMethod]
         public void RemoveFromPackageNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
+            var package = new Package { Id = 99, OwnerEmail = anotherUser.Email, Name = "packagename", FileIds = new[] {100} };
 
             using (ShimsContext.Create())
             {
@@ -3738,41 +3535,21 @@ namespace ClientUnitTest
 
                 try
                 {
-                    Controller.RemoveFromPackage(new int[] { 100 }, 99);
+                    Controller.RemoveFromPackage(new[] { 100 }, 99);
 
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void DeletePackageByIdNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var package = new Package { Id = 99, OwnerEmail = anotherUser.Email, Name = "packagename", FileIds = new[] {100}};
 
             using (ShimsContext.Create())
             {
@@ -3794,41 +3571,19 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void GetOwnedPackagesByIdNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            
             using (ShimsContext.Create())
             {
-                ShimServiceClient.AllInstances.GetUserByEmailString =
-                    (a, b) => ((b.Equals(user.Email)) ? user : null);
+                ShimServiceClient.AllInstances.GetUserByEmailString = (a, b) => ((b.Equals(user.Email)) ? user : null);
 
                 Controller.LogIn("test@123.com", "drowssap");
 
@@ -3839,36 +3594,16 @@ namespace ClientUnitTest
                     // If we get this far, something is wrong
                     Assert.Fail();
                 }
-                catch (InsufficientRightsException)
-                {
-                    // All good
-                }
+                catch (InsufficientRightsException){}
             }
         }
 
         [TestMethod]
         public void GetPackagesByTagNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var package = new Package {Id = 99, OwnerEmail = anotherUser.Email, Name = "packagename", FileIds = new[] {100}};
 
             using (ShimsContext.Create())
             {
@@ -3879,7 +3614,7 @@ namespace ClientUnitTest
                     (a, b, c) => null;
 
                 ShimServiceClient.AllInstances.GetPackagesByTagString =
-                    (a, b) => new Package[] { package };
+                    (a, b) => new[] { package };
 
                 Controller.LogIn("test@123.com", "drowssap");
 
@@ -3892,32 +3627,11 @@ namespace ClientUnitTest
         [TestMethod]
         public void GrantRightNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            Right right = new Right();
-            right.UserEmail = user.Email;
-            right.Type = RightType.edit;
-            right.Until = DateTime.Now.AddDays(1);
-            right.ItemId = 100;
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
+            var package = new Package { Id = 99, OwnerEmail = anotherUser.Email,Name = "packagename", FileIds = new[] {100} };
+            var right = new Right{UserEmail = user.Email, Type = RightType.edit, Until = DateTime.Now.AddDays(1), ItemId = 100};
 
             using (ShimsContext.Create())
             {
@@ -3952,32 +3666,15 @@ namespace ClientUnitTest
         [TestMethod]
         public void UpdateRightNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
 
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
 
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
 
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
+            var package = new Package {Id = 99, OwnerEmail = anotherUser.Email, Name = "packagename", FileIds = new[] {100}};
 
-            Right right = new Right();
-            right.UserEmail = anotherUser.Email;
-            right.Type = RightType.edit;
-            right.Until = DateTime.Now.AddDays(1);
-            right.ItemId = 100;
+            var right = new Right{UserEmail = anotherUser.Email, Type = RightType.edit,Until = DateTime.Now.AddDays(1),ItemId = 100 };
 
             using (ShimsContext.Create())
             {
@@ -4012,32 +3709,11 @@ namespace ClientUnitTest
         [TestMethod]
         public void DropRightNonAdminDeniedTest()
         {
-            User user = new User();
-            user.Email = "test@123.com";
-            user.Password = "drowssap";
-            user.Type = UserType.standard;
-
-            User anotherUser = new User();
-            anotherUser.Email = "another@email.com";
-            anotherUser.Type = UserType.standard;
-            anotherUser.Password = "second";
-
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.Id = 100;
-            fileInfo.OwnerEmail = anotherUser.Email;
-            fileInfo.Name = "filename";
-
-            Package package = new Package();
-            package.Id = 99;
-            package.OwnerEmail = anotherUser.Email;
-            package.Name = "packagename";
-            package.FileIds = new int[] { 100 };
-
-            Right right = new Right();
-            right.UserEmail = anotherUser.Email;
-            right.Type = RightType.edit;
-            right.Until = DateTime.Now.AddDays(1);
-            right.ItemId = 100;
+            var user = new User {Email = "test@123.com", Password = "drowssap", Type = UserType.standard};
+            var anotherUser = new User {Email = "another@email.com", Type = UserType.standard, Password = "second"};
+            var fileInfo = new FileInfo {Id = 100, OwnerEmail = anotherUser.Email, Name = "filename"};
+            var package = new Package {Id = 99, OwnerEmail = anotherUser.Email, Name = "packagename", FileIds = new[] {100} };
+            var right = new Right {UserEmail = anotherUser.Email,Type = RightType.edit, Until = DateTime.Now.AddDays(1), ItemId = 100 };
 
             using (ShimsContext.Create())
             {
@@ -4123,7 +3799,7 @@ namespace ClientUnitTest
 
                 try
                 {
-                    Controller.AddToPackage(new int[] { 1 }, 1);
+                    Controller.AddToPackage(new[] { 1 }, 1);
 
                     // If we get this far, something is wrong
                     Assert.Fail();
@@ -4543,7 +4219,7 @@ namespace ClientUnitTest
 
                 try
                 {
-                    Controller.RemoveFromPackage(new int[] { 1 }, 1);
+                    Controller.RemoveFromPackage(new[] { 1 }, 1);
 
                     // If we get this far, something is wrong
                     Assert.Fail();
